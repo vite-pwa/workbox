@@ -1,16 +1,13 @@
 /*
-  Copyright 2020 Google LLC
+  Copyright 2020 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import {WorkboxPlugin, WorkboxPluginCallbackParam} from 'workbox-core/types.js';
-
-import {PrecacheController} from '../PrecacheController.js';
-
-import '../_version.js';
+import type { WorkboxPlugin, WorkboxPluginCallbackParam } from 'vite-pwa-workbox-core'
+import type { PrecacheController } from '../PrecacheController'
 
 /**
  * A plugin, designed to be used with PrecacheController, to translate URLs into
@@ -19,10 +16,10 @@ import '../_version.js';
  * @private
  */
 class PrecacheCacheKeyPlugin implements WorkboxPlugin {
-  private readonly _precacheController: PrecacheController;
+  private readonly _precacheController: PrecacheController
 
-  constructor({precacheController}: {precacheController: PrecacheController}) {
-    this._precacheController = precacheController;
+  constructor({ precacheController }: { precacheController: PrecacheController }) {
+    this._precacheController = precacheController
   }
 
   cacheKeyWillBeUsed: WorkboxPlugin['cacheKeyWillBeUsed'] = async ({
@@ -37,9 +34,9 @@ class PrecacheCacheKeyPlugin implements WorkboxPlugin {
     /* eslint-enable */
 
     return cacheKey
-      ? new Request(cacheKey, {headers: request.headers})
-      : request;
-  };
+      ? new Request(cacheKey, { headers: request.headers })
+      : request
+  }
 }
 
-export {PrecacheCacheKeyPlugin};
+export { PrecacheCacheKeyPlugin }

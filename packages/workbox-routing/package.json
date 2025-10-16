@@ -1,5 +1,5 @@
 {
-  "name": "vite-pwa-workbox-routing",
+  "name": "@vite-pwa/workbox-routing",
   "type": "module",
   "version": "0.0.0",
   "description": "A service worker helper library to route request URLs to handlers.",
@@ -9,12 +9,12 @@
   ],
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
-  "homepage": "https://github.com/vite-pwa/workbox-window-es#readme",
+  "homepage": "https://github.com/vite-pwa/workbox#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vite-pwa/workbox-window-es.git"
+    "url": "https://github.com/vite-pwa/workbox.git"
   },
-  "bugs": "https://github.com/vite-pwa/workbox-window-es/issues",
+  "bugs": "https://github.com/vite-pwa/workbox/issues",
   "keywords": [
     "workbox",
     "workboxjs",
@@ -27,9 +27,9 @@
   "exports": {
     ".": "./dist/index.js"
   },
-  "main": "index.js",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -38,6 +38,6 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "vite-pwa-workbox-core": "workspace:*"
+    "@vite-pwa/workbox-core": "workspace:*"
   }
 }

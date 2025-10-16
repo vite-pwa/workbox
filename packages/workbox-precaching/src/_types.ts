@@ -1,36 +1,34 @@
 /*
-  Copyright 2018 Google LLC
+  Copyright 2018 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import './_version.js';
-
 export interface InstallResult {
-  updatedURLs: string[];
-  notUpdatedURLs: string[];
+  updatedURLs: string[]
+  notUpdatedURLs: string[]
 }
 
 export interface CleanupResult {
-  deletedCacheRequests: string[];
+  deletedCacheRequests: string[]
 }
 
 export declare interface PrecacheEntry {
-  integrity?: string;
-  url: string;
-  revision?: string | null;
+  integrity?: string
+  url: string
+  revision?: string | null
 }
 
 export interface PrecacheRouteOptions {
-  directoryIndex?: string;
-  ignoreURLParametersMatching?: RegExp[];
-  cleanURLs?: boolean;
-  urlManipulation?: urlManipulation;
+  directoryIndex?: string
+  ignoreURLParametersMatching?: RegExp[]
+  cleanURLs?: boolean
+  urlManipulation?: urlManipulation
 }
 
-export type urlManipulation = ({url}: {url: URL}) => URL[];
+export type urlManipulation = ({ url }: { url: URL }) => URL[]
 
 // * * * IMPORTANT! * * *
 // ------------------------------------------------------------------------- //
@@ -40,7 +38,7 @@ export type urlManipulation = ({url}: {url: URL}) => URL[];
 // have to put declare them below.
 
 /**
- * @typedef {Object} InstallResult
+ * @typedef {object} InstallResult
  * @property {Array<string>} updatedURLs List of URLs that were updated during
  * installation.
  * @property {Array<string>} notUpdatedURLs List of URLs that were already up to
@@ -50,7 +48,7 @@ export type urlManipulation = ({url}: {url: URL}) => URL[];
  */
 
 /**
- * @typedef {Object} CleanupResult
+ * @typedef {object} CleanupResult
  * @property {Array<string>} deletedCacheRequests List of URLs that were deleted
  * while cleaning up the cache.
  *
@@ -58,7 +56,7 @@ export type urlManipulation = ({url}: {url: URL}) => URL[];
  */
 
 /**
- * @typedef {Object} PrecacheEntry
+ * @typedef {object} PrecacheEntry
  * @property {string} url URL to precache.
  * @property {string} [revision] Revision information for the URL.
  * @property {string} [integrity] Integrity metadata that will be used when
@@ -76,7 +74,7 @@ export type urlManipulation = ({url}: {url: URL}) => URL[];
  * '/' is provided. This callback allows additional, custom checks.
  *
  * @callback ~urlManipulation
- * @param {Object} context
+ * @param {object} context
  * @param {URL} context.url The request's URL.
  * @return {Array<URL>} To add additional urls to test, return an Array of
  * URLs. Please note that these **should not be strings**, but URL objects.

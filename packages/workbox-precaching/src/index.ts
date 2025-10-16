@@ -1,25 +1,23 @@
 /*
-  Copyright 2018 Google LLC
+  Copyright 2018 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import {addPlugins} from './addPlugins.js';
-import {addRoute} from './addRoute.js';
-import {cleanupOutdatedCaches} from './cleanupOutdatedCaches.js';
-import {createHandlerBoundToURL} from './createHandlerBoundToURL.js';
-import {getCacheKeyForURL} from './getCacheKeyForURL.js';
-import {matchPrecache} from './matchPrecache.js';
-import {precache} from './precache.js';
-import {precacheAndRoute} from './precacheAndRoute.js';
-import {PrecacheController} from './PrecacheController.js';
-import {PrecacheRoute} from './PrecacheRoute.js';
-import {PrecacheStrategy} from './PrecacheStrategy.js';
-import {PrecacheFallbackPlugin} from './PrecacheFallbackPlugin.js';
-
-import './_version.js';
+import { addPlugins } from './addPlugins'
+import { addRoute } from './addRoute'
+import { cleanupOutdatedCaches } from './cleanupOutdatedCaches'
+import { createHandlerBoundToURL } from './createHandlerBoundToURL'
+import { getCacheKeyForURL } from './getCacheKeyForURL'
+import { matchPrecache } from './matchPrecache'
+import { precache } from './precache'
+import { precacheAndRoute } from './precacheAndRoute'
+import { PrecacheController } from './PrecacheController'
+import { PrecacheFallbackPlugin } from './PrecacheFallbackPlugin'
+import { PrecacheRoute } from './PrecacheRoute'
+import { PrecacheStrategy } from './PrecacheStrategy'
 
 /**
  * Most consumers of this module will want to use the
@@ -44,9 +42,9 @@ export {
   precache,
   precacheAndRoute,
   PrecacheController,
+  PrecacheFallbackPlugin,
   PrecacheRoute,
   PrecacheStrategy,
-  PrecacheFallbackPlugin,
-};
+}
 
-export * from './_types.js';
+export * from './_types.js'

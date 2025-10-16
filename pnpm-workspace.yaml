@@ -3,8 +3,6 @@ packages:
 
 autoInstallPeers: true
 
-overrides:
-
 catalogs:
   build:
     bumpp: ^10.3.1

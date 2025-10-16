@@ -1,15 +1,14 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import {addRoute} from './addRoute.js';
-import {precache} from './precache.js';
-import {PrecacheRouteOptions, PrecacheEntry} from './_types.js';
-import './_version.js';
+import type { PrecacheEntry, PrecacheRouteOptions } from './_types'
+import { addRoute } from './addRoute'
+import { precache } from './precache'
 
 /**
  * This method will add entries to the precache list and add a route to
@@ -19,18 +18,16 @@ import './_version.js';
  * {@link workbox-precaching.precache} and
  * {@link workbox-precaching.addRoute} in a single call.
  *
- * @param {Array<Object|string>} entries Array of entries to precache.
- * @param {Object} [options] See the
+ * @param {Array<object | string>} entries Array of entries to precache.
+ * @param {object} [options] See the
  * {@link workbox-precaching.PrecacheRoute} options.
- *
- * @memberof workbox-precaching
  */
 function precacheAndRoute(
   entries: Array<PrecacheEntry | string>,
   options?: PrecacheRouteOptions,
 ): void {
-  precache(entries);
-  addRoute(options);
+  precache(entries)
+  addRoute(options)
 }
 
-export {precacheAndRoute};
+export { precacheAndRoute }

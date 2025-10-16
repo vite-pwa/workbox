@@ -1,5 +1,5 @@
 {
-  "name": "vite-pwa-workbox-core",
+  "name": "@vite-pwa/workbox-core",
   "type": "module",
   "version": "0.0.0",
   "description": "This module is used by a number of the other Workbox modules to share common code.",
@@ -26,9 +26,9 @@
     ".": "./dist/index.js",
     "./internals": "./dist/internals.js"
   },
-  "main": "index.js",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "typesVersions": {
     "*": {
       "internals": ["dist/internals.d.ts"]

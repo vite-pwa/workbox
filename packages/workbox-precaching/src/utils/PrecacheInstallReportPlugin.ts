@@ -1,14 +1,12 @@
 /*
-  Copyright 2020 Google LLC
+  Copyright 2020 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import {WorkboxPlugin, WorkboxPluginCallbackParam} from 'workbox-core/types.js';
-
-import '../_version.js';
+import type { WorkboxPlugin, WorkboxPluginCallbackParam } from 'vite-pwa-workbox-core'
 
 /**
  * A plugin, designed to be used with PrecacheController, to determine the
@@ -17,8 +15,8 @@ import '../_version.js';
  * @private
  */
 class PrecacheInstallReportPlugin implements WorkboxPlugin {
-  updatedURLs: string[] = [];
-  notUpdatedURLs: string[] = [];
+  updatedURLs: string[] = []
+  notUpdatedURLs: string[] = []
 
   handlerWillStart: WorkboxPlugin['handlerWillStart'] = async ({
     request,
@@ -26,9 +24,9 @@ class PrecacheInstallReportPlugin implements WorkboxPlugin {
   }: WorkboxPluginCallbackParam['handlerWillStart']) => {
     // TODO: `state` should never be undefined...
     if (state) {
-      state.originalRequest = request;
+      state.originalRequest = request
     }
-  };
+  }
 
   cachedResponseWillBeUsed: WorkboxPlugin['cachedResponseWillBeUsed'] = async ({
     event,
@@ -37,22 +35,23 @@ class PrecacheInstallReportPlugin implements WorkboxPlugin {
   }: WorkboxPluginCallbackParam['cachedResponseWillBeUsed']) => {
     if (event.type === 'install') {
       if (
-        state &&
-        state.originalRequest &&
-        state.originalRequest instanceof Request
+        state
+        && state.originalRequest
+        && state.originalRequest instanceof Request
       ) {
         // TODO: `state` should never be undefined...
-        const url = state.originalRequest.url;
+        const url = state.originalRequest.url
 
         if (cachedResponse) {
-          this.notUpdatedURLs.push(url);
-        } else {
-          this.updatedURLs.push(url);
+          this.notUpdatedURLs.push(url)
+        }
+        else {
+          this.updatedURLs.push(url)
         }
       }
     }
-    return cachedResponse;
-  };
+    return cachedResponse
+  }
 }
 
-export {PrecacheInstallReportPlugin};
+export { PrecacheInstallReportPlugin }

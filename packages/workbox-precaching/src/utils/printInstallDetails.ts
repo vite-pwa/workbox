@@ -1,13 +1,12 @@
 /*
-  Copyright 2018 Google LLC
+  Copyright 2018 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import {logger} from 'workbox-core/_private/logger.js';
-import '../_version.js';
+import { logger } from 'vite-pwa-workbox-core/internals'
 
 /**
  * @param {string} groupTitle
@@ -17,16 +16,16 @@ import '../_version.js';
  */
 function _nestedGroup(groupTitle: string, urls: string[]): void {
   if (urls.length === 0) {
-    return;
+    return
   }
 
-  logger.groupCollapsed(groupTitle);
+  logger.groupCollapsed(groupTitle)
 
   for (const url of urls) {
-    logger.log(url);
+    logger.log(url)
   }
 
-  logger.groupEnd();
+  logger.groupEnd()
 }
 
 /**
@@ -40,24 +39,24 @@ export function printInstallDetails(
   urlsToPrecache: string[],
   urlsAlreadyPrecached: string[],
 ): void {
-  const precachedCount = urlsToPrecache.length;
-  const alreadyPrecachedCount = urlsAlreadyPrecached.length;
+  const precachedCount = urlsToPrecache.length
+  const alreadyPrecachedCount = urlsAlreadyPrecached.length
 
   if (precachedCount || alreadyPrecachedCount) {
     let message = `Precaching ${precachedCount} file${
       precachedCount === 1 ? '' : 's'
-    }.`;
+    }.`
 
     if (alreadyPrecachedCount > 0) {
-      message +=
-        ` ${alreadyPrecachedCount} ` +
-        `file${alreadyPrecachedCount === 1 ? ' is' : 's are'} already cached.`;
+      message
+        += ` ${alreadyPrecachedCount} `
+          + `file${alreadyPrecachedCount === 1 ? ' is' : 's are'} already cached.`
     }
 
-    logger.groupCollapsed(message);
+    logger.groupCollapsed(message)
 
-    _nestedGroup(`View newly precached URLs.`, urlsToPrecache);
-    _nestedGroup(`View previously precached URLs.`, urlsAlreadyPrecached);
-    logger.groupEnd();
+    _nestedGroup(`View newly precached URLs.`, urlsToPrecache)
+    _nestedGroup(`View previously precached URLs.`, urlsAlreadyPrecached)
+    logger.groupEnd()
   }
 }

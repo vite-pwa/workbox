@@ -1,5 +1,5 @@
 {
-  "name": "vite-pwa-workbox",
+  "name": "@vite-pwa/workbox-monorepo",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -24,7 +24,7 @@
     "build": "pnpm -r --filter=./packages/* run build",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
-    "update-deps": "taze minor -wIr && pnpm -r --parallel run update-post",
+    "update-deps": "taze minor -wIr",
     "release": "bumpp -r --excute=\"pnpm i\""
   },
   "devDependencies": {

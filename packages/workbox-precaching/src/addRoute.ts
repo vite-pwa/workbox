@@ -1,17 +1,15 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019 Google LLC, Vite PWA's Team
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import {registerRoute} from 'workbox-routing/registerRoute.js';
+import type { PrecacheRouteOptions } from './_types'
 
-import {getOrCreatePrecacheController} from './utils/getOrCreatePrecacheController.js';
-import {PrecacheRoute} from './PrecacheRoute.js';
-import {PrecacheRouteOptions} from './_types.js';
-
-import './_version.js';
+import { registerRoute } from 'vite-pwa-workbox-routing'
+import { PrecacheRoute } from './PrecacheRoute'
+import { getOrCreatePrecacheController } from './utils/getOrCreatePrecacheController'
 
 /**
  * Add a `fetch` listener to the service worker that will
@@ -23,16 +21,14 @@ import './_version.js';
  * responded to, allowing the event to fall through to other `fetch` event
  * listeners.
  *
- * @param {Object} [options] See the {@link workbox-precaching.PrecacheRoute}
+ * @param {object} [options] See the {@link workbox-precaching.PrecacheRoute}
  * options.
- *
- * @memberof workbox-precaching
  */
 function addRoute(options?: PrecacheRouteOptions): void {
-  const precacheController = getOrCreatePrecacheController();
+  const precacheController = getOrCreatePrecacheController()
 
-  const precacheRoute = new PrecacheRoute(precacheController, options);
-  registerRoute(precacheRoute);
+  const precacheRoute = new PrecacheRoute(precacheController, options)
+  registerRoute(precacheRoute)
 }
 
-export {addRoute};
+export { addRoute }

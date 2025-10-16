@@ -1,17 +1,15 @@
 /*
-  Copyright 2018 Google LLC
+  Copyright 2018 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import '../_version.js';
-
 // Give TypeScript the correct global.
-declare let self: ServiceWorkerGlobalScope;
+declare let self: ServiceWorkerGlobalScope
 
-const SUBSTRING_TO_FIND = '-precache-';
+const SUBSTRING_TO_FIND = '-precache-'
 
 /**
  * Cleans up incompatible precaches that were created by older versions of
@@ -24,32 +22,28 @@ const SUBSTRING_TO_FIND = '-precache-';
  *
  * @param {string} currentPrecacheName The cache name currently in use for
  * precaching. This cache won't be deleted.
- * @param {string} [substringToFind='-precache-'] Cache names which include this
+ * @param {string} [substringToFind] Cache names which include this
  * substring will be deleted (excluding `currentPrecacheName`).
  * @return {Array<string>} A list of all the cache names that were deleted.
  *
  * @private
- * @memberof workbox-precaching
  */
-const deleteOutdatedCaches = async (
-  currentPrecacheName: string,
-  substringToFind: string = SUBSTRING_TO_FIND,
-): Promise<string[]> => {
-  const cacheNames = await self.caches.keys();
+async function deleteOutdatedCaches(currentPrecacheName: string, substringToFind: string = SUBSTRING_TO_FIND): Promise<string[]> {
+  const cacheNames = await self.caches.keys()
 
   const cacheNamesToDelete = cacheNames.filter((cacheName) => {
     return (
-      cacheName.includes(substringToFind) &&
-      cacheName.includes(self.registration.scope) &&
-      cacheName !== currentPrecacheName
-    );
-  });
+      cacheName.includes(substringToFind)
+      && cacheName.includes(self.registration.scope)
+      && cacheName !== currentPrecacheName
+    )
+  })
 
   await Promise.all(
-    cacheNamesToDelete.map((cacheName) => self.caches.delete(cacheName)),
-  );
+    cacheNamesToDelete.map(cacheName => self.caches.delete(cacheName)),
+  )
 
-  return cacheNamesToDelete;
-};
+  return cacheNamesToDelete
+}
 
-export {deleteOutdatedCaches};
+export { deleteOutdatedCaches }

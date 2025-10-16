@@ -1,13 +1,12 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import {getOrCreatePrecacheController} from './utils/getOrCreatePrecacheController.js';
-import './_version.js';
+import { getOrCreatePrecacheController } from './utils/getOrCreatePrecacheController'
 
 /**
  * Takes in a URL, and returns the corresponding URL that could be used to
@@ -29,8 +28,8 @@ import './_version.js';
  * @memberof workbox-precaching
  */
 function getCacheKeyForURL(url: string): string | undefined {
-  const precacheController = getOrCreatePrecacheController();
-  return precacheController.getCacheKeyForURL(url);
+  const precacheController = getOrCreatePrecacheController()
+  return precacheController.getCacheKeyForURL(url)
 }
 
-export {getCacheKeyForURL};
+export { getCacheKeyForURL }

@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  entry: './src/index.ts',
+  entry: './src/{index,internals}.ts',
   platform: 'browser',
   banner: `/*
   Copyright 2019 Google LLC, Vite PWA's Team

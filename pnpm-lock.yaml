@@ -90,15 +90,27 @@ importers:
 
   packages/workbox-core: {}
 
+  packages/workbox-precaching:
+    dependencies:
+      '@vite-pwa/workbox-core':
+        specifier: workspace:*
+        version: link:../workbox-core
+      '@vite-pwa/workbox-routing':
+        specifier: workspace:*
+        version: link:../workbox-routing
+      '@vite-pwa/workbox-strategies':
+        specifier: workspace:*
+        version: link:../workbox-strategies
+
   packages/workbox-routing:
     dependencies:
-      vite-pwa-workbox-core:
+      '@vite-pwa/workbox-core':
         specifier: workspace:*
         version: link:../workbox-core
 
   packages/workbox-strategies:
     dependencies:
-      vite-pwa-workbox-core:
+      '@vite-pwa/workbox-core':
         specifier: workspace:*
         version: link:../workbox-core
 

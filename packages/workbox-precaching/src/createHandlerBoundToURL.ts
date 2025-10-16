@@ -1,14 +1,13 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import {getOrCreatePrecacheController} from './utils/getOrCreatePrecacheController.js';
-import {RouteHandlerCallback} from 'workbox-core/types.js';
-import './_version.js';
+import type { RouteHandlerCallback } from 'vite-pwa-workbox-core'
+import { getOrCreatePrecacheController } from './utils/getOrCreatePrecacheController'
 
 /**
  * Helper function that calls
@@ -21,15 +20,13 @@ import './_version.js';
  *
  * @param {string} url The precached URL which will be used to lookup the
  * `Response`.
- * @param {boolean} [fallbackToNetwork=true] Whether to attempt to get the
+ * @param {boolean} [fallbackToNetwork] Whether to attempt to get the
  * response from the network if there's a precache miss.
  * @return {workbox-routing~handlerCallback}
- *
- * @memberof workbox-precaching
  */
 function createHandlerBoundToURL(url: string): RouteHandlerCallback {
-  const precacheController = getOrCreatePrecacheController();
-  return precacheController.createHandlerBoundToURL(url);
+  const precacheController = getOrCreatePrecacheController()
+  return precacheController.createHandlerBoundToURL(url)
 }
 
-export {createHandlerBoundToURL};
+export { createHandlerBoundToURL }

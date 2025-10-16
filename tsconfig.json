@@ -5,22 +5,22 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "vite-pwa-workbox-core": [
+      "@vite-pwa/workbox-core": [
         "./packages/workbox-core/src/"
       ],
-      "vite-pwa-workbox-core/internals": [
+      "@vite-pwa/workbox-core/internals": [
         "./packages/workbox-core/src/internals.ts"
       ],
-      "vite-pwa-workbox-precaching": [
+      "@vite-pwa/workbox-precaching": [
         "./packages/workbox-precaching/src/"
       ],
-      "vite-pwa-workbox-routing": [
+      "@vite-pwa/workbox-routing": [
         "./packages/workbox-routing/src/"
       ],
-      "vite-pwa-workbox-strategies": [
+      "@vite-pwa/workbox-strategies": [
         "./packages/workbox-strategies/src/"
       ],
-      "vite-pwa-workbox-window": [
+      "@vite-pwa/workbox-window": [
         "./packages/workbox-window/src/"
       ]
     },

@@ -1,5 +1,5 @@
 {
-  "name": "vite-pwa-workbox-window",
+  "name": "@vite-pwa/workbox-window",
   "type": "module",
   "version": "0.0.0",
   "description": "Simplifies communications with Workbox packages running in the service worker",
@@ -9,12 +9,12 @@
   ],
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
-  "homepage": "https://github.com/vite-pwa/workbox-window-es#readme",
+  "homepage": "https://github.com/vite-pwa/workbox#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vite-pwa/workbox-window-es.git"
+    "url": "https://github.com/vite-pwa/workbox.git"
   },
-  "bugs": "https://github.com/vite-pwa/workbox-window-es/issues",
+  "bugs": "https://github.com/vite-pwa/workbox/issues",
   "keywords": [
     "workbox",
     "workboxjs",

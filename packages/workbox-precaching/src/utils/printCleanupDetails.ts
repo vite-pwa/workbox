@@ -1,13 +1,12 @@
 /*
-  Copyright 2018 Google LLC
+  Copyright 2018 Google LLC, Vite PWA's Team
 
   Use of this source code is governed by an MIT-style
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */
 
-import {logger} from 'workbox-core/_private/logger.js';
-import '../_version.js';
+import { logger } from 'vite-pwa-workbox-core/internals'
 
 /**
  * @param {string} groupTitle
@@ -15,15 +14,15 @@ import '../_version.js';
  *
  * @private
  */
-const logGroup = (groupTitle: string, deletedURLs: string[]) => {
-  logger.groupCollapsed(groupTitle);
+function logGroup(groupTitle: string, deletedURLs: string[]) {
+  logger.groupCollapsed(groupTitle)
 
   for (const url of deletedURLs) {
-    logger.log(url);
+    logger.log(url)
   }
 
-  logger.groupEnd();
-};
+  logger.groupEnd()
+}
 
 /**
  * @param {Array<string>} deletedURLs
@@ -32,14 +31,14 @@ const logGroup = (groupTitle: string, deletedURLs: string[]) => {
  * @memberof workbox-precaching
  */
 export function printCleanupDetails(deletedURLs: string[]): void {
-  const deletionCount = deletedURLs.length;
+  const deletionCount = deletedURLs.length
   if (deletionCount > 0) {
     logger.groupCollapsed(
-      `During precaching cleanup, ` +
-        `${deletionCount} cached ` +
-        `request${deletionCount === 1 ? ' was' : 's were'} deleted.`,
-    );
-    logGroup('Deleted Cache Requests', deletedURLs);
-    logger.groupEnd();
+      `During precaching cleanup, `
+      + `${deletionCount} cached `
+      + `request${deletionCount === 1 ? ' was' : 's were'} deleted.`,
+    )
+    logGroup('Deleted Cache Requests', deletedURLs)
+    logger.groupEnd()
   }
 }
