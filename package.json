@@ -1,0 +1,47 @@
+{
+  "name": "vite-pwa-workbox",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.18.3",
+  "description": "Top-level scripts and dependencies for the workbox monorepo.",
+  "author": "Google's Web DevRel Team, Vite PWA's Team",
+  "contributors": [
+    "userquin <userquin@gmail.com>"
+  ],
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/vite-pwa/workbox#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vite-pwa/workbox.git"
+  },
+  "bugs": "https://github.com/vite-pwa/workbox/issues",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter=./packages/* run build",
+    "lint": "eslint .",
+    "lint:fix": "nr lint --fix",
+    "update-deps": "taze minor -wIr && pnpm -r --parallel run update-post",
+    "release": "bumpp -r --excute=\"pnpm i\""
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:eslint",
+    "@antfu/ni": "catalog:utils",
+    "@arethetypeswrong/cli": "catalog:utils",
+    "@types/node": "catalog:types",
+    "@types/trusted-types": "catalog:types",
+    "@typescript-eslint/utils": "catalog:typescript",
+    "bumpp": "catalog:build",
+    "eslint": "catalog:eslint",
+    "eslint-plugin-antfu": "catalog:eslint",
+    "taze": "catalog:utils",
+    "tsdown": "catalog:build",
+    "typescript": "catalog:typescript"
+  },
+  "resolutions": {
+    "@typescript-eslint/utils": "catalog:typescript"
+  }
+}
