@@ -40,6 +40,9 @@ catalogs:
     '@arethetypeswrong/cli':
       specifier: ^0.17.4
       version: 0.17.4
+    idb:
+      specifier: ^8.0.3
+      version: 8.0.3
     taze:
       specifier: ^19.7.0
       version: 19.7.0
@@ -102,7 +105,7 @@ importers:
         specifier: workspace:*
         version: link:../workbox-core
       idb:
-        specifier: ^8.0.3
+        specifier: catalog:utils
         version: 8.0.3
 
   packages/workbox-precaching:
@@ -117,6 +120,12 @@ importers:
         specifier: workspace:*
         version: link:../workbox-strategies
 
+  packages/workbox-range-requests:
+    dependencies:
+      '@vite-pwa/workbox-core':
+        specifier: workspace:*
+        version: link:../workbox-core
+
   packages/workbox-routing:
     dependencies:
       '@vite-pwa/workbox-core':
@@ -128,6 +137,15 @@ importers:
       '@vite-pwa/workbox-core':
         specifier: workspace:*
         version: link:../workbox-core
+
+  packages/workbox-streams:
+    dependencies:
+      '@vite-pwa/workbox-core':
+        specifier: workspace:*
+        version: link:../workbox-core
+      '@vite-pwa/workbox-routing':
+        specifier: workspace:*
+        version: link:../workbox-routing
 
   packages/workbox-window:
     dependencies:

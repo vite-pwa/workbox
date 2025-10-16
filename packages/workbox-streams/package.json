@@ -1,0 +1,45 @@
+{
+  "name": "@vite-pwa/workbox-streams",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "A library that makes it easier to work with Streams in the browser.",
+  "author": "Google's Web DevRel Team, Vite PWA's Team",
+  "contributors": [
+    "userquin <userquin@gmail.com>"
+  ],
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/vite-pwa/workbox#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vite-pwa/workbox.git",
+    "directory": "packages/workbox-streams"
+  },
+  "bugs": "https://github.com/vite-pwa/workbox/issues",
+  "keywords": [
+    "workbox",
+    "workboxjs",
+    "service worker",
+    "sw",
+    "streams",
+    "readablestream"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "@vite-pwa/workbox-core": "workspace:*",
+    "@vite-pwa/workbox-routing": "workspace:*"
+  }
+}

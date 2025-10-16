@@ -20,11 +20,17 @@
       "@vite-pwa/workbox-precaching": [
         "./packages/workbox-precaching/src/"
       ],
+      "@vite-pwa/workbox-range-requests": [
+        "./packages/workbox-range-requests/src/"
+      ],
       "@vite-pwa/workbox-routing": [
         "./packages/workbox-routing/src/"
       ],
       "@vite-pwa/workbox-strategies": [
         "./packages/workbox-strategies/src/"
+      ],
+      "@vite-pwa/workbox-streams": [
+        "./packages/workbox-streams/src/"
       ],
       "@vite-pwa/workbox-window": [
         "./packages/workbox-window/src/"
