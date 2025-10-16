@@ -6,7 +6,7 @@
   https://opensource.org/licenses/MIT.
 */
 
-import { privateCacheNames as cacheNames, logger } from 'vite-pwa-workbox-core/internals'
+import { privateCacheNames as cacheNames, logger } from '@vite-pwa/workbox-core/internals'
 import { deleteOutdatedCaches } from './utils/deleteOutdatedCaches'
 
 /**

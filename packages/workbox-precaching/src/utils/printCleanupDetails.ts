@@ -6,7 +6,7 @@
   https://opensource.org/licenses/MIT.
 */
 
-import { logger } from 'vite-pwa-workbox-core/internals'
+import { logger } from '@vite-pwa/workbox-core/internals'
 
 /**
  * @param {string} groupTitle

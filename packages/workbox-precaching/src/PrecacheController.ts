@@ -6,10 +6,10 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { RouteHandlerCallback, WorkboxPlugin } from 'vite-pwa-workbox-core'
-import type { Strategy } from 'vite-pwa-workbox-strategies'
+import type { RouteHandlerCallback, WorkboxPlugin } from '@vite-pwa/workbox-core'
+import type { Strategy } from '@vite-pwa/workbox-strategies'
 import type { CleanupResult, InstallResult, PrecacheEntry } from './_types'
-import { assert, privateCacheNames as cacheNames, logger, waitUntil, WorkboxError } from 'vite-pwa-workbox-core/internals'
+import { assert, privateCacheNames as cacheNames, logger, waitUntil, WorkboxError } from '@vite-pwa/workbox-core/internals'
 import { PrecacheStrategy } from './PrecacheStrategy'
 import { createCacheKey } from './utils/createCacheKey'
 import { PrecacheCacheKeyPlugin } from './utils/PrecacheCacheKeyPlugin'
@@ -300,7 +300,7 @@ class PrecacheController {
   }
 
   /**
-   * @param {string} url A cache key whose SRI you want to look up.
+   * @param {string} cacheKey A cache key whose SRI you want to look up.
    * @return {string} The subresource integrity associated with the cache key,
    * or undefined if it's not set.
    */

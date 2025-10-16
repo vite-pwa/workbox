@@ -6,7 +6,7 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { WorkboxPlugin } from 'vite-pwa-workbox-core'
+import type { WorkboxPlugin } from '@vite-pwa/workbox-core'
 
 export const cacheOkAndOpaquePlugin: WorkboxPlugin = {
   /**

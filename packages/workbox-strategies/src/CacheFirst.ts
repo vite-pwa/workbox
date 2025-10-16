@@ -7,7 +7,7 @@
 */
 
 import type { StrategyHandler } from './StrategyHandler'
-import { assert, logger, WorkboxError } from 'vite-pwa-workbox-core/internals'
+import { assert, logger, WorkboxError } from '@vite-pwa/workbox-core/internals'
 import { Strategy } from './Strategy'
 import { messages } from './utils/messages'
 
@@ -26,7 +26,7 @@ class CacheFirst extends Strategy {
   /**
    * @private
    * @param request {Request|string} A request to run this strategy for.
-   * @param handler {import('vite-pwa-workbox-strategies').StrategyHandler}  The event that
+   * @param handler {import('@vite-pwa/workbox-strategies').StrategyHandler}  The event that
    *     triggered the request.
    * @return {Promise<Response>}
    */

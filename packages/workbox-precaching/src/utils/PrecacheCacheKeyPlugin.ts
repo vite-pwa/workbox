@@ -6,7 +6,7 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { WorkboxPlugin, WorkboxPluginCallbackParam } from 'vite-pwa-workbox-core'
+import type { WorkboxPlugin, WorkboxPluginCallbackParam } from '@vite-pwa/workbox-core'
 import type { PrecacheController } from '../PrecacheController'
 
 /**
@@ -27,11 +27,7 @@ class PrecacheCacheKeyPlugin implements WorkboxPlugin {
     params,
   }: WorkboxPluginCallbackParam['cacheKeyWillBeUsed']) => {
     // Params is type any, can't change right now.
-    /* eslint-disable */
-    const cacheKey =
-      params?.cacheKey ||
-      this._precacheController.getCacheKeyForURL(request.url);
-    /* eslint-enable */
+    const cacheKey = params?.cacheKey || this._precacheController.getCacheKeyForURL(request.url)
 
     return cacheKey
       ? new Request(cacheKey, { headers: request.headers })

@@ -6,11 +6,11 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { WorkboxPlugin } from 'vite-pwa-workbox-core'
-import type { StrategyHandler, StrategyOptions } from 'vite-pwa-workbox-strategies'
-import { copyResponse } from 'vite-pwa-workbox-core'
-import { privateCacheNames as cacheNames, getFriendlyURL, logger, WorkboxError } from 'vite-pwa-workbox-core/internals'
-import { Strategy } from 'vite-pwa-workbox-strategies'
+import type { WorkboxPlugin } from '@vite-pwa/workbox-core'
+import type { StrategyHandler, StrategyOptions } from '@vite-pwa/workbox-strategies'
+import { copyResponse } from '@vite-pwa/workbox-core'
+import { privateCacheNames as cacheNames, getFriendlyURL, logger, WorkboxError } from '@vite-pwa/workbox-core/internals'
+import { Strategy } from '@vite-pwa/workbox-strategies'
 
 interface PrecacheStrategyOptions extends StrategyOptions {
   fallbackToNetwork?: boolean

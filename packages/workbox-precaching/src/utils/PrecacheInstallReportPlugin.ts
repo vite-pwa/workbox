@@ -6,7 +6,7 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { WorkboxPlugin, WorkboxPluginCallbackParam } from 'vite-pwa-workbox-core'
+import type { WorkboxPlugin, WorkboxPluginCallbackParam } from '@vite-pwa/workbox-core'
 
 /**
  * A plugin, designed to be used with PrecacheController, to determine the

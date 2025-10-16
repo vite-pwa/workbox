@@ -6,7 +6,7 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { RouteHandler } from 'vite-pwa-workbox-core'
+import type { RouteHandler } from '@vite-pwa/workbox-core'
 
 import { getOrCreateDefaultRouter } from './utils/getOrCreateDefaultRouter'
 

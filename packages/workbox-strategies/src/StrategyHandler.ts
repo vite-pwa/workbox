@@ -11,7 +11,7 @@ import type {
   MapLikeObject,
   WorkboxPlugin,
   WorkboxPluginCallbackParam,
-} from 'vite-pwa-workbox-core'
+} from '@vite-pwa/workbox-core'
 import type { Strategy } from './Strategy'
 import {
   assert,
@@ -22,7 +22,7 @@ import {
   logger,
   timeout,
   WorkboxError,
-} from 'vite-pwa-workbox-core/internals'
+} from '@vite-pwa/workbox-core/internals'
 
 function toRequest(input: RequestInfo) {
   return typeof input === 'string' ? new Request(input) : input
@@ -575,6 +575,7 @@ class StrategyHandler {
    */
   async doneWaiting(): Promise<void> {
     let promise
+    // eslint-disable-next-line no-cond-assign
     while ((promise = this._extendLifetimePromises.shift())) {
       await promise
     }
@@ -592,8 +593,7 @@ class StrategyHandler {
    * This method will call cacheWillUpdate on the available plugins (or use
    * status === 200) to determine if the Response is safe and valid to cache.
    *
-   * @param {Request} options.request
-   * @param {Response} options.response
+   * @param {Response} response
    * @return {Promise<Response|undefined>}
    *
    * @private

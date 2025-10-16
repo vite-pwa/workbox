@@ -8,7 +8,7 @@
 
 import type { StrategyOptions } from './Strategy'
 import type { StrategyHandler } from './StrategyHandler'
-import { assert, logger, WorkboxError } from 'vite-pwa-workbox-core/internals'
+import { assert, logger, WorkboxError } from '@vite-pwa/workbox-core/internals'
 import { cacheOkAndOpaquePlugin } from './plugins/cacheOkAndOpaquePlugin'
 import { Strategy } from './Strategy'
 import { messages } from './utils/messages'

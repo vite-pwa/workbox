@@ -6,8 +6,8 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { RouteHandler, RouteHandlerObject } from 'vite-pwa-workbox-core'
-import { assert } from 'vite-pwa-workbox-core/internals'
+import type { RouteHandler, RouteHandlerObject } from '@vite-pwa/workbox-core'
+import { assert } from '@vite-pwa/workbox-core/internals'
 
 /**
  * @param {function() | object} handler Either a function, or an object with a
@@ -18,6 +18,7 @@ import { assert } from 'vite-pwa-workbox-core/internals'
  */
 export function normalizeHandler(handler: RouteHandler): RouteHandlerObject {
   if (handler && typeof handler === 'object') {
+    // eslint-disable-next-line node/prefer-global/process
     if (process.env.NODE_ENV !== 'production') {
       assert!.hasMethod(handler, 'handle', {
         moduleName: 'workbox-routing',
@@ -29,6 +30,7 @@ export function normalizeHandler(handler: RouteHandler): RouteHandlerObject {
     return handler
   }
   else {
+    // eslint-disable-next-line node/prefer-global/process
     if (process.env.NODE_ENV !== 'production') {
       assert!.isType(handler, 'function', {
         moduleName: 'workbox-routing',

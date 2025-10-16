@@ -14,7 +14,7 @@ import { removeIgnoredSearchParams } from './removeIgnoredSearchParams'
  * check, one at a time.
  *
  * @param {string} url
- * @param {object} options
+ * @param {import('../_types').PrecacheRouteOptions} [options]')} options
  *
  * @private
  */

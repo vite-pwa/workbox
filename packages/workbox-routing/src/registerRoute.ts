@@ -6,9 +6,9 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { RouteHandler, RouteMatchCallback } from 'vite-pwa-workbox-core'
-import type { HTTPMethod } from './utils/constants.js'
-import { logger, WorkboxError } from 'vite-pwa-workbox-core/internals'
+import type { RouteHandler, RouteMatchCallback } from '@vite-pwa/workbox-core'
+import type { HTTPMethod } from './utils/constants'
+import { logger, WorkboxError } from '@vite-pwa/workbox-core/internals'
 
 import { RegExpRoute } from './RegExpRoute'
 import { Route } from './Route'

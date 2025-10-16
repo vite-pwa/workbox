@@ -10,9 +10,9 @@ import type {
   RouteHandler,
   RouteMatchCallback,
   RouteMatchCallbackOptions,
-} from 'vite-pwa-workbox-core'
-import type { HTTPMethod } from './utils/constants.js'
-import { assert, logger } from 'vite-pwa-workbox-core/internals'
+} from '@vite-pwa/workbox-core'
+import type { HTTPMethod } from './utils/constants'
+import { assert, logger } from '@vite-pwa/workbox-core/internals'
 import { Route } from './Route'
 
 /**

@@ -24,6 +24,7 @@ catalogs:
   utils:
     '@antfu/ni': ^25.0.0
     '@arethetypeswrong/cli': ^0.17.4
+    idb: ^8.0.3
     taze: ^19.7.0
 
 cleanupUnusedCatalogs: true

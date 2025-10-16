@@ -9,12 +9,12 @@
 import type {
   RouteMatchCallback,
   RouteMatchCallbackOptions,
-} from 'vite-pwa-workbox-core'
+} from '@vite-pwa/workbox-core'
 import type { PrecacheRouteOptions } from './_types'
 import type { PrecacheController } from './PrecacheController'
-import { getFriendlyURL, logger } from 'vite-pwa-workbox-core/internals'
+import { getFriendlyURL, logger } from '@vite-pwa/workbox-core/internals'
 
-import { Route } from 'vite-pwa-workbox-routing'
+import { Route } from '@vite-pwa/workbox-routing'
 import { generateURLVariations } from './utils/generateURLVariations'
 
 /**

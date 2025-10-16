@@ -6,7 +6,7 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { RouteHandlerCallback } from 'vite-pwa-workbox-core'
+import type { RouteHandlerCallback } from '@vite-pwa/workbox-core'
 import { getOrCreatePrecacheController } from './utils/getOrCreatePrecacheController'
 
 /**
@@ -20,9 +20,8 @@ import { getOrCreatePrecacheController } from './utils/getOrCreatePrecacheContro
  *
  * @param {string} url The precached URL which will be used to lookup the
  * `Response`.
- * @param {boolean} [fallbackToNetwork] Whether to attempt to get the
  * response from the network if there's a precache miss.
- * @return {workbox-routing~handlerCallback}
+ * @return {RouteHandlerCallback}
  */
 function createHandlerBoundToURL(url: string): RouteHandlerCallback {
   const precacheController = getOrCreatePrecacheController()

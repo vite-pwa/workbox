@@ -47,4 +47,4 @@ export {
   PrecacheStrategy,
 }
 
-export * from './_types.js'
+export * from './_types'

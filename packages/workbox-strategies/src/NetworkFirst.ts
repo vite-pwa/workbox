@@ -9,7 +9,7 @@
 import type { StrategyOptions } from './Strategy'
 
 import type { StrategyHandler } from './StrategyHandler'
-import { assert, logger, WorkboxError } from 'vite-pwa-workbox-core/internals'
+import { assert, logger, WorkboxError } from '@vite-pwa/workbox-core/internals'
 import { cacheOkAndOpaquePlugin } from './plugins/cacheOkAndOpaquePlugin'
 import { Strategy } from './Strategy'
 import { messages } from './utils/messages'
@@ -151,7 +151,7 @@ class NetworkFirst extends Strategy {
    * @param {object} options
    * @param {Request} options.request
    * @param {Array} options.logs A reference to the logs array
-   * @param {Event} options.event
+   * @param {Array} options.handler
    * @return {Promise<Response>}
    *
    * @private
@@ -196,7 +196,7 @@ class NetworkFirst extends Strategy {
    * @param {number|undefined} options.timeoutId
    * @param {Request} options.request
    * @param {Array} options.logs A reference to the logs Array.
-   * @param {Event} options.event
+   * @param {Array} options.handler
    * @return {Promise<Response>}
    *
    * @private

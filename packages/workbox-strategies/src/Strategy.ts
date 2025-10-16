@@ -10,13 +10,13 @@ import type {
   HandlerCallbackOptions,
   RouteHandlerObject,
   WorkboxPlugin,
-} from 'vite-pwa-workbox-core'
+} from '@vite-pwa/workbox-core'
 import {
   privateCacheNames as cacheNames,
   getFriendlyURL,
   logger,
   WorkboxError,
-} from 'vite-pwa-workbox-core/internals'
+} from '@vite-pwa/workbox-core/internals'
 import { StrategyHandler } from './StrategyHandler'
 
 export interface StrategyOptions {
@@ -223,7 +223,7 @@ abstract class Strategy implements RouteHandlerObject {
       response = await callback({ event, request, response })
     }
 
-    return response
+    return response as Response
   }
 
   async _awaitComplete(
@@ -238,7 +238,7 @@ abstract class Strategy implements RouteHandlerObject {
     try {
       response = await responseDone
     }
-    catch (error) {
+    catch {
       // Ignore errors, as response errors should be caught via the `response`
       // promise above. The `done` promise will only throw for errors in
       // promises passed to `handler.waitUntil()`.

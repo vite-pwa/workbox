@@ -7,7 +7,7 @@
 */
 
 import type { PrecacheEntry } from '../_types'
-import { WorkboxError } from 'vite-pwa-workbox-core/internals'
+import { WorkboxError } from '@vite-pwa/workbox-core/internals'
 
 interface CacheKey {
   cacheKey: string

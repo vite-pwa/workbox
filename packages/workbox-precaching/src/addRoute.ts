@@ -7,7 +7,7 @@
 
 import type { PrecacheRouteOptions } from './_types'
 
-import { registerRoute } from 'vite-pwa-workbox-routing'
+import { registerRoute } from '@vite-pwa/workbox-routing'
 import { PrecacheRoute } from './PrecacheRoute'
 import { getOrCreatePrecacheController } from './utils/getOrCreatePrecacheController'
 

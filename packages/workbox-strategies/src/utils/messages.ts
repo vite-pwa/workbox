@@ -6,7 +6,7 @@
   https://opensource.org/licenses/MIT.
 */
 
-import { getFriendlyURL, logger } from 'vite-pwa-workbox-core/internals'
+import { getFriendlyURL, logger } from '@vite-pwa/workbox-core/internals'
 
 export const messages = {
   strategyStart: (strategyName: string, request: Request): string =>
