@@ -23,6 +23,9 @@
       "@vite-pwa/workbox-range-requests": [
         "./packages/workbox-range-requests/src/"
       ],
+      "@vite-pwa/workbox-recipes": [
+        "./packages/workbox-recipes/src/"
+      ],
       "@vite-pwa/workbox-routing": [
         "./packages/workbox-routing/src/"
       ],

@@ -126,6 +126,27 @@ importers:
         specifier: workspace:*
         version: link:../workbox-core
 
+  packages/workbox-recipes:
+    dependencies:
+      '@vite-pwa/workbox-cacheable-response':
+        specifier: workspace:*
+        version: link:../workbox-cacheable-response
+      '@vite-pwa/workbox-core':
+        specifier: workspace:*
+        version: link:../workbox-core
+      '@vite-pwa/workbox-expiration':
+        specifier: workspace:*
+        version: link:../workbox-expiration
+      '@vite-pwa/workbox-precaching':
+        specifier: workspace:*
+        version: link:../workbox-precaching
+      '@vite-pwa/workbox-routing':
+        specifier: workspace:*
+        version: link:../workbox-routing
+      '@vite-pwa/workbox-strategies':
+        specifier: workspace:*
+        version: link:../workbox-strategies
+
   packages/workbox-routing:
     dependencies:
       '@vite-pwa/workbox-core':
