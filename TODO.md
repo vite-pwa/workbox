@@ -1,4 +1,8 @@
-# Pending task
+## TODO
+
+- review workbox-sw package, maybe we need to move it to commonjs?
+
+## Pending task
 
 - add release-commit.yml from Kevin workflows
 - release initial version from local, then use Kevin workflow (Trusted Publisher + Provenance)
