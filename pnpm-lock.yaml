@@ -189,6 +189,8 @@ importers:
         specifier: workspace:*
         version: link:../workbox-routing
 
+  packages/workbox-sw: {}
+
   packages/workbox-window:
     dependencies:
       '@types/trusted-types':

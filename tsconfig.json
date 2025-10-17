@@ -44,6 +44,9 @@
       "@vite-pwa/workbox-streams": [
         "./packages/workbox-streams/src/"
       ],
+      "@vite-pwa/workbox-sw": [
+        "./packages/workbox-sw/src/"
+      ],
       "@vite-pwa/workbox-window": [
         "./packages/workbox-window/src/"
       ]
