@@ -91,6 +91,21 @@ importers:
         specifier: catalog:typescript
         version: 5.9.3
 
+  packages/workbox-background-sync:
+    dependencies:
+      '@vite-pwa/workbox-core':
+        specifier: workspace:*
+        version: link:../workbox-core
+      idb:
+        specifier: catalog:utils
+        version: 8.0.3
+
+  packages/workbox-broadcast-update:
+    dependencies:
+      '@vite-pwa/workbox-core':
+        specifier: workspace:*
+        version: link:../workbox-core
+
   packages/workbox-cacheable-response:
     dependencies:
       '@vite-pwa/workbox-core':
@@ -107,6 +122,12 @@ importers:
       idb:
         specifier: catalog:utils
         version: 8.0.3
+
+  packages/workbox-navigation-preload:
+    dependencies:
+      '@vite-pwa/workbox-core':
+        specifier: workspace:*
+        version: link:../workbox-core
 
   packages/workbox-precaching:
     dependencies:

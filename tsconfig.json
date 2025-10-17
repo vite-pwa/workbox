@@ -5,6 +5,12 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
+      "@vite-pwa/workbox-background-sync": [
+        "./packages/workbox-background-sync/src/"
+      ],
+      "@vite-pwa/workbox-broadcast-update": [
+        "./packages/workbox-broadcast-update/src/"
+      ],
       "@vite-pwa/workbox-cacheable-response": [
         "./packages/workbox-cacheable-response/src/"
       ],
