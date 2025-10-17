@@ -17,6 +17,9 @@
       "@vite-pwa/workbox-expiration": [
         "./packages/workbox-expiration/src/"
       ],
+      "@vite-pwa/workbox-navigation-preload": [
+        "./packages/workbox-navigation-preload/src/"
+      ],
       "@vite-pwa/workbox-precaching": [
         "./packages/workbox-precaching/src/"
       ],
