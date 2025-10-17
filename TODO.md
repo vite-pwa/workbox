@@ -12,3 +12,4 @@
 - try tsdown experimental monorepo support (Kevin can help us)
 - migrate to vite+
 - add readme file: prepare svg at figma
+- review workbox-build::generateSW: we should use magicast and make pwa options statically analisable, we should be able to use tsdown/rolldown directly to build the service worker, check svg-packer package (maybe we need esbuild)
