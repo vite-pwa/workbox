@@ -1,5 +1,5 @@
 import type { BaseIssue, BaseSchema, IssuePathItem } from 'valibot'
-import { safeParse } from 'valibot'
+import { getDotPath, safeParse } from 'valibot'
 
 // This helper function traverses the issue's path to find the top-level object key
 // that contains the error. This is crucial for errors nested inside arrays.
@@ -15,56 +15,46 @@ function getTopLevelKey(path: IssuePathItem[] | undefined): string | undefined {
 // see [Path Key not Available in safeParse](https://github.com/fabian-hiller/valibot/discussions/696).
 // custom Valibot's message mapping
 function extractIssueMessage(issue: BaseIssue<any>) {
+  const path = getDotPath(issue)
   const topLevelKey = getTopLevelKey(issue.path)
-  const lastKey = issue.path?.[issue.path.length - 1]?.key
 
-  // Case 1: Missing required key. The `key` is on the last path item.
-  // We exclude array-based options here to let their specific handlers take over.
-  if (issue.received === 'undefined' && topLevelKey !== 'runtimeCaching' && topLevelKey !== 'manifestTransforms') {
-    return `The required option "${lastKey}" is missing.`
-  }
-
-  // Case 2: Unknown key in strict object. The `key` is on the last path item.
-  if (issue.expected === 'never') {
-    return `The option "${lastKey}" is unknown or has been deprecated.`
-  }
-
-  // Case 3: Specific, human-friendly message for manifestTransforms
-  if (topLevelKey === 'manifestTransforms') {
-    // This error happens when the value is not an array (e.g., a function)
-    if (issue.expected?.includes('Array')) {
-      return 'The "manifestTransforms" option must be an array of functions.'
-    }
-    const index = issue.path?.find(p => p.type === 'array')?.key
-    return `Each item in the "manifestTransforms" array must be a function (error at index ${index}).`
-  }
-
-  // Case 3.2: Specific, human-friendly message for runtimeCaching
-  if (topLevelKey === 'runtimeCaching') {
-    // This error happens when the value is not an array (e.g., a function)
-    if (issue.expected?.includes('Array')) {
-      return 'The "runtimeCaching" option must be an array of handlers.'
-    }
-    if (lastKey === 'handler') {
-      if (issue.type === 'union') {
-        return `Invalid "handler" option in runtimeCaching[${issue.path?.[1]?.key}]. ${issue.message}.`
-      }
-      if (issue.type === 'object') {
-        return `Invalid "handler" option in runtimeCaching[${issue.path?.[1]?.key}]. The required option "handler" is missing.`
-      }
-    }
-  }
-
-  // Case 3.3: Specific, human-friendly message for swDest endsWith pipe
-  if (topLevelKey === 'swDest' && issue.requirement === '.js') {
+  // Priority 1: Custom messages from pipes (e.g., endsWith).
+  // These are the most specific and should always be shown.
+  if (issue.type === 'custom')
     return issue.message
+
+  // Priority 2: Missing required key.
+  if (issue.kind === 'schema' && issue.received === 'undefined')
+    return `The required option "${path}" is missing.`
+
+  // Priority 3: Unknown key in strict object.
+  if (issue.type === 'strict_object')
+    return `The option "${path}" is unknown or has been deprecated.`
+
+  // Priority 4: Human-readable message for array-based options
+  if (topLevelKey === 'manifestTransforms' || topLevelKey === 'runtimeCaching') {
+    // This error happens when the value itself is not an array
+    if (issue.expected?.includes('Array'))
+      return `The "${topLevelKey}" option must be an array.`
+
+    // This error happens for items within the array
+    const index = issue.path?.find(p => p.type === 'array')?.key
+    if (topLevelKey === 'manifestTransforms')
+      return `Each item in the "manifestTransforms" array must be a function (error at index ${index}).`
+
+    if (topLevelKey === 'runtimeCaching') {
+      if (issue.path?.some(p => p.key === 'handler'))
+        return `Invalid "handler" option in runtimeCaching[${index}]. Expected one of (string, function, object) but received ${typeof issue.input}.`
+      return `Invalid item at index ${index} in the "runtimeCaching" array.`
+    }
   }
 
-  // Case 4: Generic type mismatch for other fields
-  if (issue.expected && typeof lastKey === 'string')
-    return `Invalid type for option "${lastKey}". Expected ${issue.expected} but received ${typeof issue.input}.`
+  // Priority 5: Generic type mismatch for other fields.
+  if (issue.kind === 'schema') {
+    return `Invalid type for option "${path}". Expected ${issue.expected} but received ${issue.received}.`
+  }
 
-  // Fallback for our custom pipes (e.g., `endsWith`) and any other unhandled case
+  // Fallback for any other unhandled case.
   return issue.message
 }
 
