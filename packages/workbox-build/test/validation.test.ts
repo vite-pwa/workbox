@@ -1,6 +1,7 @@
 import type * as v from 'valibot'
 import type { GenerateSWOptions, GetManifestOptions, InjectManifestOptions } from '../src/types'
 import { describe, expect, expectTypeOf, it } from 'vitest'
+
 import { GenerateSWOptionsSchema } from '../src/validation/generate-sw'
 import { GetManifestOptionsSchema } from '../src/validation/get-manifest'
 import { InjectManifestOptionsSchema } from '../src/validation/inject-manifest'
@@ -29,7 +30,7 @@ describe('generateSWOptions Schema Validation', () => {
       swDest: 'sw.js',
       globDirectory: './',
     } satisfies GenerateSWOptions
-    // @ts-expect-error - See comment at schema Type Inference Validation.
+    // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
     expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).not.toThrow()
   })
@@ -49,15 +50,38 @@ describe('generateSWOptions Schema Validation', () => {
       swDest: 'sw.js',
       globDirectory: './',
       manifestTransforms: [
-        (manifest) => {
-          // dummy transform
+        (manifest: any) => {
           return { manifest, warnings: [] }
         },
       ],
     } satisfies GenerateSWOptions
-    // @ts-expect-error - See comment at schema Type Inference Validation.
+    // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
     expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).not.toThrow()
+  })
+
+  it('should fail if manifestTransforms contains a non-function', () => {
+    const options = {
+      swDest: 'sw.js',
+      globDirectory: './',
+      manifestTransforms: ['not-a-function'],
+    } satisfies Omit<GenerateSWOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
+    expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+    expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
+      'generateSW() options validation failed: \n- Each item in the "manifestTransforms" array must be a function.',
+    )
+  })
+
+  it('should fail if manifestTransforms is a function instead of an array', () => {
+    const options = {
+      swDest: 'sw.js',
+      globDirectory: './',
+      manifestTransforms: (manifest: any) => ({ manifest, warnings: [] }),
+    } satisfies Omit<GenerateSWOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
+    expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+    expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
+      'generateSW() options validation failed: \n- The "manifestTransforms" option must be an array.',
+    )
   })
 
   it('should pass if globDirectory is missing but runtimeCaching is present', () => {
@@ -70,7 +94,7 @@ describe('generateSWOptions Schema Validation', () => {
         },
       ],
     } satisfies GenerateSWOptions
-    // @ts-expect-error - See comment at schema Type Inference Validation.
+    // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
     expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).not.toThrow()
   })
@@ -92,7 +116,8 @@ describe('generateSWOptions Schema Validation', () => {
       swDest: 'sw.txt',
       globDirectory: './',
     } satisfies GenerateSWOptions
-    // @ts-expect-error - See comment at schema Type Inference Validation.
+    // The shape is valid, but the content is not.
+    // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
     expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
       'generateSW() options validation failed: \n- swDest must end with .js',
@@ -105,7 +130,7 @@ describe('getManifestOptions Schema Validation', () => {
     const options = {
       globDirectory: './',
     } satisfies GetManifestOptions
-    // @ts-expect-error - See comment at schema Type Inference Validation.
+    // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GetManifestOptionsSchemaType>()
     expect(() => validate(GetManifestOptionsSchema, options, 'getManifest')).not.toThrow()
   })
@@ -115,6 +140,28 @@ describe('getManifestOptions Schema Validation', () => {
     expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
     expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
       'getManifest() options validation failed: \n- The required option "globDirectory" is missing.',
+    )
+  })
+
+  it('should fail if manifestTransforms contains a non-function', () => {
+    const options = {
+      globDirectory: './',
+      manifestTransforms: ['not-a-function'],
+    } satisfies Omit<GetManifestOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
+    expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
+    expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
+      'getManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function.',
+    )
+  })
+
+  it('should fail if manifestTransforms is a function instead of an array', () => {
+    const options = {
+      globDirectory: './',
+      manifestTransforms: (manifest: any) => ({ manifest, warnings: [] }),
+    } satisfies Omit<GetManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
+    expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
+    expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
+      'getManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
   })
 
@@ -137,7 +184,7 @@ describe('injectManifestOptions Schema Validation', () => {
       swDest: 'sw-injected.js',
       globDirectory: './',
     } satisfies InjectManifestOptions
-    // @ts-expect-error - See comment at schema Type Inference Validation.
+    // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<InjectManifestOptionsSchemaType>()
     expect(() => validate(InjectManifestOptionsSchema, options, 'injectManifest')).not.toThrow()
   })
@@ -153,13 +200,41 @@ describe('injectManifestOptions Schema Validation', () => {
     )
   })
 
+  it('should fail if manifestTransforms contains a non-function', () => {
+    const options = {
+      swSrc: 'sw.js',
+      swDest: 'sw-injected.js',
+      globDirectory: './',
+      manifestTransforms: ['not-a-function'],
+    } satisfies Omit<InjectManifestOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
+    expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
+    expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
+      'injectManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function.',
+    )
+  })
+
+  it('should fail if manifestTransforms is a function instead of an array', () => {
+    const options = {
+      swSrc: 'sw.js',
+      swDest: 'sw-injected.js',
+      globDirectory: './',
+      manifestTransforms: (manifest: any) => ({ manifest, warnings: [] }),
+    } satisfies Omit<InjectManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
+    expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
+    expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
+      'injectManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
+    )
+  })
+
   it('should fail if swDest does not end with .js', () => {
     const options = {
       swSrc: 'sw.js',
       swDest: 'sw-injected.txt',
       globDirectory: './',
     } satisfies InjectManifestOptions
-    expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
+    // The shape is valid, but the content is not.
+    // @ts-expect-error - schema Type Inference Validation.
+    expectTypeOf<typeof options>().toMatchObjectType<InjectManifestOptionsSchemaType>()
     expect(() => validate(InjectManifestOptionsSchema, options, 'injectManifest')).toThrow(
       'injectManifest() options validation failed: \n- swDest must end with .js',
     )
@@ -173,7 +248,7 @@ describe('injectManifestOptions Schema Validation', () => {
       anotherUnknown: 'noop',
     } satisfies InjectManifestOptions & { anotherUnknown?: string }
     expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
-    expect(() => validate(InjectManifestOptionsSchema, options, 'injectManifest')).toThrow(
+    expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
       'injectManifest() options validation failed: \n- The option "anotherUnknown" is unknown or has been deprecated.',
     )
   })
