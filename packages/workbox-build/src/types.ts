@@ -486,45 +486,6 @@ export interface RequiredSWDestPartial {
   swDest: string
 }
 
-export interface WebpackGenerateSWPartial {
-  /**
-   * One or more names of webpack chunks. The content of those chunks will be
-   * included in the generated service worker, via a call to `importScripts()`.
-   */
-  importScriptsViaChunks?: Array<string>
-  /**
-   * The asset name of the service worker file created by this plugin.
-   * @default "service-worker.js"
-   */
-  swDest?: string
-}
-
-export interface WebpackInjectManifestPartial {
-  /**
-   * When `true` (the default), the `swSrc` file will be compiled by webpack.
-   * When `false`, compilation will not occur (and `webpackCompilationPlugins`
-   * can't be used.) Set to `false` if you want to inject the manifest into,
-   * e.g., a JSON file.
-   * @default true
-   */
-  compileSrc?: boolean
-  // This doesn't have a hardcoded default value; instead, the default will be
-  // set at runtime to the swSrc basename, with the hardcoded extension .js.
-  /**
-   * The asset name of the service worker file that will be created by this
-   * plugin. If omitted, the name will be based on the `swSrc` name.
-   */
-  swDest?: string
-  // This can only be set if compileSrc is true, but that restriction can't be
-  // represented in TypeScript. It's enforced via custom runtime validation
-  // logic and needs to be documented.
-  /**
-   * Optional `webpack` plugins that will be used when compiling the `swSrc`
-   * input file. Only valid if `compileSrc` is `true`.
-   */
-  webpackCompilationPlugins?: Array<any>
-}
-
 export type GenerateSWOptions = BasePartial
   & GlobPartial
   & GeneratePartial
@@ -540,16 +501,6 @@ export type InjectManifestOptions = BasePartial
   & InjectPartial
   & RequiredSWDestPartial
   & RequiredGlobDirectoryPartial
-
-export type WebpackGenerateSWOptions = BasePartial
-  & WebpackPartial
-  & GeneratePartial
-  & WebpackGenerateSWPartial
-
-export type WebpackInjectManifestOptions = BasePartial
-  & WebpackPartial
-  & InjectPartial
-  & WebpackInjectManifestPartial
 
 export interface GetManifestResult {
   count: number
