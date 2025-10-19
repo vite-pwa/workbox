@@ -80,7 +80,7 @@ describe('generateSWOptions Schema Validation', () => {
     } satisfies Omit<GenerateSWOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
     expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
     expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
-      'generateSW() options validation failed: \n- The "manifestTransforms" option must be an array of functions.',
+      'generateSW() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
   })
 
@@ -147,7 +147,7 @@ describe('generateSWOptions Schema Validation', () => {
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: string }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
       expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
-        'generateSW() options validation failed: \n- The "runtimeCaching" option must be an array of handlers.',
+        'generateSW() options validation failed: \n- The "runtimeCaching" option must be an array.',
       )
     })
 
@@ -161,7 +161,7 @@ describe('generateSWOptions Schema Validation', () => {
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp }[] }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
       expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
-        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. The required option "handler" is missing.',
+        'generateSW() options validation failed: \n- The required option "runtimeCaching.0.handler" is missing.',
       )
     })
 
@@ -176,7 +176,7 @@ describe('generateSWOptions Schema Validation', () => {
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: number }[] }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
       expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
-        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received 123.',
+        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Expected one of (string, function, object) but received number.',
       )
     })
 
@@ -191,7 +191,7 @@ describe('generateSWOptions Schema Validation', () => {
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: 'InvalidStrategy' }[] }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
       expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
-        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received "InvalidStrategy".',
+        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Expected one of (string, function, object) but received string.',
       )
     })
   })
@@ -233,7 +233,7 @@ describe('getManifestOptions Schema Validation', () => {
     } satisfies Omit<GetManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
     expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
     expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
-      'getManifest() options validation failed: \n- The "manifestTransforms" option must be an array of functions.',
+      'getManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
   })
 
@@ -294,7 +294,7 @@ describe('injectManifestOptions Schema Validation', () => {
     } satisfies Omit<InjectManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
     expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
     expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
-      'injectManifest() options validation failed: \n- The "manifestTransforms" option must be an array of functions.',
+      'injectManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
   })
 
