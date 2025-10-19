@@ -176,7 +176,7 @@ describe('generateSWOptions Schema Validation', () => {
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: number }[] }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
       expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
-        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Expected one of (string, function, object) but received number.',
+        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received 123.',
       )
     })
 
@@ -191,7 +191,7 @@ describe('generateSWOptions Schema Validation', () => {
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: 'InvalidStrategy' }[] }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
       expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
-        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Expected one of (string, function, object) but received string.',
+        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received "InvalidStrategy"',
       )
     })
   })

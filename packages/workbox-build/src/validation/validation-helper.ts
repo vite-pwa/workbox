@@ -44,7 +44,7 @@ function extractIssueMessage(issue: BaseIssue<any>) {
 
     if (topLevelKey === 'runtimeCaching') {
       if (issue.path?.some(p => p.key === 'handler'))
-        return `Invalid "handler" option in runtimeCaching[${index}]. Expected one of (string, function, object) but received ${typeof issue.input}.`
+        return `Invalid "handler" option in runtimeCaching[${index}]. ${issue.message}.`
       return `Invalid item at index ${index} in the "runtimeCaching" array.`
     }
   }
