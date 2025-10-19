@@ -44,7 +44,7 @@ export interface RouteMatchCallback {
 /**
  * Options passed to a `RouteHandlerCallback` function.
  */
-export declare interface RouteHandlerCallbackOptions {
+export interface RouteHandlerCallbackOptions {
   event: ExtendableEvent
   request: Request
   url: URL
@@ -249,7 +249,7 @@ export interface HandlerDidCompleteCallback {
  * An object with optional lifecycle callback properties for the fetch and
  * cache operations.
  */
-export declare interface WorkboxPlugin {
+export interface WorkboxPlugin {
   cacheDidUpdate?: CacheDidUpdateCallback
   cachedResponseWillBeUsed?: CachedResponseWillBeUsedCallback
   cacheKeyWillBeUsed?: CacheKeyWillBeUsedCallback

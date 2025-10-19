@@ -6,8 +6,6 @@
   https://opensource.org/licenses/MIT.
 */
 
-import { CacheableResponse } from './CacheableResponse'
-import { CacheableResponsePlugin } from './CacheableResponsePlugin'
-
+export { CacheableResponse } from './CacheableResponse'
 export type { CacheableResponseOptions } from './CacheableResponse'
-export { CacheableResponse, CacheableResponsePlugin }
+export { CacheableResponsePlugin } from './CacheableResponsePlugin'

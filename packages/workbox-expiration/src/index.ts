@@ -6,12 +6,6 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { ExpirationPluginOptions } from './ExpirationPlugin'
-import { CacheExpiration } from './CacheExpiration'
-import { ExpirationPlugin } from './ExpirationPlugin'
-
-/**
- * @module workbox-expiration
- */
-
-export { CacheExpiration, ExpirationPlugin, ExpirationPluginOptions }
+export { CacheExpiration } from './CacheExpiration'
+export type { ExpirationPluginOptions } from './ExpirationPlugin'
+export { ExpirationPlugin } from './ExpirationPlugin'

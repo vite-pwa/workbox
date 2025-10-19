@@ -25,6 +25,9 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.js",
+    "./types": {
+      "types": "./dist/types.d.ts"
+    },
     "./internals": "./dist/internals.js"
   },
   "main": "dist/index.js",
@@ -32,6 +35,7 @@
   "types": "dist/index.d.ts",
   "typesVersions": {
     "*": {
+      "types": ["dist/types.d.ts"],
       "internals": ["dist/internals.d.ts"]
     }
   },

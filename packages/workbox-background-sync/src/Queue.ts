@@ -15,11 +15,11 @@ import { StorableRequest } from './lib/StorableRequest'
 // Give TypeScript the correct global.
 declare let self: ServiceWorkerGlobalScope
 
-interface OnSyncCallbackOptions {
+export interface OnSyncCallbackOptions {
   queue: Queue
 }
 
-interface OnSyncCallback {
+export interface OnSyncCallback {
   (options: OnSyncCallbackOptions): void | Promise<void>
 }
 
@@ -29,7 +29,7 @@ export interface QueueOptions {
   onSync?: OnSyncCallback
 }
 
-interface QueueEntry {
+export interface QueueEntry {
   request: Request
   timestamp?: number
   // We could use Record<string, unknown> as a type but that would be a breaking

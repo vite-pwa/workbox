@@ -1,8 +1,8 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  entry: './src/{index,types,internals}.ts',
-  platform: 'browser',
+  entry: './src/{index,types,generate-sw,inject-manifest}.ts',
+  platform: 'node',
   banner: `/*
   Copyright 2019 Google LLC, Vite PWA's Team
 
@@ -10,7 +10,4 @@ export default defineConfig({
   license that can be found in the LICENSE file or at
   https://opensource.org/licenses/MIT.
 */`,
-  define: {
-    'process.env.NODE_ENV': 'process.env.NODE_ENV',
-  },
 })

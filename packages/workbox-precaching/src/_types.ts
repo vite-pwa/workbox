@@ -15,7 +15,7 @@ export interface CleanupResult {
   deletedCacheRequests: string[]
 }
 
-export declare interface PrecacheEntry {
+export interface PrecacheEntry {
   integrity?: string
   url: string
   revision?: string | null

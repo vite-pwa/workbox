@@ -1,8 +1,8 @@
 {
-  "name": "@vite-pwa/workbox-background-sync",
+  "name": "@vite-pwa/workbox-build",
   "type": "module",
   "version": "0.0.0",
-  "description": "Queues failed requests and uses the Background Sync API to replay them when the network is available",
+  "description": "A module that integrates into your build process, helping you generate a manifest of local files that workbox-sw should precache.",
   "author": "Google's Web DevRel Team, Vite PWA's Team",
   "contributors": [
     "userquin <userquin@gmail.com>"
@@ -13,31 +13,35 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vite-pwa/workbox.git",
-    "directory": "packages/workbox-background-sync"
+    "directory": "packages/workbox-build"
   },
   "bugs": "https://github.com/vite-pwa/workbox/issues",
   "keywords": [
     "workbox",
     "workboxjs",
     "service worker",
-    "sw",
-    "background",
-    "sync",
-    "workbox-plugin"
+    "caching",
+    "fetch requests",
+    "offline",
+    "file manifest"
   ],
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.js",
     "./types": {
       "types": "./dist/types.d.ts"
-    }
+    },
+    "./generate-sw": "./dist/generate-sw.js",
+    "./inject-manifest": "./dist/inject-manifest.js"
   },
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "typesVersions": {
     "*": {
-      "types": ["dist/types.d.ts"]
+      "types": ["dist/types.d.ts"],
+      "generate-sw": ["dist/generate-sw.d.ts"],
+      "inject-manifest": ["dist/inject-manifest.d.ts"]
     }
   },
   "files": [
@@ -48,7 +52,15 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
+    "@vite-pwa/workbox-background-sync": "workspace:*",
+    "@vite-pwa/workbox-broadcast-update": "workspace:*",
+    "@vite-pwa/workbox-cacheable-response": "workspace:*",
     "@vite-pwa/workbox-core": "workspace:*",
-    "idb": "catalog:utils"
+    "@vite-pwa/workbox-expiration": "workspace:*",
+    "@vite-pwa/workbox-routing": "workspace:*",
+    "magicast": "catalog:utils",
+    "pathe": "catalog:utils",
+    "pkg-types": "catalog:utils",
+    "valibot": "catalog:utils"
   }
 }

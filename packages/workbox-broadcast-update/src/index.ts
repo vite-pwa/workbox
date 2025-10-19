@@ -6,16 +6,7 @@
   https://opensource.org/licenses/MIT.
 */
 
-import {
-  BroadcastCacheUpdate,
-  BroadcastCacheUpdateOptions,
-} from './BroadcastCacheUpdate'
-import { BroadcastUpdatePlugin } from './BroadcastUpdatePlugin'
-import { responsesAreSame } from './responsesAreSame'
-
-export {
-  BroadcastCacheUpdate,
-  BroadcastCacheUpdateOptions,
-  BroadcastUpdatePlugin,
-  responsesAreSame,
-}
+export type { BroadcastCacheUpdateOptions } from './BroadcastCacheUpdate'
+export { BroadcastCacheUpdate } from './BroadcastCacheUpdate'
+export { BroadcastUpdatePlugin } from './BroadcastUpdatePlugin'
+export { responsesAreSame } from './responsesAreSame'

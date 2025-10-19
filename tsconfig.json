@@ -6,22 +6,40 @@
     "moduleResolution": "Bundler",
     "paths": {
       "@vite-pwa/workbox-background-sync": [
-        "./packages/workbox-background-sync/src/"
+        "./packages/workbox-background-sync/src/index.ts"
+      ],
+      "@vite-pwa/workbox-background-sync/*": [
+        "./packages/workbox-background-sync/src/*.ts"
       ],
       "@vite-pwa/workbox-broadcast-update": [
-        "./packages/workbox-broadcast-update/src/"
+        "./packages/workbox-broadcast-update/src/index.ts"
+      ],
+      "@vite-pwa/workbox-broadcast-update/*": [
+        "./packages/workbox-broadcast-update/src/*.ts"
+      ],
+      "@vite-pwa/workbox-build": [
+        "./packages/workbox-build/src/index.ts"
+      ],
+      "@vite-pwa/workbox-build/*": [
+        "./packages/workbox-build/src/*.ts"
       ],
       "@vite-pwa/workbox-cacheable-response": [
-        "./packages/workbox-cacheable-response/src/"
+        "./packages/workbox-cacheable-response/src/index.ts"
+      ],
+      "@vite-pwa/workbox-cacheable-response/*": [
+        "./packages/workbox-cacheable-response/src/*.ts"
       ],
       "@vite-pwa/workbox-core": [
-        "./packages/workbox-core/src/"
+        "./packages/workbox-core/src/index.ts"
       ],
-      "@vite-pwa/workbox-core/internals": [
-        "./packages/workbox-core/src/internals.ts"
+      "@vite-pwa/workbox-core/*": [
+        "./packages/workbox-core/src/*.ts"
       ],
       "@vite-pwa/workbox-expiration": [
-        "./packages/workbox-expiration/src/"
+        "./packages/workbox-expiration/src/index.ts"
+      ],
+      "@vite-pwa/workbox-expiration/*": [
+        "./packages/workbox-expiration/src/*.index"
       ],
       "@vite-pwa/workbox-navigation-preload": [
         "./packages/workbox-navigation-preload/src/"
@@ -36,7 +54,10 @@
         "./packages/workbox-recipes/src/"
       ],
       "@vite-pwa/workbox-routing": [
-        "./packages/workbox-routing/src/"
+        "./packages/workbox-routing/src/index.ts"
+      ],
+      "@vite-pwa/workbox-routing/*": [
+        "./packages/workbox-routing/src/*.ts"
       ],
       "@vite-pwa/workbox-strategies": [
         "./packages/workbox-strategies/src/"
@@ -53,7 +74,8 @@
     },
     "resolveJsonModule": true,
     "types": [
-      "node"
+      "node",
+      "vitest/globals"
     ],
     "strict": true,
     "strictNullChecks": true,

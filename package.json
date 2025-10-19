@@ -24,6 +24,8 @@
     "build": "pnpm -r --filter=./packages/* run build",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "update-deps": "taze minor -wIr",
     "release": "bumpp -r --excute=\"pnpm i\""
   },
@@ -34,12 +36,14 @@
     "@types/node": "catalog:types",
     "@types/trusted-types": "catalog:types",
     "@typescript-eslint/utils": "catalog:typescript",
+    "@vitest/ui": "catalog:testing",
     "bumpp": "catalog:build",
     "eslint": "catalog:eslint",
     "eslint-plugin-antfu": "catalog:eslint",
     "taze": "catalog:utils",
     "tsdown": "catalog:build",
-    "typescript": "catalog:typescript"
+    "typescript": "catalog:typescript",
+    "vitest": "catalog:testing"
   },
   "resolutions": {
     "@typescript-eslint/utils": "catalog:typescript"

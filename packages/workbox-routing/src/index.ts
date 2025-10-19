@@ -6,26 +6,11 @@
   https://opensource.org/licenses/MIT.
 */
 
-import type { NavigationRouteMatchOptions } from './NavigationRoute'
-import { NavigationRoute } from './NavigationRoute'
-import { RegExpRoute } from './RegExpRoute'
-import { registerRoute } from './registerRoute'
-import { Route } from './Route'
-import { Router } from './Router'
-import { setCatchHandler } from './setCatchHandler'
-import { setDefaultHandler } from './setDefaultHandler'
-
-/**
- * @module workbox-routing
- */
-
-export {
-  NavigationRoute,
-  NavigationRouteMatchOptions,
-  RegExpRoute,
-  registerRoute,
-  Route,
-  Router,
-  setCatchHandler,
-  setDefaultHandler,
-}
+export type { NavigationRouteMatchOptions } from './NavigationRoute'
+export { NavigationRoute } from './NavigationRoute'
+export { RegExpRoute } from './RegExpRoute'
+export { registerRoute } from './registerRoute'
+export { Route } from './Route'
+export { Router } from './Router'
+export { setCatchHandler } from './setCatchHandler'
+export { setDefaultHandler } from './setDefaultHandler'
