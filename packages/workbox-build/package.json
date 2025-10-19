@@ -41,6 +41,7 @@
     "*": {
       "types": ["dist/types.d.ts"],
       "generate-sw": ["dist/generate-sw.d.ts"],
+      "get-manifest": ["dist/get-manifest.d.ts"],
       "inject-manifest": ["dist/inject-manifest.d.ts"]
     }
   },

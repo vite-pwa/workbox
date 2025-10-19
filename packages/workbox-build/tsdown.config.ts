@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  entry: './src/{index,types,generate-sw,inject-manifest}.ts',
+  entry: './src/{index,types,generate-sw,get-manifest,inject-manifest}.ts',
   platform: 'node',
   banner: `/*
   Copyright 2019 Google LLC, Vite PWA's Team
