@@ -17,6 +17,7 @@ function getTopLevelKey(path: IssuePathItem[] | undefined): string | undefined {
 function extractIssueMessage(issue: BaseIssue<any>) {
   const path = getDotPath(issue)
   const topLevelKey = getTopLevelKey(issue.path)
+  const lastKey = issue.path?.[issue.path.length - 1]?.key
 
   // Priority 1: Custom messages from pipes (e.g., endsWith).
   // These are the most specific and should always be shown.
@@ -43,9 +44,28 @@ function extractIssueMessage(issue: BaseIssue<any>) {
       return `Each item in the "manifestTransforms" array must be a function (error at index ${index}).`
 
     if (topLevelKey === 'runtimeCaching') {
-      if (issue.path?.some(p => p.key === 'handler'))
-        return `Invalid "handler" option in runtimeCaching[${index}]. ${issue.message}.`
-      return `Invalid item at index ${index} in the "runtimeCaching" array.`
+      // This error happens when the value is not an array (e.g., a function)
+      if (issue.expected?.includes('Array')) {
+        return 'The "runtimeCaching" option must be an array of handlers.'
+      }
+
+      const index = issue.path?.find(p => p.type === 'array')?.key
+
+      if (lastKey === 'handler') {
+        if (issue.type === 'union') {
+          if (issue.input === 'InvalidStrategy') {
+            return `Invalid "handler" option in runtimeCaching[${index}]. ${issue.message}.`
+          }
+          return `Invalid "handler" option in runtimeCaching[${index}]. ${issue.message}.`
+        }
+        if (issue.type === 'object') {
+          return `Invalid "handler" option in runtimeCaching[${index}]. The required option "handler" is missing.`
+        }
+      }
+
+      // This is the catch-all for any other error inside a runtimeCaching item.
+      // It handles cases where an item is not an object, or is missing urlPattern, etc.
+      return `Invalid item at index ${index} in the "runtimeCaching" array. ${issue.message}.`
     }
   }
 
