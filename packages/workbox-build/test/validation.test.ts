@@ -68,7 +68,7 @@ describe('generateSWOptions Schema Validation', () => {
     } satisfies Omit<GenerateSWOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
     expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
     expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
-      'generateSW() options validation failed: \n- Each item in the "manifestTransforms" array must be a function.',
+      'generateSW() options validation failed: \n- Each item in the "manifestTransforms" array must be a function (error at index 0).',
     )
   })
 
@@ -80,7 +80,7 @@ describe('generateSWOptions Schema Validation', () => {
     } satisfies Omit<GenerateSWOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
     expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
     expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
-      'generateSW() options validation failed: \n- The "manifestTransforms" option must be an array.',
+      'generateSW() options validation failed: \n- The "manifestTransforms" option must be an array of functions.',
     )
   })
 
@@ -123,6 +123,78 @@ describe('generateSWOptions Schema Validation', () => {
       'generateSW() options validation failed: \n- swDest must end with .js',
     )
   })
+
+  describe('runtimeCaching validation', () => {
+    it('should pass with a valid runtimeCaching entry', () => {
+      const options = {
+        swDest: 'sw.js',
+        globDirectory: './',
+        runtimeCaching: [{
+          urlPattern: /.*/,
+          handler: 'NetworkFirst',
+        }],
+      } satisfies GenerateSWOptions
+      // @ts-expect-error - schema Type Inference Validation.
+      expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
+      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).not.toThrow()
+    })
+
+    it('should fail if runtimeCaching is not an array (string)', () => {
+      const options = {
+        swDest: 'sw.js',
+        globDirectory: './',
+        runtimeCaching: 'a-string-not-an-array',
+      } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: string }
+      expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
+        'generateSW() options validation failed: \n- The "runtimeCaching" option must be an array of handlers.',
+      )
+    })
+
+    it('should fail if a runtimeCaching entry is missing a handler', () => {
+      const options = {
+        swDest: 'sw.js',
+        globDirectory: './',
+        runtimeCaching: [{
+          urlPattern: /.*/,
+        }],
+      } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp }[] }
+      expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
+        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. The required option "handler" is missing.',
+      )
+    })
+
+    it('should fail if a runtimeCaching entry has an invalid handler type', () => {
+      const options = {
+        swDest: 'sw.js',
+        globDirectory: './',
+        runtimeCaching: [{
+          urlPattern: /.*/,
+          handler: 123,
+        }],
+      } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: number }[] }
+      expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
+        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received 123.',
+      )
+    })
+
+    it('should fail if a runtimeCaching entry has an invalid handler string value', () => {
+      const options = {
+        swDest: 'sw.js',
+        globDirectory: './',
+        runtimeCaching: [{
+          urlPattern: /.*/,
+          handler: 'InvalidStrategy',
+        }],
+      } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: 'InvalidStrategy' }[] }
+      expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
+        'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received "InvalidStrategy".',
+      )
+    })
+  })
 })
 
 describe('getManifestOptions Schema Validation', () => {
@@ -150,7 +222,7 @@ describe('getManifestOptions Schema Validation', () => {
     } satisfies Omit<GetManifestOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
     expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
     expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
-      'getManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function.',
+      'getManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function (error at index 0).',
     )
   })
 
@@ -161,7 +233,7 @@ describe('getManifestOptions Schema Validation', () => {
     } satisfies Omit<GetManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
     expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
     expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
-      'getManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
+      'getManifest() options validation failed: \n- The "manifestTransforms" option must be an array of functions.',
     )
   })
 
@@ -209,7 +281,7 @@ describe('injectManifestOptions Schema Validation', () => {
     } satisfies Omit<InjectManifestOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
     expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
     expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
-      'injectManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function.',
+      'injectManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function (error at index 0).',
     )
   })
 
@@ -222,7 +294,7 @@ describe('injectManifestOptions Schema Validation', () => {
     } satisfies Omit<InjectManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
     expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
     expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
-      'injectManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
+      'injectManifest() options validation failed: \n- The "manifestTransforms" option must be an array of functions.',
     )
   })
 

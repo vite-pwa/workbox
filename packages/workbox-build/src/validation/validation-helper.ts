@@ -19,7 +19,8 @@ function extractIssueMessage(issue: BaseIssue<any>) {
   const lastKey = issue.path?.[issue.path.length - 1]?.key
 
   // Case 1: Missing required key. The `key` is on the last path item.
-  if (issue.received === 'undefined') {
+  // We exclude array-based options here to let their specific handlers take over.
+  if (issue.received === 'undefined' && topLevelKey !== 'runtimeCaching' && topLevelKey !== 'manifestTransforms') {
     return `The required option "${lastKey}" is missing.`
   }
 
@@ -34,11 +35,27 @@ function extractIssueMessage(issue: BaseIssue<any>) {
     if (issue.expected?.includes('Array')) {
       return 'The "manifestTransforms" option must be an array of functions.'
     }
-    // This error happens for items within the array
-    return 'Each item in the "manifestTransforms" array must be a function.'
+    const index = issue.path?.find(p => p.type === 'array')?.key
+    return `Each item in the "manifestTransforms" array must be a function (error at index ${index}).`
   }
 
-  // Case 3.5: Specific, human-friendly message for swDest endsWith pipe
+  // Case 3.2: Specific, human-friendly message for runtimeCaching
+  if (topLevelKey === 'runtimeCaching') {
+    // This error happens when the value is not an array (e.g., a function)
+    if (issue.expected?.includes('Array')) {
+      return 'The "runtimeCaching" option must be an array of handlers.'
+    }
+    if (lastKey === 'handler') {
+      if (issue.type === 'union') {
+        return `Invalid "handler" option in runtimeCaching[${issue.path?.[1]?.key}]. ${issue.message}.`
+      }
+      if (issue.type === 'object') {
+        return `Invalid "handler" option in runtimeCaching[${issue.path?.[1]?.key}]. The required option "handler" is missing.`
+      }
+    }
+  }
+
+  // Case 3.3: Specific, human-friendly message for swDest endsWith pipe
   if (topLevelKey === 'swDest' && issue.requirement === '.js') {
     return issue.message
   }
