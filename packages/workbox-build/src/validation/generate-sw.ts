@@ -1,4 +1,5 @@
 import * as v from 'valibot'
+import { errors } from './errors'
 
 // Reused schema
 const CacheQueryOptionsSchema = v.object({
@@ -6,8 +7,6 @@ const CacheQueryOptionsSchema = v.object({
   ignoreSearch: v.optional(v.boolean()),
   ignoreVary: v.optional(v.boolean()),
 })
-
-export type GenerateSWOptionsSchemaType = v.InferInput<typeof GenerateSWOptionsSchema>
 
 export const GenerateSWOptionsSchema = v.pipe(
   v.strictObject({
@@ -252,15 +251,31 @@ export const GenerateSWOptionsSchema = v.pipe(
     /**
      * The path and filename of the service worker file that will be created by the build process, relative to the current working directory. It must end in '.js'.
      */
-    swDest: v.pipe(v.string(), v.endsWith('.js', 'swDest must end with .js')),
+    swDest: v.pipe(
+      v.string(errors['missing-sw-dest']),
+      v.endsWith('.js', errors['invalid-sw-dest-js-ext']),
+    ),
     /**
      * The local directory you wish to match `globPatterns` against. The path is
      * relative to the current directory.
      */
     globDirectory: v.optional(v.string()),
   }),
-  v.check(
-    input => !!input.runtimeCaching || (typeof input.globDirectory === 'string'),
-    'globDirectory is required when runtimeCaching is not provided',
+  // This is the cross-field validation rule.
+  v.forward(
+    v.check(
+      input => !!input.runtimeCaching || (typeof input.globDirectory === 'string'),
+      errors['no-manifest-entries-or-runtime-caching'],
+    ),
+    // If the check fails, assign the error to the 'globDirectory' field.
+    ['globDirectory'],
+  ),
+  // This is the cross-field validation rule for navigationPreload.
+  v.forward(
+    v.check(
+      input => !input.navigationPreload || (Array.isArray(input.runtimeCaching) && input.runtimeCaching.length > 0),
+      errors['nav-preload-runtime-caching'],
+    ),
+    ['navigationPreload'],
   ),
 )

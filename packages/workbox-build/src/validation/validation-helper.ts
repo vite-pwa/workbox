@@ -25,8 +25,9 @@ function extractIssueMessage(issue: BaseIssue<any>) {
     return issue.message
 
   // Priority 2: Missing required key.
-  if (issue.kind === 'schema' && issue.received === 'undefined')
-    return `The required option "${path}" is missing.`
+  if (issue.kind === 'schema' && issue.received === 'undefined') {
+    return `The option "${path}" is required.`
+  }
 
   // Priority 3: Unknown key in strict object.
   if (issue.type === 'strict_object')
@@ -78,6 +79,44 @@ function extractIssueMessage(issue: BaseIssue<any>) {
   return issue.message
 }
 
+// This function intelligently sanitizes the options object from magicast.
+// It creates a plain object but preserves special types like RegExp
+// by checking the `$type` property provided by magicast.
+function sanitizeMagicastOptions(options: any): any {
+  if (options === null || typeof options !== 'object') {
+    return options
+  }
+
+  // If magicast has tagged the type, reconstruct it.
+  if (options.$type === 'RegExp' || options.$ast?.type === 'RegExpLiteral') {
+    return new RegExp(options.source, options.flags)
+  }
+
+  // A proxified array is an object with `$type: 'array'`
+  if (options.$type === 'array') {
+    // We can't just use Array.from(options) because it's not a real iterable.
+    // We need to manually reconstruct the array from its numeric keys.
+    const sanitizedArray: any[] = []
+    let i = 0
+    while (i in options) {
+      sanitizedArray.push(sanitizeMagicastOptions(options[i]))
+      i++
+    }
+    return sanitizedArray
+  }
+
+  // For regular objects (or proxies of objects)
+  const sanitized: { [key: string]: any } = {}
+  for (const key in options) {
+    // Copy own properties, but ignore magicast's internal metadata.
+    if (Object.prototype.hasOwnProperty.call(options, key) && !key.startsWith('$')) {
+      sanitized[key] = sanitizeMagicastOptions(options[key])
+    }
+  }
+
+  return sanitized
+}
+
 /**
  * A wrapper around Valibot's `safeParse` that throws a user-friendly error
  * if validation fails.
@@ -90,7 +129,7 @@ export function validate<TSchema extends BaseSchema<any, any, any>>(
   options: unknown,
   methodName: string,
 ): void {
-  const result = safeParse(schema, options)
+  const result = safeParse(schema, '$ast' in (options as any) ? sanitizeMagicastOptions(options) : options)
   if (!result.success) {
     const errorMessages = result.issues.map(extractIssueMessage)
     throw new Error(

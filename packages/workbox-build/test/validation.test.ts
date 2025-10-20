@@ -1,7 +1,7 @@
 import type * as v from 'valibot'
 import type { GenerateSWOptions, GetManifestOptions, InjectManifestOptions } from '../src/types'
 import { describe, expect, expectTypeOf, it } from 'vitest'
-
+import { errors } from '../src/validation/errors'
 import { GenerateSWOptionsSchema } from '../src/validation/generate-sw'
 import { GetManifestOptionsSchema } from '../src/validation/get-manifest'
 import { InjectManifestOptionsSchema } from '../src/validation/inject-manifest'
@@ -41,7 +41,7 @@ describe('generateSWOptions Schema Validation', () => {
     } satisfies Partial<GenerateSWOptions>
     expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
     expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
-      'generateSW() options validation failed: \n- The required option "swDest" is missing.',
+      `generateSW() options validation failed: \n- The option "swDest" is required.`,
     )
   })
 
@@ -90,7 +90,7 @@ describe('generateSWOptions Schema Validation', () => {
       runtimeCaching: [
         {
           urlPattern: /.*/,
-          handler: 'NetworkFirst' as const,
+          handler: 'NetworkFirst',
         },
       ],
     } satisfies GenerateSWOptions
@@ -120,7 +120,7 @@ describe('generateSWOptions Schema Validation', () => {
     // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
     expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
-      'generateSW() options validation failed: \n- swDest must end with .js',
+      `generateSW() options validation failed: \n- ${errors['invalid-sw-dest-js-ext']}`,
     )
   })
 
@@ -161,7 +161,7 @@ describe('generateSWOptions Schema Validation', () => {
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp }[] }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
       expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
-        'generateSW() options validation failed: \n- The required option "runtimeCaching.0.handler" is missing.',
+        'generateSW() options validation failed: \n- The option "runtimeCaching.0.handler" is required.',
       )
     })
 
@@ -211,7 +211,7 @@ describe('getManifestOptions Schema Validation', () => {
     const options = {} satisfies Partial<GetManifestOptions>
     expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
     expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
-      'getManifest() options validation failed: \n- The required option "globDirectory" is missing.',
+      'getManifest() options validation failed: \n- The option "globDirectory" is required.',
     )
   })
 
@@ -268,7 +268,7 @@ describe('injectManifestOptions Schema Validation', () => {
     } satisfies Partial<InjectManifestOptions>
     expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
     expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
-      'injectManifest() options validation failed: \n- The required option "swSrc" is missing.',
+      'injectManifest() options validation failed: \n- The option "swSrc" is required.',
     )
   })
 
@@ -308,7 +308,7 @@ describe('injectManifestOptions Schema Validation', () => {
     // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<InjectManifestOptionsSchemaType>()
     expect(() => validate(InjectManifestOptionsSchema, options, 'injectManifest')).toThrow(
-      'injectManifest() options validation failed: \n- swDest must end with .js',
+      `injectManifest() options validation failed: \n- ${errors['invalid-sw-dest-js-ext']}`,
     )
   })
 

@@ -27,6 +27,7 @@ catalogs:
     magicast: ^0.3.5
     pathe: ^2.0.3
     pkg-types: ^2.3.0
+    proper-tags: ^2.0.2
     taze: ^19.7.0
     valibot: ^1.1.0
 

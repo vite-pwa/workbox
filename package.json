@@ -25,6 +25,7 @@
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
     "test": "vitest",
+    "test:run": "vitest run",
     "test:ui": "vitest --ui",
     "update-deps": "taze minor -wIr",
     "release": "bumpp -r --excute=\"pnpm i\""
@@ -42,6 +43,7 @@
     "eslint-plugin-antfu": "catalog:eslint",
     "taze": "catalog:utils",
     "tsdown": "catalog:build",
+    "tsx": "^4.20.6",
     "typescript": "catalog:typescript",
     "vitest": "catalog:testing"
   },
