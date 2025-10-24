@@ -6,7 +6,7 @@ autoInstallPeers: true
 catalogs:
   build:
     bumpp: ^10.3.1
-    tsdown: ^0.15.7
+    tsdown: https://pkg.pr.new/tsdown@c4f9764
   eslint:
     '@antfu/eslint-config': ^6.0.0
     eslint: ^9.37.0

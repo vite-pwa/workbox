@@ -1,13 +1,12 @@
-/*
-  Copyright 2018 Google LLC, Vite PWA's Team
-
-  Use of this source code is governed by an MIT-style
-  license that can be found in the LICENSE file or at
-  https://opensource.org/licenses/MIT.
-*/
-
-import { WorkboxSw } from './workbox-sw'
-
-// Don't export anything, just expose a global.
-// eslint-disable-next-line no-restricted-globals
-self.workbox = new WorkboxSw()
+export * from './background-sync/index'
+export * from './broadcast-update/index'
+export * from './cacheable-response/index'
+export * from './core/index'
+export * from './expiration/index'
+export * from './precaching/index'
+export * from './range-requests/index'
+export * from './recipes/index'
+export * from './routing/index'
+export * from './strategies/index'
+export * from './streams/index'
+export * from './sw/index'

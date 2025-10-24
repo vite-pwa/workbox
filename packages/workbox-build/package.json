@@ -55,12 +55,8 @@
     "tsx:test": "tsx ./src/generate-sw.ts"
   },
   "dependencies": {
-    "@vite-pwa/workbox-background-sync": "workspace:*",
-    "@vite-pwa/workbox-broadcast-update": "workspace:*",
-    "@vite-pwa/workbox-cacheable-response": "workspace:*",
-    "@vite-pwa/workbox-core": "workspace:*",
-    "@vite-pwa/workbox-expiration": "workspace:*",
-    "@vite-pwa/workbox-routing": "workspace:*",
+    "@vite-pwa/workbox-sw": "workspace:*",
+    "@vite-pwa/workbox-window": "workspace:*",
     "magicast": "file:magicast-0.3.5.tgz",
     "pathe": "catalog:utils",
     "pkg-types": "catalog:utils",

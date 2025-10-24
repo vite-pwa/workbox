@@ -21,7 +21,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "build": "pnpm -r --filter=./packages/* run build",
+    "build": "pnpm -r --filter \"./packages/*\" run build",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
     "test": "vitest",
