@@ -122,6 +122,29 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.18.10)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
 
+  packages/sw-tooltkit: {}
+
+  packages/toolkit:
+    dependencies:
+      magicast:
+        specifier: file:magicast-0.3.5.tgz
+        version: file:packages/toolkit/magicast-0.3.5.tgz
+      pathe:
+        specifier: catalog:utils
+        version: 2.0.3
+      pkg-types:
+        specifier: catalog:utils
+        version: 2.3.0
+      proper-tags:
+        specifier: catalog:utils
+        version: 2.0.2
+      recast:
+        specifier: catalog:utils
+        version: 0.23.11
+      valibot:
+        specifier: catalog:utils
+        version: 1.1.0(typescript@5.9.3)
+
   packages/workbox-background-sync:
     dependencies:
       '@vite-pwa/workbox-core':
@@ -1815,6 +1838,10 @@ packages:
 
   magicast@0.3.5:
     resolution: {integrity: sha512-L0WhttDl+2BOsybvEOLK7fW3UA0OQ0IQ2d6Zl2x/a6vVRs3bAY0ECOSHHeL5jD+SbOpOCUEi0y1DgHEn9Qn1AQ==}
+
+  magicast@file:packages/toolkit/magicast-0.3.5.tgz:
+    resolution: {integrity: sha512-z7mBYVtGx5aFIFqOa6lBYuyKJqYUsvS85uB8zMDcBIZTtN3j7xlYh67g2WmHTZJbFX8i74T2t9g4KcZF9U5XGA==, tarball: file:packages/toolkit/magicast-0.3.5.tgz}
+    version: 0.3.5
 
   magicast@file:packages/workbox-build/magicast-0.3.5.tgz:
     resolution: {integrity: sha512-z7mBYVtGx5aFIFqOa6lBYuyKJqYUsvS85uB8zMDcBIZTtN3j7xlYh67g2WmHTZJbFX8i74T2t9g4KcZF9U5XGA==, tarball: file:packages/workbox-build/magicast-0.3.5.tgz}
@@ -4114,6 +4141,12 @@ snapshots:
       '@babel/types': 7.28.4
       source-map-js: 1.2.1
     optional: true
+
+  magicast@file:packages/toolkit/magicast-0.3.5.tgz:
+    dependencies:
+      '@babel/parser': 7.28.4
+      '@babel/types': 7.28.4
+      source-map-js: 1.2.1
 
   magicast@file:packages/workbox-build/magicast-0.3.5.tgz:
     dependencies:
