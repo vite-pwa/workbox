@@ -51,7 +51,8 @@
   "scripts": {
     "build": "tsdown",
     "prepublishOnly": "pnpm run build",
-    "node:test": "node ./dist/generate-sw.js"
+    "node:test": "node ./dist/generate-sw.js",
+    "tsx:test": "tsx ./src/generate-sw.ts"
   },
   "dependencies": {
     "@vite-pwa/workbox-background-sync": "workspace:*",
@@ -60,10 +61,11 @@
     "@vite-pwa/workbox-core": "workspace:*",
     "@vite-pwa/workbox-expiration": "workspace:*",
     "@vite-pwa/workbox-routing": "workspace:*",
-    "magicast": "catalog:utils",
+    "magicast": "file:magicast-0.3.5.tgz",
     "pathe": "catalog:utils",
     "pkg-types": "catalog:utils",
     "proper-tags": "catalog:utils",
+    "recast": "catalog:utils",
     "valibot": "catalog:utils"
   }
 }

@@ -1,5 +1,6 @@
-import type { BaseIssue, BaseSchema, IssuePathItem } from 'valibot'
-import { getDotPath, safeParse } from 'valibot'
+// import type { ArrayExpression, Program } from '@babel/types'
+import type { BaseIssue, BaseSchema, BaseSchemaAsync, InferOutput, IssuePathItem } from 'valibot'
+import { getDotPath, safeParse, safeParseAsync } from 'valibot'
 
 // This helper function traverses the issue's path to find the top-level object key
 // that contains the error. This is crucial for errors nested inside arrays.
@@ -15,14 +16,21 @@ function getTopLevelKey(path: IssuePathItem[] | undefined): string | undefined {
 // see [Path Key not Available in safeParse](https://github.com/fabian-hiller/valibot/discussions/696).
 // custom Valibot's message mapping
 function extractIssueMessage(issue: BaseIssue<any>) {
+  console.log(issue)
   const path = getDotPath(issue)
   const topLevelKey = getTopLevelKey(issue.path)
   const lastKey = issue.path?.[issue.path.length - 1]?.key
 
   // Priority 1: Custom messages from pipes (e.g., endsWith).
   // These are the most specific and should always be shown.
-  if (issue.type === 'custom')
+  if (issue.type === 'custom') {
+    // handle NumericExpressionSchema from utils.ts
+    if (issue.message === 'invalid-number-entry-or-expression') {
+      return `The option "${path}" must be a number or a valid numeric expression (e.g., 60 * 60).`
+    }
+
     return issue.message
+  }
 
   // Priority 2: Missing required key.
   if (issue.kind === 'schema' && issue.received === 'undefined') {
@@ -80,38 +88,37 @@ function extractIssueMessage(issue: BaseIssue<any>) {
 }
 
 // This function intelligently sanitizes the options object from magicast.
-// It creates a plain object but preserves special types like RegExp
-// by checking the `$type` property provided by magicast.
 function sanitizeMagicastOptions(options: any): any {
-  if (options === null || typeof options !== 'object') {
+  if (options === null || typeof options !== 'object')
+    return options
+
+  // Gracias a tu parche, podemos detectar los tipos directamente.
+  if (options instanceof RegExp || typeof options === 'function') {
     return options
   }
 
-  // If magicast has tagged the type, reconstruct it.
-  if (options.$type === 'RegExp' || options.$ast?.type === 'RegExpLiteral') {
-    return new RegExp(options.source, options.flags)
-  }
-
-  // A proxified array is an object with `$type: 'array'`
-  if (options.$type === 'array') {
-    // We can't just use Array.from(options) because it's not a real iterable.
-    // We need to manually reconstruct the array from its numeric keys.
+  if (Array.isArray(options)) {
+    console.log('PASO')
     const sanitizedArray: any[] = []
-    let i = 0
-    while (i in options) {
-      sanitizedArray.push(sanitizeMagicastOptions(options[i]))
-      i++
+    for (const option of options) {
+      sanitizedArray.push(sanitizeMagicastOptions(option))
     }
     return sanitizedArray
+    // return options.map(sanitizeMagicastOptions)
   }
 
-  // For regular objects (or proxies of objects)
+  /* if (options.$type === 'array') {
+    const sanitizedArray: any[] = []
+    for (const option of options) {
+      sanitizedArray.push(sanitizeMagicastOptions(option))
+    }
+    return sanitizedArray
+  } */
+
   const sanitized: { [key: string]: any } = {}
   for (const key in options) {
-    // Copy own properties, but ignore magicast's internal metadata.
-    if (Object.prototype.hasOwnProperty.call(options, key) && !key.startsWith('$')) {
+    if (Object.prototype.hasOwnProperty.call(options, key) && !key.startsWith('$'))
       sanitized[key] = sanitizeMagicastOptions(options[key])
-    }
   }
 
   return sanitized
@@ -128,12 +135,47 @@ export function validate<TSchema extends BaseSchema<any, any, any>>(
   schema: TSchema,
   options: unknown,
   methodName: string,
-): void {
-  const result = safeParse(schema, '$ast' in (options as any) ? sanitizeMagicastOptions(options) : options)
+): InferOutput<TSchema> {
+  /* const result = safeParse(
+    schema,
+    '$ast' in (options as any)
+      ? sanitizeMagicastOptions(options)
+      : options,
+  ) */
+  const result = safeParse(
+    schema,
+    options,
+  )
+  // const result = safeParse(schema, options)
   if (!result.success) {
     const errorMessages = result.issues.map(extractIssueMessage)
     throw new Error(
       `${methodName}() options validation failed: \n- ${errorMessages.join('\n- ')}`,
     )
   }
+  return result.output
+}
+/**
+ * A wrapper around Valibot's `safeParseAsync` that throws a user-friendly error
+ * if validation fails.
+ * @param schema The Valibot schema to use.
+ * @param options The options object to validate.
+ * @param methodName The name of the Workbox method being validated, for context.
+ */
+export async function validateAsync<TSchema extends BaseSchemaAsync<any, any, any>>(
+  schema: TSchema,
+  options: unknown,
+  methodName: string,
+): Promise<InferOutput<TSchema>> {
+  const result = await safeParseAsync(
+    schema,
+    options,
+  )
+  if (!result.success) {
+    const errorMessages = result.issues.map(extractIssueMessage)
+    throw new Error(
+      `${methodName}() options validation failed: \n- ${errorMessages.join('\n- ')}`,
+    )
+  }
+  return result.output
 }

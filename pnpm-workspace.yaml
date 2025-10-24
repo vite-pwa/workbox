@@ -24,10 +24,10 @@ catalogs:
     '@antfu/ni': ^25.0.0
     '@arethetypeswrong/cli': ^0.17.4
     idb: ^8.0.3
-    magicast: ^0.3.5
     pathe: ^2.0.3
     pkg-types: ^2.3.0
     proper-tags: ^2.0.2
+    recast: ^0.23.11
     taze: ^19.7.0
     valibot: ^1.1.0
 
@@ -40,6 +40,6 @@ onlyBuiltDependencies:
 
 shamefullyHoist: true
 
-shell-emulator: true
+shellEmulator: true
 
 strictPeerDependencies: false

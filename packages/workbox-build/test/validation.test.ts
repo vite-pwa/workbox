@@ -84,7 +84,7 @@ describe('generateSWOptions Schema Validation', () => {
     )
   })
 
-  it('should pass if globDirectory is missing but runtimeCaching is present', () => {
+  it.only('should pass if globDirectory is missing but runtimeCaching is present', () => {
     const options = {
       swDest: 'sw.js',
       runtimeCaching: [
