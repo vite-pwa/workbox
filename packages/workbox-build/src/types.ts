@@ -1,9 +1,9 @@
-import type { BroadcastCacheUpdateOptions } from '@vite-pwa/workbox-sw/broadcast-update/types'
-import type { CacheableResponseOptions } from '@vite-pwa/workbox-sw/cacheable-response/types'
-import type { RouteHandler, RouteMatchCallback, WorkboxPlugin } from '@vite-pwa/workbox-sw/core/types'
-import type { ExpirationPluginOptions } from '@vite-pwa/workbox-sw/expiration/types'
-import type { HTTPMethod } from '@vite-pwa/workbox-sw/routing/types'
-import type { QueueOptions } from '@vite-pwa/workbox-sw/types'
+import type { BroadcastCacheUpdateOptions } from '@vite-pwa/workbox-swkit/broadcast-update/types'
+import type { CacheableResponseOptions } from '@vite-pwa/workbox-swkit/cacheable-response/types'
+import type { RouteHandler, RouteMatchCallback, WorkboxPlugin } from '@vite-pwa/workbox-swkit/core/types'
+import type { ExpirationPluginOptions } from '@vite-pwa/workbox-swkit/expiration/types'
+import type { HTTPMethod } from '@vite-pwa/workbox-swkit/routing/types'
+import type { QueueOptions } from '@vite-pwa/workbox-swkit/types'
 import type { PackageJson } from 'pkg-types'
 
 export interface ManifestEntry {

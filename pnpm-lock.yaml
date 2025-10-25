@@ -124,9 +124,9 @@ importers:
 
   packages/workbox-build:
     dependencies:
-      '@vite-pwa/workbox-sw':
+      '@vite-pwa/workbox-swkit':
         specifier: workspace:*
-        version: link:../workbox-sw
+        version: link:../workbox-swkit
       '@vite-pwa/workbox-window':
         specifier: workspace:*
         version: link:../workbox-window
@@ -149,7 +149,7 @@ importers:
         specifier: catalog:utils
         version: 1.1.0(typescript@5.9.3)
 
-  packages/workbox-sw:
+  packages/workbox-swkit:
     dependencies:
       idb:
         specifier: catalog:utils

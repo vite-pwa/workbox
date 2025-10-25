@@ -12,11 +12,11 @@
       "@vite-pwa/workbox-build/*": [
         "./packages/workbox-build/src/*.ts"
       ],
-      "@vite-pwa/workbox-sw": [
-        "./packages/workbox-sw/src/index.ts"
+      "@vite-pwa/workbox-swkit": [
+        "./packages/workbox-swkit/src/index.ts"
       ],
-      "@vite-pwa/workbox-sw/*": [
-        "./packages/workbox-sw/src/*.ts"
+      "@vite-pwa/workbox-swkit/*": [
+        "./packages/workbox-swkit/src/*.ts"
       ],
       "@vite-pwa/workbox-window": [
         "./packages/workbox-window/src/index.ts"

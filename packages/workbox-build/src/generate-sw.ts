@@ -45,17 +45,17 @@ export async function generateSW(
   }
 
   if (proxifiedOptions.skipWaiting) {
-    swModule.imports.$append({ from: '@vite-pwa/workbox-core', imported: 'skipWaiting' })
+    swModule.imports.$append({ from: '@vite-pwa/workbox-swkit/core', imported: 'skipWaiting' })
   }
   if (proxifiedOptions.clientsClaim) {
-    swModule.imports.$append({ from: '@vite-pwa/workbox-core', imported: 'clientsClaim' })
+    swModule.imports.$append({ from: '@vite-pwa/workbox-swkit/core', imported: 'clientsClaim' })
   }
   if (proxifiedOptions.runtimeCaching?.length) {
-    swModule.imports.$append({ from: '@vite-pwa/workbox-routing', imported: 'registerRoute' })
+    swModule.imports.$append({ from: '@vite-pwa/workbox-swkit/routing', imported: 'registerRoute' })
     if (strategyImports.size > 0) {
       for (const strategyImport of strategyImports) {
         swModule.imports.$append({
-          from: '@vite-pwa/workbox-strategies',
+          from: '@vite-pwa/workbox-swkit/strategies',
           imported: strategyImport,
         })
       }
