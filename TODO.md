@@ -1,6 +1,7 @@
 ## TODO
 
 - review workbox-sw package, maybe we need to move it to commonjs?
+- review service worker (registration) globals
 
 ## Pending task
 

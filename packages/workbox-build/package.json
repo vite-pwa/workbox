@@ -1,0 +1,77 @@
+{
+  "name": "@vite-pwa/workbox-build",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "A module that integrates into your build process, helping you generate a manifest of local files that workbox-sw should precache.",
+  "author": "Google's Web DevRel Team, Vite PWA's Team",
+  "contributors": [
+    "userquin <userquin@gmail.com>"
+  ],
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/vite-pwa/workbox#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vite-pwa/workbox.git",
+    "directory": "packages/workbox-build"
+  },
+  "bugs": "https://github.com/vite-pwa/workbox/issues",
+  "keywords": [
+    "workbox",
+    "workboxjs",
+    "service worker",
+    "caching",
+    "fetch requests",
+    "offline",
+    "file manifest"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.js",
+    "./generate-sw": "./dist/generate-sw.js",
+    "./get-manifest": "./dist/get-manifest.js",
+    "./inject-manifest": "./dist/inject-manifest.js",
+    "./types": {
+      "types": "./dist/types.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "generate-sw": [
+        "./dist/generate-sw.d.ts"
+      ],
+      "get-manifest": [
+        "./dist/get-manifest.d.ts"
+      ],
+      "inject-manifest": [
+        "./dist/inject-manifest.d.ts"
+      ],
+      "types": [
+        "./dist/types.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "prepublishOnly": "pnpm run build",
+    "node:test": "node ./dist/generate-sw.js",
+    "tsx:test": "tsx ./src/generate-sw.ts"
+  },
+  "dependencies": {
+    "@vite-pwa/workbox-swkit": "workspace:*",
+    "@vite-pwa/workbox-window": "workspace:*",
+    "magicast": "file:magicast-0.3.5.tgz",
+    "pathe": "catalog:utils",
+    "pkg-types": "catalog:utils",
+    "proper-tags": "catalog:utils",
+    "recast": "catalog:utils",
+    "valibot": "catalog:utils"
+  }
+}

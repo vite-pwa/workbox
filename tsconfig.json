@@ -4,56 +4,31 @@
     "lib": ["DOM", "ESNext", "DOM.Iterable", "ESNext.AsyncIterable", "WebWorker"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
     "paths": {
-      "@vite-pwa/workbox-background-sync": [
-        "./packages/workbox-background-sync/src/"
+      "@vite-pwa/workbox-build": [
+        "./packages/workbox-build/src/index.ts"
       ],
-      "@vite-pwa/workbox-broadcast-update": [
-        "./packages/workbox-broadcast-update/src/"
+      "@vite-pwa/workbox-build/*": [
+        "./packages/workbox-build/src/*.ts"
       ],
-      "@vite-pwa/workbox-cacheable-response": [
-        "./packages/workbox-cacheable-response/src/"
+      "@vite-pwa/workbox-swkit": [
+        "./packages/workbox-swkit/src/index.ts"
       ],
-      "@vite-pwa/workbox-core": [
-        "./packages/workbox-core/src/"
-      ],
-      "@vite-pwa/workbox-core/internals": [
-        "./packages/workbox-core/src/internals.ts"
-      ],
-      "@vite-pwa/workbox-expiration": [
-        "./packages/workbox-expiration/src/"
-      ],
-      "@vite-pwa/workbox-navigation-preload": [
-        "./packages/workbox-navigation-preload/src/"
-      ],
-      "@vite-pwa/workbox-precaching": [
-        "./packages/workbox-precaching/src/"
-      ],
-      "@vite-pwa/workbox-range-requests": [
-        "./packages/workbox-range-requests/src/"
-      ],
-      "@vite-pwa/workbox-recipes": [
-        "./packages/workbox-recipes/src/"
-      ],
-      "@vite-pwa/workbox-routing": [
-        "./packages/workbox-routing/src/"
-      ],
-      "@vite-pwa/workbox-strategies": [
-        "./packages/workbox-strategies/src/"
-      ],
-      "@vite-pwa/workbox-streams": [
-        "./packages/workbox-streams/src/"
-      ],
-      "@vite-pwa/workbox-sw": [
-        "./packages/workbox-sw/src/"
+      "@vite-pwa/workbox-swkit/*": [
+        "./packages/workbox-swkit/src/*.ts"
       ],
       "@vite-pwa/workbox-window": [
-        "./packages/workbox-window/src/"
+        "./packages/workbox-window/src/index.ts"
+      ],
+      "@vite-pwa/workbox-window/*": [
+        "./packages/workbox-window/src/*.ts"
       ]
     },
     "resolveJsonModule": true,
     "types": [
-      "node"
+      "node",
+      "vitest/globals"
     ],
     "strict": true,
     "strictNullChecks": true,
