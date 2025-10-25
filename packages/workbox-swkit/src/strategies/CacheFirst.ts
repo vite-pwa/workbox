@@ -26,7 +26,7 @@ class CacheFirst extends Strategy {
   /**
    * @private
    * @param request {Request|string} A request to run this strategy for.
-   * @param handler {import('./index.ts').StrategyHandler}  The event that
+   * @param handler {import('./index').StrategyHandler}  The event that
    *     triggered the request.
    * @return {Promise<Response>}
    */
