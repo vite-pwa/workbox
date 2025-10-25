@@ -1,10 +1,9 @@
-import type { QueueOptions } from '@vite-pwa/workbox-background-sync/types'
-import type { ExpirationPluginOptions } from '@vite-pwa/workbox-expiration/types'
-import type { BroadcastCacheUpdateOptions } from '@vite-pwa/workbox-sw/src/broadcast-update/types'
-import type { CacheableResponseOptions } from '@vite-pwa/workbox-sw/src/cacheable-response/types'
-import type { RouteHandler, RouteMatchCallback, WorkboxPlugin } from '@vite-pwa/workbox-sw/src/core/types'
-// import type { GoogleAnalyticsInitializeOptions } from 'workbox-google-analytics/initialize'
-import type { HTTPMethod } from '@vite-pwa/workbox-sw/src/routing/types'
+import type { BroadcastCacheUpdateOptions } from '@vite-pwa/workbox-sw/broadcast-update/types'
+import type { CacheableResponseOptions } from '@vite-pwa/workbox-sw/cacheable-response/types'
+import type { RouteHandler, RouteMatchCallback, WorkboxPlugin } from '@vite-pwa/workbox-sw/core/types'
+import type { ExpirationPluginOptions } from '@vite-pwa/workbox-sw/expiration/types'
+import type { HTTPMethod } from '@vite-pwa/workbox-sw/routing/types'
+import type { QueueOptions } from '@vite-pwa/workbox-sw/types'
 import type { PackageJson } from 'pkg-types'
 
 export interface ManifestEntry {

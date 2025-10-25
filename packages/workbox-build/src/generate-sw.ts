@@ -1,9 +1,9 @@
 import type { ArrayExpression, Identifier, ObjectExpression, Program } from '@babel/types'
 import type { ProxifiedModule, ProxifiedObject } from 'magicast'
 import type { GenerateSWOptions } from './types'
-import { AsyncGenerateSWOptionsSchema } from '@vite-pwa/workbox-build/validation/async-generate-sw'
 import { builders, generateCode, parseModule } from 'magicast'
 import { deepMergeObject, getDefaultExportOptions } from 'magicast/helpers'
+import { AsyncGenerateSWOptionsSchema } from './validation/async-generate-sw'
 import { validateAsync } from './validation/validation-helper'
 
 // Helper para capitalizar: NetworkFirst -> NetworkFirst

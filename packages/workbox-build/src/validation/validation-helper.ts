@@ -1,6 +1,6 @@
 // import type { ArrayExpression, Program } from '@babel/types'
-import type { BaseIssue, BaseSchema, BaseSchemaAsync, InferOutput, IssuePathItem } from 'valibot'
-import { getDotPath, safeParse, safeParseAsync } from 'valibot'
+import type { BaseIssue, BaseSchemaAsync, InferOutput, IssuePathItem } from 'valibot'
+import { getDotPath, safeParseAsync } from 'valibot'
 
 // This helper function traverses the issue's path to find the top-level object key
 // that contains the error. This is crucial for errors nested inside arrays.
@@ -16,7 +16,7 @@ function getTopLevelKey(path: IssuePathItem[] | undefined): string | undefined {
 // see [Path Key not Available in safeParse](https://github.com/fabian-hiller/valibot/discussions/696).
 // custom Valibot's message mapping
 function extractIssueMessage(issue: BaseIssue<any>) {
-  console.log(issue)
+  // console.log(issue)
   const path = getDotPath(issue)
   const topLevelKey = getTopLevelKey(issue.path)
   const lastKey = issue.path?.[issue.path.length - 1]?.key
@@ -88,7 +88,7 @@ function extractIssueMessage(issue: BaseIssue<any>) {
 }
 
 // This function intelligently sanitizes the options object from magicast.
-function sanitizeMagicastOptions(options: any): any {
+function _sanitizeMagicastOptions(options: any): any {
   if (options === null || typeof options !== 'object')
     return options
 
@@ -98,10 +98,10 @@ function sanitizeMagicastOptions(options: any): any {
   }
 
   if (Array.isArray(options)) {
-    console.log('PASO')
+    // console.log('PASO')
     const sanitizedArray: any[] = []
     for (const option of options) {
-      sanitizedArray.push(sanitizeMagicastOptions(option))
+      sanitizedArray.push(_sanitizeMagicastOptions(option))
     }
     return sanitizedArray
     // return options.map(sanitizeMagicastOptions)
@@ -118,43 +118,12 @@ function sanitizeMagicastOptions(options: any): any {
   const sanitized: { [key: string]: any } = {}
   for (const key in options) {
     if (Object.prototype.hasOwnProperty.call(options, key) && !key.startsWith('$'))
-      sanitized[key] = sanitizeMagicastOptions(options[key])
+      sanitized[key] = _sanitizeMagicastOptions(options[key])
   }
 
   return sanitized
 }
 
-/**
- * A wrapper around Valibot's `safeParse` that throws a user-friendly error
- * if validation fails.
- * @param schema The Valibot schema to use.
- * @param options The options object to validate.
- * @param methodName The name of the Workbox method being validated, for context.
- */
-export function validate<TSchema extends BaseSchema<any, any, any>>(
-  schema: TSchema,
-  options: unknown,
-  methodName: string,
-): InferOutput<TSchema> {
-  /* const result = safeParse(
-    schema,
-    '$ast' in (options as any)
-      ? sanitizeMagicastOptions(options)
-      : options,
-  ) */
-  const result = safeParse(
-    schema,
-    options,
-  )
-  // const result = safeParse(schema, options)
-  if (!result.success) {
-    const errorMessages = result.issues.map(extractIssueMessage)
-    throw new Error(
-      `${methodName}() options validation failed: \n- ${errorMessages.join('\n- ')}`,
-    )
-  }
-  return result.output
-}
 /**
  * A wrapper around Valibot's `safeParseAsync` that throws a user-friendly error
  * if validation fails.

@@ -1,6 +1,13 @@
 import * as v from 'valibot'
 import { errors } from './errors'
-import { AsyncManifestEntrySchema } from './utils'
+import { AsyncNumericExpressionSchema } from './utils'
+
+// ManifestEntry is used in additionalManifestEntries
+const AsyncManifestEntrySchema = v.strictObjectAsync({
+  integrity: v.optionalAsync(v.string()),
+  revision: v.nullable(v.string()),
+  url: v.string(),
+})
 
 export const AsyncInjectManifestOptionsSchema = v.pipeAsync(
   v.strictObjectAsync({
@@ -30,7 +37,7 @@ export const AsyncInjectManifestOptionsSchema = v.pipeAsync(
      * that might have accidentally matched one of your patterns.
      * @default 2MiB (2097152 bytes)
      */
-    maximumFileSizeToCacheInBytes: v.optionalAsync(v.number(), 2097152),
+    maximumFileSizeToCacheInBytes: v.optionalAsync(AsyncNumericExpressionSchema, 2097152),
     /**
      * An object mapping string prefixes to replacement string values. This can be
      * used to, e.g., remove or add a path prefix from a manifest entry if your

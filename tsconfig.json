@@ -22,7 +22,7 @@
       ],
       "@vite-pwa/workbox-window/*": [
         "./packages/workbox-window/src/*.ts"
-      ],
+      ]
     },
     "resolveJsonModule": true,
     "types": [

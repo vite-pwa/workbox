@@ -1,4 +1,8 @@
+import { createRequire } from 'node:module'
 import { defineConfig } from 'tsdown'
+
+const require = createRequire(import.meta.url)
+const packageJson = require('./package.json')
 
 export default defineConfig({
   entry: [
@@ -26,7 +30,6 @@ export default defineConfig({
     'src/streams/types.ts',
     'src/sw/index.ts',
   ],
-  exports: true,
   platform: 'browser',
   banner: `/*
   Copyright 2019 Google LLC, Vite PWA's Team
@@ -44,7 +47,7 @@ export default defineConfig({
       // **/types contains only types: just replace the entry
       const typesVersions: Record<string, string[]> = {}
       for (const [key, value] of Object.entries(exp)) {
-        // add typesVersion entry
+        // add typesVersions entry
         if (key !== '.' && key !== './package.json') {
           typesVersions[key.slice(2)] = [value.replace(/\.js$/, '.d.ts')]
         }

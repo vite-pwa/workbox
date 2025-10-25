@@ -1,15 +1,15 @@
 import type * as v from 'valibot'
 import type { GenerateSWOptions, GetManifestOptions, InjectManifestOptions } from '../src/types'
 import { describe, expect, expectTypeOf, it } from 'vitest'
+import { AsyncGenerateSWOptionsSchema } from '../src/validation/async-generate-sw'
+import { AsyncGetManifestOptionsSchema } from '../src/validation/async-get-manifest'
+import { AsyncInjectManifestOptionsSchema } from '../src/validation/async-inject-manifest'
 import { errors } from '../src/validation/errors'
-import { GenerateSWOptionsSchema } from '../src/validation/generate-sw'
-import { GetManifestOptionsSchema } from '../src/validation/get-manifest'
-import { InjectManifestOptionsSchema } from '../src/validation/inject-manifest'
-import { validate } from '../src/validation/validation-helper'
+import { validateAsync } from '../src/validation/validation-helper'
 
-type GenerateSWOptionsSchemaType = v.InferInput<typeof GenerateSWOptionsSchema>
-type GetManifestOptionsSchemaType = v.InferInput<typeof GetManifestOptionsSchema>
-type InjectManifestOptionsSchemaType = v.InferInput<typeof InjectManifestOptionsSchema>
+type GenerateSWOptionsSchemaType = v.InferInput<typeof AsyncGenerateSWOptionsSchema>
+type GetManifestOptionsSchemaType = v.InferInput<typeof AsyncGetManifestOptionsSchema>
+type InjectManifestOptionsSchemaType = v.InferInput<typeof AsyncInjectManifestOptionsSchema>
 
 describe('schema Type Inference Validation', () => {
   it('should correctly infer types that are compatible with the original Workbox types', () => {
@@ -25,27 +25,27 @@ describe('schema Type Inference Validation', () => {
 })
 
 describe('generateSWOptions Schema Validation', () => {
-  it('should pass with valid minimal options', () => {
+  it('should pass with valid minimal options', async () => {
     const options = {
       swDest: 'sw.js',
       globDirectory: './',
     } satisfies GenerateSWOptions
     // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
-    expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).not.toThrow()
+    await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).resolves.not.toThrow()
   })
 
-  it('should fail if swDest is missing', () => {
+  it('should fail if swDest is missing', async () => {
     const options = {
       globDirectory: './',
     } satisfies Partial<GenerateSWOptions>
     expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
-    expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
+    await expect(validateAsync(AsyncGenerateSWOptionsSchema, options as any, 'generateSW')).rejects.toThrow(
       `generateSW() options validation failed: \n- The option "swDest" is required.`,
     )
   })
 
-  it('should pass with a function for manifestTransforms', () => {
+  it('should pass with a function for manifestTransforms', async () => {
     const options = {
       swDest: 'sw.js',
       globDirectory: './',
@@ -57,34 +57,34 @@ describe('generateSWOptions Schema Validation', () => {
     } satisfies GenerateSWOptions
     // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
-    expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).not.toThrow()
+    await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).resolves.not.toThrow()
   })
 
-  it('should fail if manifestTransforms contains a non-function', () => {
+  it('should fail if manifestTransforms contains a non-function', async () => {
     const options = {
       swDest: 'sw.js',
       globDirectory: './',
       manifestTransforms: ['not-a-function'],
     } satisfies Omit<GenerateSWOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
     expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
-    expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
+    await expect(validateAsync(AsyncGenerateSWOptionsSchema, options as any, 'generateSW')).rejects.toThrow(
       'generateSW() options validation failed: \n- Each item in the "manifestTransforms" array must be a function (error at index 0).',
     )
   })
 
-  it('should fail if manifestTransforms is a function instead of an array', () => {
+  it('should fail if manifestTransforms is a function instead of an array', async () => {
     const options = {
       swDest: 'sw.js',
       globDirectory: './',
       manifestTransforms: (manifest: any) => ({ manifest, warnings: [] }),
     } satisfies Omit<GenerateSWOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
     expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
-    expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
+    await expect(validateAsync(AsyncGenerateSWOptionsSchema, options as any, 'generateSW')).rejects.toThrow(
       'generateSW() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
   })
 
-  it.only('should pass if globDirectory is missing but runtimeCaching is present', () => {
+  it('should pass if globDirectory is missing but runtimeCaching is present', async () => {
     const options = {
       swDest: 'sw.js',
       runtimeCaching: [
@@ -96,22 +96,22 @@ describe('generateSWOptions Schema Validation', () => {
     } satisfies GenerateSWOptions
     // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
-    expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).not.toThrow()
+    await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).resolves.not.toThrow()
   })
 
-  it('should fail if an unknown property is present', () => {
+  it('should fail if an unknown property is present', async () => {
     const options = {
       swDest: 'sw.js',
       globDirectory: './',
       importWorkboxFrom: 'cdn',
     } satisfies GenerateSWOptions & { importWorkboxFrom?: string }
     expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
-    expect(() => validate(GenerateSWOptionsSchema, options as any, 'generateSW')).toThrow(
+    await expect(validateAsync(AsyncGenerateSWOptionsSchema, options as any, 'generateSW')).rejects.toThrow(
       'generateSW() options validation failed: \n- The option "importWorkboxFrom" is unknown or has been deprecated.',
     )
   })
 
-  it('should fail if swDest does not end with .js', () => {
+  it('should fail if swDest does not end with .js', async () => {
     const options = {
       swDest: 'sw.txt',
       globDirectory: './',
@@ -119,13 +119,13 @@ describe('generateSWOptions Schema Validation', () => {
     // The shape is valid, but the content is not.
     // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
-    expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
+    await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).rejects.toThrow(
       `generateSW() options validation failed: \n- ${errors['invalid-sw-dest-js-ext']}`,
     )
   })
 
   describe('runtimeCaching validation', () => {
-    it('should pass with a valid runtimeCaching entry', () => {
+    it('should pass with a valid runtimeCaching entry', async () => {
       const options = {
         swDest: 'sw.js',
         globDirectory: './',
@@ -136,22 +136,22 @@ describe('generateSWOptions Schema Validation', () => {
       } satisfies GenerateSWOptions
       // @ts-expect-error - schema Type Inference Validation.
       expectTypeOf<typeof options>().toMatchObjectType<GenerateSWOptionsSchemaType>()
-      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).not.toThrow()
+      await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).resolves.not.toThrow()
     })
 
-    it('should fail if runtimeCaching is not an array (string)', () => {
+    it('should fail if runtimeCaching is not an array (string)', async () => {
       const options = {
         swDest: 'sw.js',
         globDirectory: './',
         runtimeCaching: 'a-string-not-an-array',
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: string }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
-      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
+      await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).rejects.toThrow(
         'generateSW() options validation failed: \n- The "runtimeCaching" option must be an array.',
       )
     })
 
-    it('should fail if a runtimeCaching entry is missing a handler', () => {
+    it('should fail if a runtimeCaching entry is missing a handler', async () => {
       const options = {
         swDest: 'sw.js',
         globDirectory: './',
@@ -160,12 +160,12 @@ describe('generateSWOptions Schema Validation', () => {
         }],
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp }[] }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
-      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
+      await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).rejects.toThrow(
         'generateSW() options validation failed: \n- The option "runtimeCaching.0.handler" is required.',
       )
     })
 
-    it('should fail if a runtimeCaching entry has an invalid handler type', () => {
+    it('should fail if a runtimeCaching entry has an invalid handler type', async () => {
       const options = {
         swDest: 'sw.js',
         globDirectory: './',
@@ -175,12 +175,12 @@ describe('generateSWOptions Schema Validation', () => {
         }],
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: number }[] }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
-      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
+      await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).rejects.toThrow(
         'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received 123.',
       )
     })
 
-    it('should fail if a runtimeCaching entry has an invalid handler string value', () => {
+    it('should fail if a runtimeCaching entry has an invalid handler string value', async () => {
       const options = {
         swDest: 'sw.js',
         globDirectory: './',
@@ -190,7 +190,7 @@ describe('generateSWOptions Schema Validation', () => {
         }],
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: 'InvalidStrategy' }[] }
       expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
-      expect(() => validate(GenerateSWOptionsSchema, options, 'generateSW')).toThrow(
+      await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).rejects.toThrow(
         'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received "InvalidStrategy"',
       )
     })
@@ -198,59 +198,59 @@ describe('generateSWOptions Schema Validation', () => {
 })
 
 describe('getManifestOptions Schema Validation', () => {
-  it('should pass with valid minimal options', () => {
+  it('should pass with valid minimal options', async () => {
     const options = {
       globDirectory: './',
     } satisfies GetManifestOptions
     // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<GetManifestOptionsSchemaType>()
-    expect(() => validate(GetManifestOptionsSchema, options, 'getManifest')).not.toThrow()
+    await expect(validateAsync(AsyncGetManifestOptionsSchema, options, 'getManifest')).resolves.not.toThrow()
   })
 
-  it('should fail if globDirectory is missing', () => {
+  it('should fail if globDirectory is missing', async () => {
     const options = {} satisfies Partial<GetManifestOptions>
     expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
-    expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
+    await expect(validateAsync(AsyncGetManifestOptionsSchema, options as any, 'getManifest')).rejects.toThrow(
       'getManifest() options validation failed: \n- The option "globDirectory" is required.',
     )
   })
 
-  it('should fail if manifestTransforms contains a non-function', () => {
+  it('should fail if manifestTransforms contains a non-function', async () => {
     const options = {
       globDirectory: './',
       manifestTransforms: ['not-a-function'],
     } satisfies Omit<GetManifestOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
     expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
-    expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
+    await expect(validateAsync(AsyncGetManifestOptionsSchema, options as any, 'getManifest')).rejects.toThrow(
       'getManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function (error at index 0).',
     )
   })
 
-  it('should fail if manifestTransforms is a function instead of an array', () => {
+  it('should fail if manifestTransforms is a function instead of an array', async () => {
     const options = {
       globDirectory: './',
       manifestTransforms: (manifest: any) => ({ manifest, warnings: [] }),
     } satisfies Omit<GetManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
     expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
-    expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
+    await expect(validateAsync(AsyncGetManifestOptionsSchema, options as any, 'getManifest')).rejects.toThrow(
       'getManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
   })
 
-  it('should fail if an unknown property is present', () => {
+  it('should fail if an unknown property is present', async () => {
     const options = {
       globDirectory: './',
       anotherUnknown: 'noop',
     } satisfies GetManifestOptions & { anotherUnknown?: string }
     expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
-    expect(() => validate(GetManifestOptionsSchema, options as any, 'getManifest')).toThrow(
+    await expect(validateAsync(AsyncGetManifestOptionsSchema, options as any, 'getManifest')).rejects.toThrow(
       'getManifest() options validation failed: \n- The option "anotherUnknown" is unknown or has been deprecated.',
     )
   })
 })
 
 describe('injectManifestOptions Schema Validation', () => {
-  it('should pass with valid minimal options', () => {
+  it('should pass with valid minimal options', async () => {
     const options = {
       swSrc: 'sw.js',
       swDest: 'sw-injected.js',
@@ -258,21 +258,21 @@ describe('injectManifestOptions Schema Validation', () => {
     } satisfies InjectManifestOptions
     // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<InjectManifestOptionsSchemaType>()
-    expect(() => validate(InjectManifestOptionsSchema, options, 'injectManifest')).not.toThrow()
+    await expect(validateAsync(AsyncInjectManifestOptionsSchema, options, 'injectManifest')).resolves.not.toThrow()
   })
 
-  it('should fail if swSrc is missing', () => {
+  it('should fail if swSrc is missing', async () => {
     const options = {
       swDest: 'sw-injected.js',
       globDirectory: './',
     } satisfies Partial<InjectManifestOptions>
     expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
-    expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
+    await expect(validateAsync(AsyncInjectManifestOptionsSchema, options as any, 'injectManifest')).rejects.toThrow(
       'injectManifest() options validation failed: \n- The option "swSrc" is required.',
     )
   })
 
-  it('should fail if manifestTransforms contains a non-function', () => {
+  it('should fail if manifestTransforms contains a non-function', async () => {
     const options = {
       swSrc: 'sw.js',
       swDest: 'sw-injected.js',
@@ -280,12 +280,12 @@ describe('injectManifestOptions Schema Validation', () => {
       manifestTransforms: ['not-a-function'],
     } satisfies Omit<InjectManifestOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
     expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
-    expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
+    await expect(validateAsync(AsyncInjectManifestOptionsSchema, options as any, 'injectManifest')).rejects.toThrow(
       'injectManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function (error at index 0).',
     )
   })
 
-  it('should fail if manifestTransforms is a function instead of an array', () => {
+  it('should fail if manifestTransforms is a function instead of an array', async () => {
     const options = {
       swSrc: 'sw.js',
       swDest: 'sw-injected.js',
@@ -293,12 +293,12 @@ describe('injectManifestOptions Schema Validation', () => {
       manifestTransforms: (manifest: any) => ({ manifest, warnings: [] }),
     } satisfies Omit<InjectManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
     expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
-    expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
+    await expect(validateAsync(AsyncInjectManifestOptionsSchema, options as any, 'injectManifest')).rejects.toThrow(
       'injectManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
   })
 
-  it('should fail if swDest does not end with .js', () => {
+  it('should fail if swDest does not end with .js', async () => {
     const options = {
       swSrc: 'sw.js',
       swDest: 'sw-injected.txt',
@@ -307,12 +307,12 @@ describe('injectManifestOptions Schema Validation', () => {
     // The shape is valid, but the content is not.
     // @ts-expect-error - schema Type Inference Validation.
     expectTypeOf<typeof options>().toMatchObjectType<InjectManifestOptionsSchemaType>()
-    expect(() => validate(InjectManifestOptionsSchema, options, 'injectManifest')).toThrow(
+    await expect(validateAsync(AsyncInjectManifestOptionsSchema, options, 'injectManifest')).rejects.toThrow(
       `injectManifest() options validation failed: \n- ${errors['invalid-sw-dest-js-ext']}`,
     )
   })
 
-  it('should fail if an unknown property is present', () => {
+  it('should fail if an unknown property is present', async () => {
     const options = {
       swSrc: 'sw.js',
       swDest: 'sw-injected.js',
@@ -320,7 +320,7 @@ describe('injectManifestOptions Schema Validation', () => {
       anotherUnknown: 'noop',
     } satisfies InjectManifestOptions & { anotherUnknown?: string }
     expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
-    expect(() => validate(InjectManifestOptionsSchema, options as any, 'injectManifest')).toThrow(
+    await expect(validateAsync(AsyncInjectManifestOptionsSchema, options as any, 'injectManifest')).rejects.toThrow(
       'injectManifest() options validation failed: \n- The option "anotherUnknown" is unknown or has been deprecated.',
     )
   })
