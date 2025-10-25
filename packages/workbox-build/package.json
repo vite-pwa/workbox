@@ -28,21 +28,31 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.js",
+    "./generate-sw": "./dist/generate-sw.js",
+    "./get-manifest": "./dist/get-manifest.js",
+    "./inject-manifest": "./dist/inject-manifest.js",
     "./types": {
       "types": "./dist/types.d.ts"
     },
-    "./generate-sw": "./dist/generate-sw.js",
-    "./inject-manifest": "./dist/inject-manifest.js"
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
-      "types": ["dist/types.d.ts"],
-      "generate-sw": ["dist/generate-sw.d.ts"],
-      "get-manifest": ["dist/get-manifest.d.ts"],
-      "inject-manifest": ["dist/inject-manifest.d.ts"]
+      "generate-sw": [
+        "./dist/generate-sw.d.ts"
+      ],
+      "get-manifest": [
+        "./dist/get-manifest.d.ts"
+      ],
+      "inject-manifest": [
+        "./dist/inject-manifest.d.ts"
+      ],
+      "types": [
+        "./dist/types.d.ts"
+      ]
     }
   },
   "files": [

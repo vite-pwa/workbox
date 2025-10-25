@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module'
 import { defineConfig } from 'tsdown'
+import { banner, define, exports } from '../../helper.ts'
 
 const require = createRequire(import.meta.url)
 const packageJson = require('./package.json')
@@ -31,34 +32,8 @@ export default defineConfig({
     'src/sw/index.ts',
   ],
   platform: 'browser',
-  banner: `/*
-  Copyright 2019 Google LLC, Vite PWA's Team
-
-  Use of this source code is governed by an MIT-style
-  license that can be found in the LICENSE file or at
-  https://opensource.org/licenses/MIT.
-*/`,
-  define: {
-    'process.env.NODE_ENV': 'process.env.NODE_ENV',
-  },
+  banner,
+  define,
   noExternal: ['idb'],
-  exports: {
-    customExports(exp, { pkg }) {
-      // **/types contains only types: just replace the entry
-      const typesVersions: Record<string, string[]> = {}
-      for (const [key, value] of Object.entries(exp)) {
-        // add typesVersions entry
-        if (key !== '.' && key !== './package.json') {
-          typesVersions[key.slice(2)] = [value.replace(/\.js$/, '.d.ts')]
-        }
-        if (key.endsWith('/types')) {
-          exp[key] = { types: value.replace(/\.js$/, '.d.ts') }
-        }
-      }
-
-      pkg.typesVersions = { '*': typesVersions }
-
-      return exp
-    },
-  },
+  exports,
 })
