@@ -1,6 +1,7 @@
 // import type { ArrayExpression, Program } from '@babel/types'
 import type { BaseIssue, BaseSchemaAsync, InferOutput, IssuePathItem } from 'valibot'
 import { getDotPath, safeParseAsync } from 'valibot'
+import { errors } from './errors'
 
 // This helper function traverses the issue's path to find the top-level object key
 // that contains the error. This is crucial for errors nested inside arrays.
@@ -13,13 +14,30 @@ function getTopLevelKey(path: IssuePathItem[] | undefined): string | undefined {
   return path[0].key as string | undefined
 }
 
+const requiredErrorMap: Record<string, keyof typeof errors> = {
+  swSrc: 'invalid-sw-src',
+  swDest: 'missing-sw-dest',
+  globDirectory: 'invalid-glob-directory',
+} as const
+
 // see [Path Key not Available in safeParse](https://github.com/fabian-hiller/valibot/discussions/696).
 // custom Valibot's message mapping
 function extractIssueMessage(issue: BaseIssue<any>) {
-  // console.log(issue)
+  console.log(issue)
   const path = getDotPath(issue)
   const topLevelKey = getTopLevelKey(issue.path)
   const lastKey = issue.path?.[issue.path.length - 1]?.key
+
+  // If the message is a key in our errors object, use it.
+  if (issue.message && issue.message in errors) {
+    return errors[issue.message as keyof typeof errors]
+  }
+
+  console.log(path, path && path in requiredErrorMap)
+  if (path && path in requiredErrorMap) {
+    console.log('WTF')
+    return errors[requiredErrorMap[path]]
+  }
 
   // Priority 1: Custom messages from pipes (e.g., endsWith).
   // These are the most specific and should always be shown.
@@ -34,6 +52,7 @@ function extractIssueMessage(issue: BaseIssue<any>) {
 
   // Priority 2: Missing required key.
   if (issue.kind === 'schema' && issue.received === 'undefined') {
+    // Otherwise, fall back to the generic message.
     return `The option "${path}" is required.`
   }
 

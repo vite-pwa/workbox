@@ -1,5 +1,7 @@
-import type * as v from 'valibot'
 import type { GenerateSWOptions, GetManifestOptions, InjectManifestOptions } from '../src/types'
+import type { AsyncGenerateSWOptionsSchemaType } from '../src/validation/async-generate-sw'
+import type { AsyncGetManifestOptionsSchemaType } from '../src/validation/async-get-manifest'
+import type { AsyncInjectManifestOptionsSchemaType } from '../src/validation/async-inject-manifest'
 import { describe, expect, expectTypeOf, it } from 'vitest'
 import { AsyncGenerateSWOptionsSchema } from '../src/validation/async-generate-sw'
 import { AsyncGetManifestOptionsSchema } from '../src/validation/async-get-manifest'
@@ -7,20 +9,16 @@ import { AsyncInjectManifestOptionsSchema } from '../src/validation/async-inject
 import { errors } from '../src/validation/errors'
 import { validateAsync } from '../src/validation/validation-helper'
 
-type GenerateSWOptionsSchemaType = v.InferInput<typeof AsyncGenerateSWOptionsSchema>
-type GetManifestOptionsSchemaType = v.InferInput<typeof AsyncGetManifestOptionsSchema>
-type InjectManifestOptionsSchemaType = v.InferInput<typeof AsyncInjectManifestOptionsSchema>
-
 describe('schema Type Inference Validation', () => {
   it('should correctly infer types that are compatible with the original Workbox types', () => {
     // @ts-expect-error - This is a type-level test. The IDE may complain because the nominal
     // types are different, but `expectTypeOf` checks for structural compatibility, which is what we care about.
     // This test will fail at COMPILE time if the schema's inferred type is not assignable to the original Workbox type.
-    expectTypeOf<GenerateSWOptionsSchemaType>().toEqualTypeOf<GenerateSWOptions>()
+    expectTypeOf<AsyncGenerateSWOptionsSchemaType>().toEqualTypeOf<GenerateSWOptions>()
     // @ts-expect-error - See comment above.
-    expectTypeOf<GetManifestOptionsSchemaType>().toEqualTypeOf<GetManifestOptions>()
+    expectTypeOf<AsyncGetManifestOptionsSchemaType>().toEqualTypeOf<GetManifestOptions>()
     // @ts-expect-error - See comment above.
-    expectTypeOf<InjectManifestOptionsSchemaType>().toEqualTypeOf<InjectManifestOptions>()
+    expectTypeOf<AsyncInjectManifestOptionsSchemaType>().toEqualTypeOf<InjectManifestOptions>()
   })
 })
 
@@ -39,9 +37,9 @@ describe('generateSWOptions Schema Validation', () => {
     const options = {
       globDirectory: './',
     } satisfies Partial<GenerateSWOptions>
-    expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGenerateSWOptionsSchemaType>()
     await expect(validateAsync(AsyncGenerateSWOptionsSchema, options as any, 'generateSW')).rejects.toThrow(
-      `generateSW() options validation failed: \n- The option "swDest" is required.`,
+      `generateSW() options validation failed: \n- ${errors['missing-sw-dest']}`,
     )
   })
 
@@ -66,7 +64,7 @@ describe('generateSWOptions Schema Validation', () => {
       globDirectory: './',
       manifestTransforms: ['not-a-function'],
     } satisfies Omit<GenerateSWOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
-    expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGenerateSWOptionsSchemaType>()
     await expect(validateAsync(AsyncGenerateSWOptionsSchema, options as any, 'generateSW')).rejects.toThrow(
       'generateSW() options validation failed: \n- Each item in the "manifestTransforms" array must be a function (error at index 0).',
     )
@@ -78,7 +76,7 @@ describe('generateSWOptions Schema Validation', () => {
       globDirectory: './',
       manifestTransforms: (manifest: any) => ({ manifest, warnings: [] }),
     } satisfies Omit<GenerateSWOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
-    expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGenerateSWOptionsSchemaType>()
     await expect(validateAsync(AsyncGenerateSWOptionsSchema, options as any, 'generateSW')).rejects.toThrow(
       'generateSW() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
@@ -105,7 +103,7 @@ describe('generateSWOptions Schema Validation', () => {
       globDirectory: './',
       importWorkboxFrom: 'cdn',
     } satisfies GenerateSWOptions & { importWorkboxFrom?: string }
-    expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGenerateSWOptionsSchemaType>()
     await expect(validateAsync(AsyncGenerateSWOptionsSchema, options as any, 'generateSW')).rejects.toThrow(
       'generateSW() options validation failed: \n- The option "importWorkboxFrom" is unknown or has been deprecated.',
     )
@@ -145,7 +143,7 @@ describe('generateSWOptions Schema Validation', () => {
         globDirectory: './',
         runtimeCaching: 'a-string-not-an-array',
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: string }
-      expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+      expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGenerateSWOptionsSchemaType>()
       await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).rejects.toThrow(
         'generateSW() options validation failed: \n- The "runtimeCaching" option must be an array.',
       )
@@ -159,7 +157,7 @@ describe('generateSWOptions Schema Validation', () => {
           urlPattern: /.*/,
         }],
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp }[] }
-      expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+      expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGenerateSWOptionsSchemaType>()
       await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).rejects.toThrow(
         'generateSW() options validation failed: \n- The option "runtimeCaching.0.handler" is required.',
       )
@@ -174,7 +172,7 @@ describe('generateSWOptions Schema Validation', () => {
           handler: 123,
         }],
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: number }[] }
-      expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+      expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGenerateSWOptionsSchemaType>()
       await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).rejects.toThrow(
         'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received 123.',
       )
@@ -189,7 +187,7 @@ describe('generateSWOptions Schema Validation', () => {
           handler: 'InvalidStrategy',
         }],
       } satisfies Omit<GenerateSWOptions, 'runtimeCaching'> & { runtimeCaching: { urlPattern: RegExp, handler: 'InvalidStrategy' }[] }
-      expectTypeOf<typeof options>().not.toMatchObjectType<GenerateSWOptionsSchemaType>()
+      expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGenerateSWOptionsSchemaType>()
       await expect(validateAsync(AsyncGenerateSWOptionsSchema, options, 'generateSW')).rejects.toThrow(
         'generateSW() options validation failed: \n- Invalid "handler" option in runtimeCaching[0]. Invalid type: Expected (Function | Object | ("CacheFirst" | "CacheOnly" | "NetworkFirst" | "NetworkOnly" | "StaleWhileRevalidate")) but received "InvalidStrategy"',
       )
@@ -209,9 +207,9 @@ describe('getManifestOptions Schema Validation', () => {
 
   it('should fail if globDirectory is missing', async () => {
     const options = {} satisfies Partial<GetManifestOptions>
-    expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGetManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncGetManifestOptionsSchema, options as any, 'getManifest')).rejects.toThrow(
-      'getManifest() options validation failed: \n- The option "globDirectory" is required.',
+      `getManifest() options validation failed: \n- ${errors['invalid-glob-directory']}`,
     )
   })
 
@@ -220,7 +218,7 @@ describe('getManifestOptions Schema Validation', () => {
       globDirectory: './',
       manifestTransforms: ['not-a-function'],
     } satisfies Omit<GetManifestOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
-    expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGetManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncGetManifestOptionsSchema, options as any, 'getManifest')).rejects.toThrow(
       'getManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function (error at index 0).',
     )
@@ -231,7 +229,7 @@ describe('getManifestOptions Schema Validation', () => {
       globDirectory: './',
       manifestTransforms: (manifest: any) => ({ manifest, warnings: [] }),
     } satisfies Omit<GetManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
-    expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGetManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncGetManifestOptionsSchema, options as any, 'getManifest')).rejects.toThrow(
       'getManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
@@ -242,7 +240,7 @@ describe('getManifestOptions Schema Validation', () => {
       globDirectory: './',
       anotherUnknown: 'noop',
     } satisfies GetManifestOptions & { anotherUnknown?: string }
-    expectTypeOf<typeof options>().not.toMatchObjectType<GetManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncGetManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncGetManifestOptionsSchema, options as any, 'getManifest')).rejects.toThrow(
       'getManifest() options validation failed: \n- The option "anotherUnknown" is unknown or has been deprecated.',
     )
@@ -257,7 +255,7 @@ describe('injectManifestOptions Schema Validation', () => {
       globDirectory: './',
     } satisfies InjectManifestOptions
     // @ts-expect-error - schema Type Inference Validation.
-    expectTypeOf<typeof options>().toMatchObjectType<InjectManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().toMatchObjectType<AsyncInjectManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncInjectManifestOptionsSchema, options, 'injectManifest')).resolves.not.toThrow()
   })
 
@@ -266,9 +264,9 @@ describe('injectManifestOptions Schema Validation', () => {
       swDest: 'sw-injected.js',
       globDirectory: './',
     } satisfies Partial<InjectManifestOptions>
-    expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncInjectManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncInjectManifestOptionsSchema, options as any, 'injectManifest')).rejects.toThrow(
-      'injectManifest() options validation failed: \n- The option "swSrc" is required.',
+      `injectManifest() options validation failed: \n- ${errors['invalid-sw-src']}`,
     )
   })
 
@@ -279,7 +277,7 @@ describe('injectManifestOptions Schema Validation', () => {
       globDirectory: './',
       manifestTransforms: ['not-a-function'],
     } satisfies Omit<InjectManifestOptions, 'manifestTransforms'> & { manifestTransforms: string[] }
-    expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncInjectManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncInjectManifestOptionsSchema, options as any, 'injectManifest')).rejects.toThrow(
       'injectManifest() options validation failed: \n- Each item in the "manifestTransforms" array must be a function (error at index 0).',
     )
@@ -292,7 +290,7 @@ describe('injectManifestOptions Schema Validation', () => {
       globDirectory: './',
       manifestTransforms: (manifest: any) => ({ manifest, warnings: [] }),
     } satisfies Omit<InjectManifestOptions, 'manifestTransforms'> & { manifestTransforms: (manifest: any) => void }
-    expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncInjectManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncInjectManifestOptionsSchema, options as any, 'injectManifest')).rejects.toThrow(
       'injectManifest() options validation failed: \n- The "manifestTransforms" option must be an array.',
     )
@@ -306,7 +304,7 @@ describe('injectManifestOptions Schema Validation', () => {
     } satisfies InjectManifestOptions
     // The shape is valid, but the content is not.
     // @ts-expect-error - schema Type Inference Validation.
-    expectTypeOf<typeof options>().toMatchObjectType<InjectManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().toMatchObjectType<AsyncInjectManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncInjectManifestOptionsSchema, options, 'injectManifest')).rejects.toThrow(
       `injectManifest() options validation failed: \n- ${errors['invalid-sw-dest-js-ext']}`,
     )
@@ -319,7 +317,7 @@ describe('injectManifestOptions Schema Validation', () => {
       globDirectory: './',
       anotherUnknown: 'noop',
     } satisfies InjectManifestOptions & { anotherUnknown?: string }
-    expectTypeOf<typeof options>().not.toMatchObjectType<InjectManifestOptionsSchemaType>()
+    expectTypeOf<typeof options>().not.toMatchObjectType<AsyncInjectManifestOptionsSchemaType>()
     await expect(validateAsync(AsyncInjectManifestOptionsSchema, options as any, 'injectManifest')).rejects.toThrow(
       'injectManifest() options validation failed: \n- The option "anotherUnknown" is unknown or has been deprecated.',
     )
