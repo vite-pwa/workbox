@@ -6,28 +6,25 @@
 
 'pkg: workbox-cli':
 - changed-files:
-  - packages/workbox/cli/**
+  - any-glob-to-any-file: ['packages/workbox/cli/**']
 
 'pkg: workbox-swkit':
 - changed-files:
-  - packages/workbox/swkit/**
+  - any-glob-to-any-file: ['packages/workbox/swkit/**']
 
 'pkg: workbox-types':
 - changed-files:
-  - packages/workbox/types/**
+  - any-glob-to-any-file: ['packages/workbox/types/**']
 
 'pkg: workbox-window':
 - changed-files:
-  - packages/workbox/window/**
+  - any-glob-to-any-file: ['packages/workbox/window/**']
 
 # Other categories
 🚨 action:
-  - changed-files:
-    - .github/workflows/**
-    - .github/actions/**
+- changed-files:
+  - any-glob-to-any-file: ['.github/workflows/**', '.github/actions/**']
 
 documentation:
 - changed-files:
-  - README.md
-  - CONTRIBUTING.md
-#  - packages/**/README.md
+  - any-glob-to-any-file: ['README.md', 'CONTRIBUTING.md']
