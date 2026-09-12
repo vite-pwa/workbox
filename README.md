@@ -45,4 +45,4 @@ The following breaking changes were introduced in the packages:
 - new `parallel` option to allow precaching in parallel, instead of sequentially
 
 `@vite-pwa/workbox-window` package adds these new features:
-- new `esm-sw-detector` subpackage export to allow to detect ESM service worker support in the browser: based on [caniuse](https://caniuse.com/?search=service+worker) baseline specifications
+- exported a new `esm-sw-detector` subpackage export to allow to detect ESM service worker support in the browser: based on [caniuse](https://caniuse.com/?search=service+worker) baseline specifications
