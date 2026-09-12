@@ -6,6 +6,18 @@
 
 <h1 align="center">Vite PWA Workbox</h1>
 
+<p align='center'>
+<a href='https://npmx.dev/package/@vite-pwa/assets-generator' target="__blank">
+<img src='https://img.shields.io/npm/v/@vite-pwa/assets-generator?color=33A6B8&label=' alt="NPM version">
+</a>
+<a href="https://npmx.dev/package/@vite-pwa/assets-generator" target="__blank">
+    <img alt="NPM Downloads" src="https://img.shields.io/npm/dm/@vite-pwa/assets-generator?color=476582&label=">
+</a>
+<a href="https://github.com/vite-pwa/workbox" target="__blank">
+<img alt="GitHub stars" src="https://img.shields.io/github/stars/vite-pwa/workbox?style=social">
+</a>
+</p>
+
 ## Welcome to the Vite PWA Workbox repository!
 
 Vite PWA Workbox is a collection of JavaScript libraries for [Progressive Web Apps](https://web.dev/progressive-web-apps/).
