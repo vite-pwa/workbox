@@ -6,7 +6,7 @@ import type {
   CustomChunksInfo,
   RolldownOptions,
 } from './bundler-types'
-import { normalizePath } from '@vite-pwa/workbox-build/utils/resolve-sw-names'
+import { normalizePath } from '../../utils/resolve-sw-names'
 import { prepareSWChunks } from './prepare-sw-chunks'
 
 interface RolldownPluginOptions<T extends SWType, B extends Bundler> {
