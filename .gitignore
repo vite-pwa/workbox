@@ -3,3 +3,24 @@ node_modules
 dist
 # intellij stuff
 .idea/
+packages/types/api/
+
+#examples
+examples/**/build/
+examples/workbox-cli/custom-sw-inject.js
+examples/workbox-cli/classic-sw*.js
+examples/workbox-cli/classic-sw*.map
+examples/workbox-cli/esm-sw*.js
+examples/workbox-cli/esm-sw*.map
+examples/workbox-cli/sw*.js
+examples/workbox-cli/sw*.map
+examples/workbox-cli/workbox.js
+examples/workbox-cli/workbox-*.js
+examples/workbox-cli/workbox-*.map
+examples/workbox-cli/custom-build/workbox-*.js
+examples/workbox-cli/custom-build/sw-*.js
+examples/workbox-cli/custom-build/*.map
+
+# temp-fixtures
+!packages/workbox/build/test/temp-fixtures/DO_NOT_REMOVE.txt
+packages/workbox/build/test/temp-fixtures/
