@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { mkdirSync, rmSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { Application, OptionDefaults } from 'typedoc'
 import { normalizePath } from '@vite-pwa/workbox-build/utils/resolve-sw-names'
+import { Application, OptionDefaults } from 'typedoc'
 
 async function init() {
   const here = new URL('.', import.meta.url)

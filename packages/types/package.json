@@ -31,7 +31,6 @@
     "./workbox-build": "./api/workbox-build.json",
     "./workbox-window": "./api/workbox-window.json",
     "./workbox-cli": "./api/workbox-cli.json",
-    "./unplugin-pwa": "./api/unplugin-pwa.json",
     "./package.json": "./package.json"
   },
   "files": [
@@ -41,7 +40,8 @@
     "node": ">=22.14.0"
   },
   "scripts": {
-    "xbuild": "node gen.mjs",
+    "build": "node gen.mjs",
+    "prepublishOnly": "pnpm run build",
     "docs:api": "node gen.mjs",
     "xprepack": "pnpm run docs:api"
   },
