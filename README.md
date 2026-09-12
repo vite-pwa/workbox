@@ -7,11 +7,11 @@
 <h1 align="center">Vite PWA Workbox</h1>
 
 <p align='center'>
-<a href='https://npmx.dev/package/@vite-pwa/assets-generator' target="__blank">
-<img src='https://img.shields.io/npm/v/@vite-pwa/assets-generator?color=33A6B8&label=' alt="NPM version">
+<a href='https://npmx.dev/package/@vite-pwa/workbox' target="__blank">
+<img src='https://img.shields.io/npm/v/@vite-pwa/workbox?color=33A6B8&label=' alt="NPM version">
 </a>
-<a href="https://npmx.dev/package/@vite-pwa/assets-generator" target="__blank">
-    <img alt="NPM Downloads" src="https://img.shields.io/npm/dm/@vite-pwa/assets-generator?color=476582&label=">
+<a href="https://npmx.dev/package/@vite-pwa/workbox" target="__blank">
+    <img alt="NPM Downloads" src="https://img.shields.io/npm/dm/@vite-pwa/workbox?color=476582&label=">
 </a>
 <a href="https://github.com/vite-pwa/workbox" target="__blank">
 <img alt="GitHub stars" src="https://img.shields.io/github/stars/vite-pwa/workbox?style=social">
@@ -58,3 +58,7 @@ The following breaking changes were introduced in the packages:
 
 `@vite-pwa/workbox-window` package adds these new features:
 - exported a new `esm-sw-detector` subpackage export to allow to detect ESM service worker support in the browser: based on [caniuse](https://caniuse.com/?search=service+worker) baseline specifications
+
+## 📄 License
+
+[MIT](./LICENSE) License &copy; 2026-PRESENT [Anthony Fu](https://github.com/antfu)
