@@ -1,0 +1,18 @@
+{
+  "name": "webpack-cjs-app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node ./build.js",
+    "build:serve": "pnpm run build && pnpx serve dist",
+    "build:external": "PWA_CONFIG=external node ./build.js",
+    "build:override": "PWA_CONFIG=override node ./build.js"
+  },
+  "dependencies": {
+    "@vite-pwa/workbox-swkit": "workspace:*"
+  },
+  "devDependencies": {
+    "@vite-pwa/workbox-build": "workspace:*",
+    "webpack": "catalog:webpack5"
+  }
+}

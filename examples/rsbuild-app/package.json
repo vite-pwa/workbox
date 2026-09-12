@@ -1,0 +1,19 @@
+{
+  "name": "rsbuild-app",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rsbuild build",
+    "build:serve": "pnpm run build && pnpx serve dist",
+    "build:external": "PWA_CONFIG=external rsbuild build",
+    "build:override": "PWA_CONFIG=override rsbuild build"
+  },
+  "dependencies": {
+    "@vite-pwa/workbox-swkit": "workspace:*"
+  },
+  "devDependencies": {
+    "@vite-pwa/workbox-build": "workspace:*",
+    "@rsbuild/core": "catalog:rsbuild"
+  }
+}

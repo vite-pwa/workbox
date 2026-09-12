@@ -1,0 +1,32 @@
+diff --git a/lib/main.js b/lib/main.js
+index 794f3bf512ee8cd24fe20e83d159bf8682fb901e..a79e58de2e1fab86e6c024fc43f0eeeadd183fd6 100644
+--- a/lib/main.js
++++ b/lib/main.js
+@@ -64,7 +64,7 @@ function expandValue (value, processEnv, runningParsed) {
+ 
+ function expand (options) {
+   // for use with progressive expansion
+-  const runningParsed = {}
++  // const runningParsed = {}
+ 
+   let processEnv = process.env
+   if (options && options.processEnv != null) {
+@@ -79,13 +79,16 @@ function expand (options) {
+     if (processEnv[key] && processEnv[key] !== value) {
+       value = processEnv[key]
+     } else {
+-      value = expandValue(value, processEnv, runningParsed)
++      // value = expandValue(value, processEnv, runningParsed)
++      // PATCH: we pass options.parsed instead of runningParsed
++      //        to allow variables declared in other files to be used
++      value = expandValue(value, processEnv, options.parsed)
+     }
+ 
+     options.parsed[key] = _resolveEscapeSequences(value)
+ 
+     // for use with progressive expansion
+-    runningParsed[key] = _resolveEscapeSequences(value)
++    // runningParsed[key] = _resolveEscapeSequences(value)
+   }
+ 
+   for (const processKey in options.parsed) {
