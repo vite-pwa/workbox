@@ -20,9 +20,6 @@
       "@vite-pwa/workbox-build/build/vite/plugin/*": [
         "./packages/workbox/build/src/build/vite/plugin/*.ts"
       ],
-      "@vite-pwa/workbox-build/*": [
-        "./packages/workbox/build/src/*.ts"
-      ],
       "@vite-pwa/workbox-build/build/*": [
         "./packages/workbox/build/src/build/*.ts"
       ],
@@ -43,6 +40,9 @@
       ],
       "@vite-pwa/workbox-window/*": [
         "./packages/workbox/window/src/*.ts"
+      ],
+      "@vite-pwa/workbox-build/*": [
+        "./packages/workbox/build/src/*.ts"
       ]
     },
     "resolveJsonModule": true,
