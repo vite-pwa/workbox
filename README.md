@@ -20,14 +20,18 @@ You need to install the following dependencies to run `@vite-pwa/workbox-cli` or
 
 ## Breaking Changes
 
-`injectManifest` strategy doesn't build your service worker, `@vite-pwa/workbox-build` just injects the manifest into your service worker.
+The following breaking changes were introduced in the packages:
+- `injectManifest` strategy doesn't build your service worker, `@vite-pwa/workbox-build` just injects the manifest into your service worker
+- removed service worker templates: consumer should use a custom service worker instead using ESM notation
+- removed offline Google Analytics support
+- `workbox-sw` not yet available (missing CDN distribution)
 
 ## New features
 
 `@vite-pwa/workbox-build` adds these new features:
-- `buildSW` strategy: builds your service worker and injects the manifest into it when
-- dual service worker generation, with  `generateSW` and `buildSW` strategies: use `swType` option.
-- dot `env` files support: `.env`, `.env.local`, `.env.[mode]`, `.env.[mode].local` files are supported.
+- `buildSW` strategy: builds your service worker and injects the manifest into it when enabled
+- dual service worker generation, with  `generateSW` and `buildSW` strategies: use `swType` option
+- dot `env` files support: `.env`, `.env.local`, `.env.[mode]`, `.env.[mode].local` files are supported
 - custom Rolldown/Vite plugins
 - custom logs level configuration
 - minify the service worker build, including comments (Rolldown options)
@@ -35,6 +39,10 @@ You need to install the following dependencies to run `@vite-pwa/workbox-cli` or
 - new `additionalManifestEntriesGenerator` to allow use async generators to allow to defer the manifest entries generation (read and calculate revision) until required
 - `generateSW` strategy supports configuring `parallel` option to allow precaching in parallel, instead of sequentially
 - `generateSW` strategy supports configuring `urlManipulation` option
+- build plugins for Vite, Webpack, RSPack and RSBuild
 
 `@vite-pwa/workbox-swkit/precaching` package adds these new features:
 - new `parallel` option to allow precaching in parallel, instead of sequentially
+
+`@vite-pwa/workbox-window` package adds these new features:
+- new `esm-sw-detector` subpackage export to allow to detect ESM service worker support in the browser: based on [caniuse](https://caniuse.com/?search=service+worker) baseline specifications
