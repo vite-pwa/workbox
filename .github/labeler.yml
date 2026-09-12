@@ -1,0 +1,25 @@
+# See https://github.com/actions/labeler
+
+'pkg: workbox-build':
+  - packages/workbox/build/**
+
+'pkg: workbox-cli':
+  - packages/workbox/cli/**
+
+'pkg: workbox-swkit':
+  - packages/workbox/swkit/**
+
+'pkg: workbox-types':
+  - packages/workbox/types/**
+
+'pkg: workbox-window':
+  - packages/workbox/window/**
+
+# Other categories
+🚨 action:
+  - .github/workflows/**
+  - .github/actions/**
+
+#documentation:
+#  - README.md
+#  - packages/**/README.md

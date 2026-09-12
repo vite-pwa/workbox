@@ -24,7 +24,8 @@
     "test:ci": "pnpm -r --filter=\"./packages/**/\" run test:ci",
     "test:typecheck": "pnpm -r --filter=\"./packages/**/\" run test:typecheck",
     "build": "pnpm -r --filter=\"./packages/**/\" run build",
-    "update-deps": "taze minor -wIr",
+    "update:deps": "taze minor -wIr",
+    "update:workflows": "pnpx actions-up -y",
     "xrelease": "bumpp -r --excute=\"pnpm i\""
   },
   "devDependencies": {
