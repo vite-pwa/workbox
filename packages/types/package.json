@@ -1,0 +1,59 @@
+{
+  "name": "@vite-pwa/workbox-types",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "TypeDoc JSON metadata for the workbox packages, published for the Vite PWA docs site to render its API reference.",
+  "author": "Google's Web DevRel Team, Vite PWA's Team",
+  "contributors": [
+    "userquin <userquin@gmail.com>"
+  ],
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/vite-pwa/workbox#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vite-pwa/workbox.git",
+    "directory": "packages/workbox/types"
+  },
+  "bugs": "https://github.com/vite-pwa/workbox/issues",
+  "keywords": [
+    "workbox",
+    "workboxjs",
+    "service worker",
+    "caching",
+    "fetch requests",
+    "offline",
+    "types"
+  ],
+  "sideEffects": false,
+  "exports": {
+    "./workbox-swkit": "./api/workbox-swkit.json",
+    "./workbox-build": "./api/workbox-build.json",
+    "./workbox-window": "./api/workbox-window.json",
+    "./workbox-cli": "./api/workbox-cli.json",
+    "./unplugin-pwa": "./api/unplugin-pwa.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "api"
+  ],
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "scripts": {
+    "xbuild": "node gen.mjs",
+    "docs:api": "node gen.mjs",
+    "xprepack": "pnpm run docs:api"
+  },
+  "devDependencies": {
+    "@vite-pwa/workbox-build": "workspace:*",
+    "@vite-pwa/workbox-cli": "workspace:*",
+    "@vite-pwa/workbox-swkit": "workspace:*",
+    "@vite-pwa/workbox-window": "workspace:*",
+    "@rolldown/pluginutils": "catalog:utils",
+    "typedoc": "catalog:docs"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

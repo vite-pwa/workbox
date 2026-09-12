@@ -1,0 +1,17 @@
+<html>
+    <head><title>PWA Entry Point</title></head>
+<script>
+    if('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            // navigator.serviceWorker.register('/sw.js', { scope: '/', type: 'module' })
+            // navigator.serviceWorker.register('/classic-sw.js', { scope: '/', type: 'classic' })
+            // navigator.serviceWorker.register('/sw.js', { scope: '/', type: 'classic' })
+            // navigator.serviceWorker.register('/esm-sw.js', { scope: '/', type: 'module' })
+            navigator.serviceWorker.register('/custom-sw.js', { scope: '/', type: 'classic' })
+        })
+    }
+</script>
+<body>
+<h1>PWA Entry Point</h1>
+</body>
+</html>

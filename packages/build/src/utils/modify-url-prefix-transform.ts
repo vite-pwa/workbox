@@ -1,0 +1,53 @@
+import type { ManifestTransform } from '../types'
+import { errors } from '../validation/errors'
+import { escapeRegExp } from './escape-regexp'
+
+export function modifyURLPrefixTransform(modifyURLPrefix: {
+  [key: string]: string
+}): ManifestTransform {
+  if (
+    !modifyURLPrefix
+    || typeof modifyURLPrefix !== 'object'
+    || Array.isArray(modifyURLPrefix)
+  ) {
+    throw new Error(errors['modify-url-prefix-bad-prefixes'])
+  }
+
+  // If there are no entries in modifyURLPrefix, just return an identity
+  // function as a shortcut.
+  if (Object.keys(modifyURLPrefix).length === 0) {
+    return (manifest) => {
+      return { manifest }
+    }
+  }
+
+  for (const key of Object.keys(modifyURLPrefix)) {
+    if (typeof modifyURLPrefix[key] !== 'string') {
+      throw new TypeError(errors['modify-url-prefix-bad-prefixes'])
+    }
+  }
+
+  // Escape the user input so it's safe to use in a regex.
+  const safeModifyURLPrefixes = Object.keys(modifyURLPrefix).map(escapeRegExp)
+  // Join all the `modifyURLPrefix` keys so a single regex can be used.
+  const prefixMatchesStrings = safeModifyURLPrefixes.join('|')
+  // Add `^` to the front the prefix matches so it only matches the start of
+  // a string.
+  const modifyRegex = new RegExp(`^(${prefixMatchesStrings})`)
+
+  return (originalManifest) => {
+    const manifest = originalManifest.map((entry) => {
+      if (typeof entry.url !== 'string') {
+        throw new TypeError(errors['manifest-entry-bad-url'])
+      }
+
+      entry.url = entry.url.replace(modifyRegex, (match) => {
+        return modifyURLPrefix[match]
+      })
+
+      return entry
+    })
+
+    return { manifest }
+  }
+}

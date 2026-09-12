@@ -1,0 +1,24 @@
+{
+  "name": "workbox-build-cli",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "generate": "pnpx tsx ./generate.ts",
+    "inject": "pnpx tsx ./inject.ts",
+    "manifest": "pnpx tsx ./manifest.ts",
+    "build": "pnpx tsx ./build.ts",
+    "build-split": "pnpx tsx ./build-split.ts",
+    "cli": "workbox-cli",
+    "cli:generate": "workbox-cli generate-sw.config.ts",
+    "cli:build-sw": "workbox-cli build-sw.config.ts",
+    "cli:inject": "workbox-cli inject-manifest.config.ts",
+    "cli:manifest": "workbox-cli manifest.config.ts",
+    "cli:self-destroy": "workbox-cli -c self-destroy-sw"
+  },
+  "dependencies": {
+    "@vite-pwa/workbox-build": "workspace:*",
+    "@vite-pwa/workbox-cli": "workspace:*",
+    "@vite-pwa/workbox-swkit": "workspace:*"
+  }
+}
