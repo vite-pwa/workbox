@@ -36,7 +36,7 @@ The following breaking changes were introduced in the packages:
 - custom logs level configuration
 - minify the service worker build, including comments (Rolldown options)
 - custom code splitting chunks: now it is possible to split your service worker code into multiple chunks, not just `workbox` service worker modules
-- new `additionalManifestEntriesGenerator` to allow use async generators to allow to defer the manifest entries generation (read and calculate revision) until required
+- new `additionalManifestEntriesGenerator` factory to allow use async generators to allow to defer the manifest entries generation (read and calculate revision) until required
 - `generateSW` strategy supports configuring `parallel` option to allow precaching in parallel, instead of sequentially
 - `generateSW` strategy supports configuring `urlManipulation` option
 - build plugins for Vite, Webpack, RSPack and RSBuild
