@@ -2,23 +2,28 @@
 
 'pkg: workbox-build':
 - changed-files:
-  - packages/workbox/build/**
+  - any-glob-to-any-file:
+    - 'packages/workbox/build/**'
 
 'pkg: workbox-cli':
 - changed-files:
-  - any-glob-to-any-file: 'packages/workbox/cli/**'
+  - any-glob-to-any-file:
+    - 'packages/workbox/cli/**'
 
 'pkg: workbox-swkit':
 - changed-files:
-  - any-glob-to-any-file: 'packages/workbox/swkit/**'
+  - any-glob-to-any-file:
+    - 'packages/workbox/swkit/**'
 
 'pkg: workbox-types':
 - changed-files:
-  - any-glob-to-any-file: 'packages/workbox/types/**'
+  - any-glob-to-any-file:
+    - 'packages/workbox/types/**'
 
 'pkg: workbox-window':
 - changed-files:
-  - any-glob-to-any-file: 'packages/workbox/window/**'
+  - any-glob-to-any-file:
+    - 'packages/workbox/window/**'
 
 # Other categories
 🚨 action:
