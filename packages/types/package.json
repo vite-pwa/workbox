@@ -54,6 +54,7 @@
     "typedoc": "catalog:docs"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   }
 }

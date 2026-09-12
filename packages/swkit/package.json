@@ -158,7 +158,8 @@
     "idb": "catalog:utils"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "inlinedDependencies": {
     "idb": "8.0.3"
