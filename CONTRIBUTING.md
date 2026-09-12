@@ -12,7 +12,7 @@ To develop and test the `@vite-pwa/workbox` package:
 
 1. Fork the `@vite-pwa/workbox` repository to your own GitHub account and then clone it to your local device.
 
-2. Ensure using the latest Node.js 24.x.
+2. Ensure using the latest Node.js 24.x (`>= 24.11.0`: required to run the build scripts).
 
 3. `@vite-pwa/workbox` uses pnpm (check `packageManager` version at `package.json`). If you are working on multiple projects with different versions of pnpm, it's recommend to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
 
