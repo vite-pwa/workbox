@@ -1,7 +1,7 @@
 {
   "name": "@vite-pwa/workbox-cli",
   "type": "module",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "workbox-cli is the command line interface for Workbox.",
   "author": "Google's Web DevRel Team, Vite PWA's Team",
   "contributors": [
