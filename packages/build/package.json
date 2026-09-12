@@ -1,7 +1,7 @@
 {
   "name": "@vite-pwa/workbox-build",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A module that integrates into your build process, helping you generate a manifest of local files that workbox-sw should precache.",
   "author": "Google's Web DevRel Team, Vite PWA's Team",
   "contributors": [

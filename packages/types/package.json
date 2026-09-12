@@ -1,7 +1,7 @@
 {
   "name": "@vite-pwa/workbox-types",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "TypeDoc JSON metadata for the workbox packages, published for the Vite PWA docs site to render its API reference.",
   "author": "Google's Web DevRel Team, Vite PWA's Team",
   "contributors": [
