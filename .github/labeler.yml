@@ -1,24 +1,36 @@
 # See https://github.com/actions/labeler
 
 'pkg: workbox-build':
-  - packages/workbox/build/**
+- any:
+  - changed-files:
+    - packages/workbox/build/**
 
 'pkg: workbox-cli':
-  - packages/workbox/cli/**
+- any:
+  - changed-files:
+    - packages/workbox/cli/**
 
 'pkg: workbox-swkit':
-  - packages/workbox/swkit/**
+- any:
+  - changed-files:
+    - packages/workbox/swkit/**
 
 'pkg: workbox-types':
-  - packages/workbox/types/**
+- any:
+  - changed-files:
+    - packages/workbox/types/**
 
 'pkg: workbox-window':
-  - packages/workbox/window/**
+- any:
+  - changed-files:
+    - packages/workbox/window/**
 
 # Other categories
 🚨 action:
-  - .github/workflows/**
-  - .github/actions/**
+- any:
+  - changed-files:
+    - .github/workflows/**
+    - .github/actions/**
 
 #documentation:
 #  - README.md

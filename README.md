@@ -1,11 +1,12 @@
+<br>
+
 <p align='center'>
-<img src='https://github.com/userquin/composable-vite-pwa/blob/main/packages/workbox/workbox-hero.svg' alt="workbox"><br>
-Workbox
+    <img src='https://github.com/vite-pwa/workbox/blob/main/workbox.svg' alt="Vite PWA workbox">
 </p>
 
-<a href="https://github.com/vite-pwa">
-    <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/userquin/composable-vite-pwa/blob/main/packages/workbox/workbox-hero.svg" height="40" />
-        <img height="40" src="https://github.com/userquin/composable-vite-pwa/blob/main/packages/workbox/workbox.svg">
-    </picture>
-  </a>
+<h1 align="center">Vite PWA Workbox</h1>
+
+## Welcome to the Vite PWA Workbox repository!
+
+Vite PWA Workbox is a collection of JavaScript libraries for [Progressive Web Apps](https://web.dev/progressive-web-apps/).
+
