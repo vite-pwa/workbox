@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vite-pwa/workbox.git",
-    "directory": "packages/workbox/cli"
+    "directory": "packages/cli"
   },
   "bugs": "https://github.com/vite-pwa/workbox/issues",
   "keywords": [
