@@ -2,11 +2,14 @@ name: Publish Any Commit
 
 on:
   pull_request:
-  push:
-    branches:
-      - '**'
-    tags:
-      - '!**'
+    branches: [main]
+    types: [opened, synchronize, labeled, ready_for_review]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}
+  cancel-in-progress: true
 
 jobs:
   build:
