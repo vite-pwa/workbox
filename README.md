@@ -36,5 +36,5 @@ You need to install the following dependencies to run `@vite-pwa/workbox-cli` or
 - `generateSW` strategy supports configuring `parallel` option to allow precaching in parallel, instead of sequentially
 - `generateSW` strategy supports configuring `urlManipulation` option
 
-`@vite-pwa/worbox-swkit/precaching` package adds these new features:
+`@vite-pwa/workbox-swkit/precaching` package adds these new features:
 - new `parallel` option to allow precaching in parallel, instead of sequentially
