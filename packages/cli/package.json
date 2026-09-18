@@ -46,7 +46,7 @@
     "test": "NO_COLOR=1 vitest",
     "test:ci": "NO_COLOR=1 vitest run",
     "test:typecheck": "tsc --noEmit",
-    "prepublishOnly": "pnpm run build"
+    "prepack": "pnpm run build"
   },
   "dependencies": {
     "@clack/prompts": "catalog:utils",

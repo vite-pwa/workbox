@@ -41,9 +41,8 @@
   },
   "scripts": {
     "build": "node gen.mjs",
-    "prepublishOnly": "pnpm run build",
     "docs:api": "node gen.mjs",
-    "xprepack": "pnpm run docs:api"
+    "prepack": "pnpm run docs:api"
   },
   "devDependencies": {
     "@vite-pwa/workbox-build": "workspace:*",
