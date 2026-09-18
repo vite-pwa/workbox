@@ -1,7 +1,7 @@
 {
   "name": "@vite-pwa/workbox-swkit",
   "type": "module",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "description": "This library contains all the packages from workbox packages for the service worker.",
   "author": "Google's Web DevRel Team, Vite PWA's Team",
   "maintainers": [
