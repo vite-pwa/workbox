@@ -9,7 +9,7 @@ on:
 
 jobs:
   main:
-    if: github.repository == 'vite-pwa/workbox'
+    if: github.repository == 'vite-pwa/workbox' && github.actor != 'github-actions[bot]' && !startsWith(github.head_ref, 'release/')
     permissions:
       pull-requests: read
     runs-on: ubuntu-latest
