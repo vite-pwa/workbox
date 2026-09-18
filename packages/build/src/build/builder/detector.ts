@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import { findPackageJSON } from 'node:module'
 import process from 'node:process'
 import { pathToFileURL } from 'node:url'
-import { getMajor, isGreaterOrEqual } from 'verkit'
+import { getMajor, isGreaterThanOrEqual } from 'verkit'
 import { BundlerNames } from './utils'
 
 const base = pathToFileURL(`${process.cwd()}/`).href
@@ -72,7 +72,7 @@ export async function detectMagicast(): Promise<boolean | undefined> {
     if (!version) {
       return false
     }
-    return isGreaterOrEqual(version, '0.5.0')
+    return isGreaterThanOrEqual(version, '0.5.0')
   }
   catch { return undefined }
 }
@@ -146,7 +146,7 @@ export function includeRolldownOxcPlugin() {
     if (!version) {
       return true
     }
-    return isGreaterOrEqual('1.1.2', version)
+    return isGreaterThanOrEqual('1.1.2', version)
   }
   catch {
     return false
