@@ -32,6 +32,11 @@
     - '.github/workflows/**'
     - '.github/actions/**'
 
+📦 dependencies:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'pnpm-lock.yaml'
+
 documentation:
 - changed-files:
   - any-glob-to-any-file:

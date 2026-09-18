@@ -12,7 +12,7 @@ permissions:
 jobs:
   triage:
     runs-on: ubuntu-latest
-    if: github.repository == 'vite-pwa/workbox'
+    if: github.repository == 'vite-pwa/workbox' && github.head_ref != 'chore/update-deps'
     steps:
       - uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
         with:
