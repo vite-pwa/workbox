@@ -5,7 +5,9 @@ on:
     branches: [main]
     types: [opened, synchronize, labeled, ready_for_review]
 
-permissions: {}
+permissions:
+  contents: read
+  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number }}
@@ -37,5 +39,4 @@ jobs:
         run: pnpm build
 
       - name: Release
-        run: pnpx pkg-pr-new publish --compact --pnpm './packages/*' --only-templates
-        # run: pnpm dlx pkg-pr-new publish --pnpm './packages/*' --only-templates
+        run: pnpm dlx pkg-pr-new@0.0 publish --compact --pnpm './packages/*' --packageManager=pnpm

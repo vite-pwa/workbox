@@ -152,7 +152,7 @@
   "scripts": {
     "build": "tsdown --config-loader unrun",
     "test:typecheck": "tsc --noEmit",
-    "prepublishOnly": "pnpm run build"
+    "prepack": "pnpm run build"
   },
   "dependencies": {
     "idb": "catalog:utils"
