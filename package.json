@@ -24,9 +24,9 @@
     "test:ci": "pnpm -r --filter=\"./packages/**/\" run test:ci",
     "test:typecheck": "pnpm -r --filter=\"./packages/**/\" run test:typecheck",
     "build": "pnpm -r --filter=\"./packages/**/\" run build",
-    "update:deps": "taze minor -wIr",
-    "update:workflows": "pnpx actions-up -y",
-    "xrelease": "bumpp -r --excute=\"pnpm i\""
+    "update:deps": "taze -I",
+    "update:workflows": "pnpm dlx actions-up -y",
+    "update:workflows:dry": "pnpm dlx actions-up --dry-run"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:eslint",
@@ -36,7 +36,6 @@
     "@types/trusted-types": "catalog:types",
     "@vitest/ui": "catalog:test",
     "ansis": "catalog:utils",
-    "bumpp": "catalog:utils",
     "cac": "catalog:utils",
     "consola": "catalog:utils",
     "eslint": "catalog:eslint",
