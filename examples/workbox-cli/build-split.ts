@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { generateManifestEntries } from '@vite-pwa/workbox-build/utils/generate-manifest-entries'
 import MagicString from 'magic-string'
 import { rolldown } from 'rolldown'
@@ -34,6 +33,7 @@ export function sayHello2(msg) {
       //   console.log({ file, name }, Object.keys(bundle))
       // },
       generateBundle(_, bundle, isWrite) {
+        // eslint-disable-next-line no-console
         console.log('generateBundle', isWrite)
         // Buscamos el chunk de workbox para saber su nombre final con hash
         const workboxChunk = Object.values(bundle).find(
@@ -227,6 +227,7 @@ export function sayHello2(msg) {
     },
   })
 
+  // eslint-disable-next-line no-console
   console.log(result.output.map(c => [c.name, c.fileName] as const))
 }
 
