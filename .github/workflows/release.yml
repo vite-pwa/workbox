@@ -17,7 +17,7 @@ env:
 
 jobs:
   pr:
-    if:  |
+    if: |
       github.repository_owner == 'vite-pwa'
       && (
         github.event_name == 'push'

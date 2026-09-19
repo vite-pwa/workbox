@@ -1,3 +1,4 @@
+/* eslint-disable no-console,no-restricted-globals,prefer-regex-literals */
 import {
   CacheFirst,
   cleanupOutdatedCaches,
@@ -25,7 +26,7 @@ precacheAndRoute(self.__WB_MANIFEST, {
 })
 cleanupOutdatedCaches()
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')))
-registerRoute(new RegExp('^https:\\/\\/fonts\\.(?:googleapis|gstatic)\\.com\\/.*', 'i'), new CacheFirst({
+registerRoute(/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*$/i, new CacheFirst({
   cacheName: 'google-fonts',
   expiration: {
     maxEntries: 4,

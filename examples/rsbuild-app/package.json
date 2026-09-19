@@ -13,7 +13,7 @@
     "@vite-pwa/workbox-swkit": "workspace:*"
   },
   "devDependencies": {
-    "@vite-pwa/workbox-build": "workspace:*",
-    "@rsbuild/core": "catalog:rsbuild"
+    "@rsbuild/core": "catalog:rsbuild",
+    "@vite-pwa/workbox-build": "workspace:*"
   }
 }

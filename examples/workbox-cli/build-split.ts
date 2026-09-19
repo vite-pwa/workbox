@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { generateManifestEntries } from '@vite-pwa/workbox-build/utils/generate-manifest-entries'
 import MagicString from 'magic-string'
 import { rolldown } from 'rolldown'
@@ -44,7 +45,7 @@ export function sayHello2(msg) {
 
         const workboxFileName = workboxChunk.fileName
 
-        for (const [key, chunk] of Object.entries(bundle)) {
+        for (const [_key, chunk] of Object.entries(bundle)) {
           if (chunk.type !== 'chunk')
             continue
 
@@ -90,6 +91,7 @@ export function sayHello2(msg) {
 
             const exportRegex = /export\s*\{([^}]+)\};?/g
             let match
+            // eslint-disable-next-line no-cond-assign
             while ((match = exportRegex.exec(codeWithoutMap)) !== null) {
               const [fullMatch, content] = match
               const members = content.split(',').map(e => e.trim().split(/\s+as\s+/)[0].trim()).join(', ')
@@ -119,6 +121,7 @@ export function sayHello2(msg) {
             )
 
             let match
+            // eslint-disable-next-line no-cond-assign
             while ((match = importRegex.exec(chunk.code)) !== null) {
               const [fullMatch, imports] = match
 

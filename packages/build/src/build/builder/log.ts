@@ -6,6 +6,9 @@ import pc from 'picocolors'
  * If Vite < 8.0.0 is used, Rolldown is mandatory for the orchestration.
  *
  * @param result - The dependency detection result (versions and presence).
+ * @param result.magicast - Magicast availability
+ * @param result.rolldown - Rolldown version/availability
+ * @param result.vite - Vite version/availability
  * @param isDev - Whether to log a warning (dev) or return an error string (build).
  */
 export function checkGenerateSWDependencies(

@@ -1,6 +1,6 @@
 import process from 'node:process'
-import { RspackWorkboxPWAPlugin } from '@vite-pwa/workbox-build/build/rspack'
 import { defineConfig } from '@rsbuild/core'
+import { RspackWorkboxPWAPlugin } from '@vite-pwa/workbox-build/build/rspack'
 import PWAConfig from './external-pwa.config.mjs'
 
 /** @type {'inline' | 'external' | 'override'} */
