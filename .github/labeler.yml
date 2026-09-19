@@ -26,20 +26,20 @@
       - 'packages/window/**'
 
 # Other categories
-'🚨 action':
+🚨 action:
   - changed-files:
     - any-glob-to-any-file:
       - '.github/workflows/**'
       - '.github/actions/**'
-      - 'taze.config.ts'
+      - taze.config.ts
 
-'📦 dependencies':
+📦 dependencies:
   - changed-files:
     - any-glob-to-any-file:
-      - 'pnpm-lock.yaml'
+      - pnpm-lock.yaml
 
-'documentation':
+documentation:
   - changed-files:
     - any-glob-to-any-file:
-      - 'README.md'
-      - 'CONTRIBUTING.md'
+      - README.md
+      - CONTRIBUTING.md

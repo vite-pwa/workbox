@@ -23,6 +23,5 @@ export default antfu({
   files: ['.github/labeler.yml'],
   rules: {
     'yaml/indent': 'off',
-    'yaml/plain-scalar': 'off',
   },
 })
