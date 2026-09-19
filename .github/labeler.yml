@@ -1,45 +1,45 @@
 # See https://github.com/actions/labeler
 
 'pkg: workbox-build':
-- changed-files:
-  - any-glob-to-any-file:
-    - 'packages/build/**'
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'packages/build/**'
 
 'pkg: workbox-cli':
-- changed-files:
-  - any-glob-to-any-file:
-    - 'packages/cli/**'
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'packages/cli/**'
 
 'pkg: workbox-swkit':
-- changed-files:
-  - any-glob-to-any-file:
-    - 'packages/swkit/**'
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'packages/swkit/**'
 
 'pkg: workbox-types':
-- changed-files:
-  - any-glob-to-any-file:
-    - 'packages/types/**'
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'packages/types/**'
 
 'pkg: workbox-window':
-- changed-files:
-  - any-glob-to-any-file:
-    - 'packages/window/**'
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'packages/window/**'
 
 # Other categories
 🚨 action:
-- changed-files:
-  - any-glob-to-any-file:
-    - '.github/workflows/**'
-    - '.github/actions/**'
-    - 'taze.config.ts'
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/workflows/**'
+      - '.github/actions/**'
+      - taze.config.ts
 
 📦 dependencies:
   - changed-files:
     - any-glob-to-any-file:
-      - 'pnpm-lock.yaml'
+      - pnpm-lock.yaml
 
 documentation:
-- changed-files:
-  - any-glob-to-any-file:
-    - 'README.md'
-    - 'CONTRIBUTING.md'
+  - changed-files:
+    - any-glob-to-any-file:
+      - README.md
+      - CONTRIBUTING.md

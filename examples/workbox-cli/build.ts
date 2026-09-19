@@ -34,6 +34,7 @@ async function build() {
     codeSplitting: false,
   })
 
+  // eslint-disable-next-line no-console
   console.log(result.output.map(c => [c.name, c.fileName] as const))
 }
 

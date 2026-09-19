@@ -20,7 +20,7 @@ describe.skip(`[workbox-build] generate-sw.js (End to End)`, () => {
     swDest: 'sw.js',
   } satisfies GenerateSWOptions<any>
   const REQUIRED_PARAMS = ['swDest']
-  const SUPPORTED_PARAMS = [
+  const _SUPPORTED_PARAMS = [
     'additionalManifestEntries',
     'babelPresetEnvTargets',
     'cacheId',
@@ -53,7 +53,7 @@ describe.skip(`[workbox-build] generate-sw.js (End to End)`, () => {
     'templatedURLs',
   ].concat(REQUIRED_PARAMS)
   const UNSUPPORTED_PARAMS = ['injectionPoint', 'swSrc']
-  const PRECACHE_ORDER = [
+  const _PRECACHE_ORDER = [
     {
       url: 'webpackEntry.js',
       revision: /^[0-9a-f]{32}$/,
@@ -108,7 +108,7 @@ describe.skip(`[workbox-build] generate-sw.js (End to End)`, () => {
     }
   })
 
-  describe.only('[workbox-build] invalid parameter values', () => {
+  describe('[workbox-build] invalid parameter values', () => {
     /* for (const param of SUPPORTED_PARAMS) {
       it(`should fail validation when '${param}' is an unexpected value`, async () => {
         const options = Object.assign({}, BASE_OPTIONS) as any

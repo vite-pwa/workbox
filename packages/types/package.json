@@ -45,11 +45,11 @@
     "prepack": "pnpm run docs:api"
   },
   "devDependencies": {
+    "@rolldown/pluginutils": "catalog:utils",
     "@vite-pwa/workbox-build": "workspace:*",
     "@vite-pwa/workbox-cli": "workspace:*",
     "@vite-pwa/workbox-swkit": "workspace:*",
     "@vite-pwa/workbox-window": "workspace:*",
-    "@rolldown/pluginutils": "catalog:utils",
     "typedoc": "catalog:docs"
   },
   "publishConfig": {

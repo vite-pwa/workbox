@@ -33,6 +33,7 @@ export function sayHello2(msg) {
       //   console.log({ file, name }, Object.keys(bundle))
       // },
       generateBundle(_, bundle, isWrite) {
+        // eslint-disable-next-line no-console
         console.log('generateBundle', isWrite)
         // Buscamos el chunk de workbox para saber su nombre final con hash
         const workboxChunk = Object.values(bundle).find(
@@ -44,7 +45,7 @@ export function sayHello2(msg) {
 
         const workboxFileName = workboxChunk.fileName
 
-        for (const [key, chunk] of Object.entries(bundle)) {
+        for (const [_key, chunk] of Object.entries(bundle)) {
           if (chunk.type !== 'chunk')
             continue
 
@@ -90,6 +91,7 @@ export function sayHello2(msg) {
 
             const exportRegex = /export\s*\{([^}]+)\};?/g
             let match
+            // eslint-disable-next-line no-cond-assign
             while ((match = exportRegex.exec(codeWithoutMap)) !== null) {
               const [fullMatch, content] = match
               const members = content.split(',').map(e => e.trim().split(/\s+as\s+/)[0].trim()).join(', ')
@@ -119,6 +121,7 @@ export function sayHello2(msg) {
             )
 
             let match
+            // eslint-disable-next-line no-cond-assign
             while ((match = importRegex.exec(chunk.code)) !== null) {
               const [fullMatch, imports] = match
 
@@ -224,6 +227,7 @@ export function sayHello2(msg) {
     },
   })
 
+  // eslint-disable-next-line no-console
   console.log(result.output.map(c => [c.name, c.fileName] as const))
 }
 

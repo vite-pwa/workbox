@@ -1,6 +1,7 @@
 import type { GenerateSWOptions, SWType } from '../types'
 import { errors } from './errors'
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 const DEFAULT_EXCLUDE_VALUE = [/\.map$/, /^manifest.*\.js$/]
 
 export class WorkboxConfigError extends Error {
