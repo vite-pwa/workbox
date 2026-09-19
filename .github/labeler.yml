@@ -31,6 +31,7 @@
   - any-glob-to-any-file:
     - '.github/workflows/**'
     - '.github/actions/**'
+    - 'taze.config.ts'
 
 📦 dependencies:
   - changed-files:
