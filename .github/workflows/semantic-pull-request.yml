@@ -1,6 +1,7 @@
 name: Semantic Pull Request
 
 on:
+  # zizmor: ignore[dangerous-triggers] false positive: only validates PR title string
   pull_request_target:
     types:
       - opened
