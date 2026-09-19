@@ -40,4 +40,5 @@ jobs:
         run: pnpm build
 
       - name: Release
+        # zizmor: ignore[use-trusted-publishing] false positive: publishing to ephemeral StackBlitz registry, not npm
         run: pnpm dlx pkg-pr-new@0.0 publish --compact --pnpm './packages/*' --packageManager=pnpm
