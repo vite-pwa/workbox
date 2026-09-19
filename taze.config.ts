@@ -8,4 +8,8 @@ export default defineConfig({
   peer: false,
   mode: 'minor',
   exclude: ['taze', 'dotenv-expand'],
+  nodeVersion: false,
+  depFields: {
+    packageManager: false,
+  },
 })
