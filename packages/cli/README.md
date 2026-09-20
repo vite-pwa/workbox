@@ -24,7 +24,7 @@ The modern toolkit for modern web apps. **Vite PWA Workbox CLI** provides the es
 `@vite-pwa/workbox-cli` requires **Node 22.14.0 or above**.
 
 You need to install the following dependencies to run `@vite-pwa/workbox-cli`:
-- Rolldown 1.0.0 or above: if you've installed Vite 8 or above, you don't need to install Rolldown as a dependency, because Vite 8 uses Rolldown; you need to install Rolldown when using Webpack, RsPack or RsBuild
+- Rolldown 1.0.0 or above: if you've installed Vite 8 or above, you don't need to install Rolldown as a dependency, because Vite 8 uses Rolldown; you need to install Rolldown when using Webpack, Rspack or Rsbuild
 - `magicstring` 0.5.0 or above: when using `generateSW` strategy only
 
 ## Breaking Changes

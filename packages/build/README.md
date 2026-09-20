@@ -24,7 +24,7 @@ The modern toolkit for modern web apps. **Vite PWA Workbox Build** provides the 
 `@vite-pwa/workbox-build` requires **Node 22.14.0 or above**.
 
 You need to install the following dependencies to run `@vite-pwa/workbox-build`:
-- Rolldown 1.0.0 or above: if you've installed Vite 8 or above, you don't need to install Rolldown as a dependency, because Vite 8 uses Rolldown; you need to install Rolldown when using Webpack, RsPack or RsBuild
+- Rolldown 1.0.0 or above: if you've installed Vite 8 or above, you don't need to install Rolldown as a dependency, because Vite 8 uses Rolldown; you need to install Rolldown when using Webpack, Rspack or Rsbuild
 - `magicstring` 0.5.0 or above: when using `generateSW` strategy only
 
 ## Breaking Changes
@@ -47,7 +47,7 @@ The following breaking changes were introduced in the packages:
 - new `additionalManifestEntriesGenerator` factory to allow use async generators to allow to defer the manifest entries generation (read and calculate revision) until required
 - `generateSW` strategy supports configuring `parallel` option to allow precaching in parallel, instead of sequentially
 - `generateSW` strategy supports configuring `urlManipulation` option
-- build plugins for Vite, Webpack, RSPack and RSBuild
+- build plugins for Vite, Webpack, Rspack and Rsbuild
 
 ## 📄 License
 
