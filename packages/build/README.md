@@ -25,7 +25,7 @@ The modern toolkit for modern web apps. **Vite PWA Workbox Build** provides the 
 
 You need to install the following dependencies to run `@vite-pwa/workbox-build`:
 - Rolldown 1.0.0 or above: if you've installed Vite 8 or above, you don't need to install Rolldown as a dependency, because Vite 8 uses Rolldown; you need to install Rolldown when using Webpack, Rspack or Rsbuild
-- `magicstring` 0.5.0 or above: when using `generateSW` strategy only
+- `magicast` 0.5.0 or above: when using `generateSW` strategy only
 
 ## Breaking Changes
 
