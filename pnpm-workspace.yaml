@@ -74,7 +74,6 @@ catalogs:
     idb: ^8.0.3
     magic-string: ^1.4.1
     magicast: ^0.5.5
-    picocolors: ^1.1.1
     proper-tags: ^2.0.2
     publint: ^0.3.24
     rolldown: ^1.2.9

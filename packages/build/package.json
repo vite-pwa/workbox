@@ -65,6 +65,7 @@
     "./types": {
       "types": "./dist/types.d.mts"
     },
+    "./utils/colors": "./dist/utils/colors.mjs",
     "./utils/resolve-sw-names": "./dist/utils/resolve-sw-names.mjs",
     "./package.json": "./package.json"
   },
@@ -140,6 +141,9 @@
       "types": [
         "./dist/types.d.mts"
       ],
+      "utils/colors": [
+        "./dist/utils/colors.d.mts"
+      ],
       "utils/resolve-sw-names": [
         "./dist/utils/resolve-sw-names.d.mts"
       ]
@@ -187,7 +191,6 @@
     "@vite-pwa/workbox-swkit": "workspace:*",
     "@vite-pwa/workbox-window": "workspace:*",
     "magic-string": "catalog:utils",
-    "picocolors": "catalog:utils",
     "proper-tags": "catalog:utils",
     "serialize-javascript": "catalog:utils",
     "tinyglobby": "catalog:utils",

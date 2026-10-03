@@ -40,7 +40,6 @@
     "consola": "catalog:utils",
     "eslint": "catalog:eslint",
     "eslint-plugin-antfu": "catalog:eslint",
-    "picocolors": "catalog:utils",
     "publint": "catalog:utils",
     "taze": "catalog:utils",
     "tsdown": "catalog:build",

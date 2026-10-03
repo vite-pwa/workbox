@@ -1,6 +1,6 @@
 import type { SelfDestroyingOptions } from './types'
 import fsp from 'node:fs/promises'
-import pc from 'picocolors'
+import { errStyle } from './utils/colors'
 import { errors } from './validation/errors'
 import { validateSWDestDirectory } from './validation/generation-utils'
 
@@ -53,15 +53,15 @@ export async function selfDestroyingSW(options: SelfDestroyingOptions): Promise<
         if (e.invalidExtension)
           reasons.push('must end with .js extension')
 
-        return `  ${pc.dim('-')} ${pc.red(e.entry)} ${pc.yellow(`(${reasons.join(', ')})`)}`
+        return `  ${errStyle('dim', '-')} ${errStyle('red', e.entry)} ${errStyle('yellow', `(${reasons.join(', ')})`)}`
       })
       .join('\n')
 
     throw new Error(
       [
-        `\n${pc.red(pc.bold('[Vite PWA]'))} ${pc.red('Invalid Service Worker destination paths found:')}`,
+        `\n${errStyle(['red', 'bold'], '[Vite PWA]')} ${errStyle('red', 'Invalid Service Worker destination paths found:')}`,
         errorList,
-        `\n${pc.yellow('Please verify your build output configuration.')}\n`,
+        `\n${errStyle('yellow', 'Please verify your build output configuration.')}\n`,
       ].join('\n'),
     )
   }

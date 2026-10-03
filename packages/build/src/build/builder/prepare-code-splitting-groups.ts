@@ -1,5 +1,5 @@
 import type { Bundler, ClassicBuild, CustomChunksInfo, RolldownOptions } from './bundler-types'
-import pc from 'picocolors'
+import { errStyle } from '../../utils/colors'
 import { camelize, workboxRegex } from './utils'
 
 export function prepareCodeSplittingGroups<B extends Bundler>(
@@ -51,9 +51,9 @@ export function prepareCodeSplittingGroups<B extends Bundler>(
           // Or just lets Rolldown handle it if not being imported by the Service Worker.
           if (customChunkName === swChunkName || customChunkName === workboxName) {
             throw new Error([
-              `\n${pc.red(pc.bold('[Vite PWA]'))} ${pc.red(`Custom chunk name "${pc.yellow(customChunkName)}" conflicts with the Service Worker or Workbox runtime chunk names!`)}\n`,
-              `  - To include "${pc.yellow(customChunkName)}" inside the SW chunk, simply return undefined or false from the customChunks callback.`,
-              `  - If the "${pc.yellow(customChunkName)}" module is not being imported by the SW chunk, let Rolldown handle its optimization.`,
+              `\n${errStyle(['red', 'bold'], '[Vite PWA]')} ${errStyle('red', `Custom chunk name "${errStyle('yellow', customChunkName)}" conflicts with the Service Worker or Workbox runtime chunk names!`)}\n`,
+              `  - To include "${errStyle('yellow', customChunkName)}" inside the SW chunk, simply return undefined or false from the customChunks callback.`,
+              `  - If the "${errStyle('yellow', customChunkName)}" module is not being imported by the SW chunk, let Rolldown handle its optimization.`,
             ].join('\n'))
           }
 

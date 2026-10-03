@@ -3,7 +3,7 @@ import type { ManifestEntry } from '../../types'
 import type { Bundler, ClassicBuild, CustomChunksInfo } from './bundler-types'
 import path from 'node:path'
 import remapping from '@jridgewell/remapping'
-import pc from 'picocolors'
+import { errStyle } from '../../utils/colors'
 import { transformClassicChunk } from './transform-classic-chunk'
 
 interface CheckManifestOptions {
@@ -32,16 +32,16 @@ function checkManifestEntries({
     }
   }
   if (precacheEntriesFound.size > 0) {
-    const filesList = Array.from(precacheEntriesFound).map(file => `    • ${pc.yellow(file)}`).join('\n')
+    const filesList = Array.from(precacheEntriesFound).map(file => `    • ${errStyle('yellow', file)}`).join('\n')
     throw new Error([
-      `\n${pc.red(pc.bold('[Vite PWA]'))} ${pc.red('Critical precache configuration conflict detected!')}\n`,
+      `\n${errStyle(['red', 'bold'], '[Vite PWA]')} ${errStyle('red', 'Critical precache configuration conflict detected!')}\n`,
       `  The following Service Worker chunks or internal runtime dependencies are targeted for precaching:`,
       filesList,
-      `\n  ${pc.cyan('Why is this an error?')}`,
+      `\n  ${errStyle('cyan', 'Why is this an error?')}`,
       `  A Service Worker cannot precache itself or its own internal chunk dependencies.`,
       `  Including them inside "manifestEntries" will trigger redundant network requests and`,
       `  can cause severe caching or life-cycle issues during service worker registration.`,
-      `\n  ${pc.green('How to fix:')}`,
+      `\n  ${errStyle('green', 'How to fix:')}`,
       `  Please update your configuration to exclude these file patterns from precaching (e.g., using "globIgnores").`,
     ].join('\n'))
   }

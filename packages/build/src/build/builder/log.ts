@@ -1,5 +1,5 @@
 import type { DetectorOptions, DetectorResult, GenerateSWDependenciesResult } from './detector-types'
-import pc from 'picocolors'
+import { errStyle } from '../../utils/colors'
 
 /**
  * Checks for GenerateSW dependencies based on Vite version and Rolldown availability.
@@ -26,7 +26,7 @@ export function checkGenerateSWDependencies(
     return undefined
   }
 
-  const color = isDev ? pc.yellow : pc.red
+  const color = isDev ? 'yellow' : 'red'
   const title = isDev ? 'POTENTIAL BUILD FAILURE' : 'MISSING DEPENDENCIES'
   const missing: string[] = []
   const incompatible: string[] = []
@@ -61,26 +61,26 @@ export function checkGenerateSWDependencies(
   }
 
   const lines = [
-    `\n${color(pc.bold('[Vite PWA]'))} ${color(title)}`,
-    `The ${pc.cyan('generateSW')} strategy requires additional dependencies to generate the Service Worker.\n`,
+    `\n${errStyle([color, 'bold'], '[Vite PWA]')} ${errStyle(color, title)}`,
+    `The ${errStyle('cyan', 'generateSW')} strategy requires additional dependencies to generate the Service Worker.\n`,
     addVite8Incompatibility
-      ? `${pc.cyan('Note:')} Your Vite version is < 8. To use ${pc.green('generateSW')}, you must either upgrade Vite or install ${pc.green('rolldown')}.\n`
+      ? `${errStyle('cyan', 'Note:')} Your Vite version is < 8. To use ${errStyle('green', 'generateSW')}, you must either upgrade Vite or install ${errStyle('green', 'rolldown')}.\n`
       : undefined,
   ].filter(Boolean) as string[]
 
   if (missing.length > 0) {
-    lines.push(`${pc.bold('Missing dependencies:')}`)
-    missing.forEach(dep => lines.push(`  - ${pc.red(dep)}`))
+    lines.push(`${errStyle('bold', 'Missing dependencies:')}`)
+    missing.forEach(dep => lines.push(`  - ${errStyle('red', dep)}`))
     lines.push('')
   }
 
   if (incompatible.length > 0) {
-    lines.push(`${pc.bold('Incompatible versions:')}`)
-    incompatible.forEach(dep => lines.push(`  - ${pc.yellow(dep)}`))
+    lines.push(`${errStyle('bold', 'Incompatible versions:')}`)
+    incompatible.forEach(dep => lines.push(`  - ${errStyle('yellow', dep)}`))
     lines.push('')
   }
 
-  lines.push(`${pc.bold('To resolve this, please run:')}`)
+  lines.push(`${errStyle('bold', 'To resolve this, please run:')}`)
 
   const toInstall: string[] = []
   if (!magicast) {
@@ -92,13 +92,13 @@ export function checkGenerateSWDependencies(
     toInstall.push('rolldown')
   }
 
-  lines.push(`  ${pc.green(`npm add -D ${toInstall.join(' ')}`)}\n`)
+  lines.push(`  ${errStyle('green', `npm add -D ${toInstall.join(' ')}`)}\n`)
 
   if (isDev) {
-    lines.push(`${pc.dim('This check is for the "generateSW" strategy. Other strategies like "injectManifest" (legacy) might not require these.')}`)
+    lines.push(`${errStyle('dim', 'This check is for the "generateSW" strategy. Other strategies like "injectManifest" (legacy) might not require these.')}`)
   }
   else {
-    lines.push(`${pc.red('Error: Build stopped. The current environment cannot bundle the Service Worker.')}`)
+    lines.push(`${errStyle('red', 'Error: Build stopped. The current environment cannot bundle the Service Worker.')}`)
   }
 
   return lines.join('\n')
@@ -106,9 +106,9 @@ export function checkGenerateSWDependencies(
 
 export function logDeprecatedGenerateSW() {
   console.warn([
-    `\n${pc.yellow(pc.bold('[Vite PWA]'))} ${pc.yellow('DEPRECATION WARNING')}:`,
-    `You are using ${pc.cyan('generateSW()')}, which is now deprecated.`,
-    `Please migrate to ${pc.green('generateModernSW()')} or ${pc.green('generateClassicSW()')}.`,
+    `\n${errStyle(['yellow', 'bold'], '[Vite PWA]')} ${errStyle('yellow', 'DEPRECATION WARNING')}:`,
+    `You are using ${errStyle('cyan', 'generateSW()')}, which is now deprecated.`,
+    `Please migrate to ${errStyle('green', 'generateModernSW()')} or ${errStyle('green', 'generateClassicSW()')}.`,
     `This function will be removed in the next major version.\n`,
   ].join('\n'))
 }
@@ -118,8 +118,8 @@ export function logDeprecatedGenerateSW() {
  */
 export function throwUnknownBuildOptions(): never {
   throw new Error(
-    `\n${pc.red(pc.bold('[Vite PWA]'))} ${pc.red('Unknown Vite build options!')}\n`
-    + `The options object must contain one of: ${pc.cyan('"generateSW"')}, ${pc.cyan('"injectManifest"')} or ${pc.cyan('"buildSW"')}.\n`,
+    `\n${errStyle(['red', 'bold'], '[Vite PWA]')} ${errStyle('red', 'Unknown Vite build options!')}\n`
+    + `The options object must contain one of: ${errStyle('cyan', '"generateSW"')}, ${errStyle('cyan', '"injectManifest"')} or ${errStyle('cyan', '"buildSW"')}.\n`,
   )
 }
 
@@ -128,10 +128,10 @@ export function throwUnknownBuildOptions(): never {
  */
 export function throwViteBuildOptionsRequired(): never {
   throw new Error(
-    `\n${pc.red(pc.bold('[Vite PWA]'))} ${pc.red('Vite-specific options detected!')}\n\n`
-    + `You are using ${pc.cyan('"buildSW"')}, but you imported ${pc.cyan('buildSW')} from the build subpackage export.\n`
+    `\n${errStyle(['red', 'bold'], '[Vite PWA]')} ${errStyle('red', 'Vite-specific options detected!')}\n\n`
+    + `You are using ${errStyle('cyan', '"buildSW"')}, but you imported ${errStyle('cyan', 'buildSW')} from the build subpackage export.\n`
     + `Please import it from the build Vite subpackage export instead:\n\n`
-    + `  ${pc.green('import { buildSW } from \'@vite-pwa/workbox-build/build/vite\'')}\n`,
+    + `  ${errStyle('green', 'import { buildSW } from \'@vite-pwa/workbox-build/build/vite\'')}\n`,
   )
 }
 
@@ -142,14 +142,14 @@ export function buildInvalidViteVersion(
   strategyName: 'generate' | 'build',
   forError: boolean,
 ): string {
-  const color = forError ? pc.red : pc.yellow
+  const color = forError ? 'red' : 'yellow'
   return [
-    `\n${color(pc.bold('[Vite PWA]'))} ${color('Incompatible Vite version!')}\n`,
-    `The ${pc.cyan(`"${strategyName}SW"`)} strategy requires ${pc.green('Vite ^8.0.0')}.`,
-    `Please upgrade your Vite dependency or use ${pc.cyan(`"${strategyName}SWLegacy"`)} from '${pc.cyan(`@vite-pwa/workbox-build/vite/legacy-${strategyName}-sw`)}' instead.\n`,
+    `\n${errStyle([color, 'bold'], '[Vite PWA]')} ${errStyle(color, 'Incompatible Vite version!')}\n`,
+    `The ${errStyle('cyan', `"${strategyName}SW"`)} strategy requires ${errStyle('green', 'Vite ^8.0.0')}.`,
+    `Please upgrade your Vite dependency or use ${errStyle('cyan', `"${strategyName}SWLegacy"`)} from '${errStyle('cyan', `@vite-pwa/workbox-build/vite/legacy-${strategyName}-sw`)}' instead.\n`,
     forError
       ? undefined
-      : `${color(pc.bold('POTENTIAL BUILD FAILURE:'))} This warning will become a hard error during the production build.`,
+      : `${errStyle([color, 'bold'], 'POTENTIAL BUILD FAILURE:')} This warning will become a hard error during the production build.`,
   ].filter(Boolean).join('\n')
 }
 
@@ -160,15 +160,15 @@ export function buildInvalidViteLegacyVersion(
   strategyName: 'generate' | 'build',
   forError: boolean,
 ): string {
-  const color = forError ? pc.red : pc.yellow
+  const color = forError ? 'red' : 'yellow'
   return [
-    `\n${color(pc.bold('[Vite PWA]'))} ${color('Incompatible Rolldown version!')}\n`,
-    `The ${pc.cyan(`"${strategyName}SW"`)} for legacy strategy requires ${pc.green('Rolldown ^1.0.0-0')}.`,
-    `${pc.bold('To resolve this, please run:')}`,
-    `  ${pc.green('npm add -D rolldown')}\n`,
+    `\n${errStyle([color, 'bold'], '[Vite PWA]')} ${errStyle(color, 'Incompatible Rolldown version!')}\n`,
+    `The ${errStyle('cyan', `"${strategyName}SW"`)} for legacy strategy requires ${errStyle('green', 'Rolldown ^1.0.0-0')}.`,
+    `${errStyle('bold', 'To resolve this, please run:')}`,
+    `  ${errStyle('green', 'npm add -D rolldown')}\n`,
     forError
-      ? `${color('Error: Build stopped. Rolldown is required for code splitting in the Service Worker.')}`
-      : `${color('POTENTIAL BUILD ERROR: Rolldown is required for code splitting in the Service Worker.')}`,
+      ? `${errStyle(color, 'Error: Build stopped. Rolldown is required for code splitting in the Service Worker.')}`
+      : `${errStyle(color, 'POTENTIAL BUILD ERROR: Rolldown is required for code splitting in the Service Worker.')}`,
   ].filter(Boolean).join('\n')
 }
 
@@ -176,12 +176,12 @@ export function missingStrategy(
   forError: boolean,
   bundlerMessage: string,
 ) {
-  const color = forError ? pc.red : pc.yellow
+  const color = forError ? 'red' : 'yellow'
   return [
-    `\n${color(pc.bold('[Vite PWA]'))} ${color(`${bundlerMessage}!`)}\n`,
+    `\n${errStyle([color, 'bold'], '[Vite PWA]')} ${errStyle(color, `${bundlerMessage}!`)}\n`,
     forError
-      ? `${color('Error: Build stopped. Strategy is required.')}`
-      : `${color('POTENTIAL BUILD ERROR: Strategy is required.')}`,
+      ? `${errStyle(color, 'Error: Build stopped. Strategy is required.')}`
+      : `${errStyle(color, 'POTENTIAL BUILD ERROR: Strategy is required.')}`,
   ].filter(Boolean).join('\n')
 }
 
@@ -202,15 +202,15 @@ export function checkViteDependencies(
     return buildInvalidViteVersion(strategyName, forError)
   }
 
-  const color = forError ? pc.red : pc.yellow
+  const color = forError ? 'red' : 'yellow'
   return [
-    `\n${color(pc.bold('[Vite PWA]'))} ${color('MISSING DEPENDENCY')}`,
-    `The ${pc.cyan('customChunks')} option in ${pc.green(`${strategyName}SW`)} requires ${pc.green('magicast')} for AST transformation.\n`,
-    `${pc.bold('To resolve this, please run:')}`,
-    `  ${pc.green('npm add -D magicast')}\n`,
+    `\n${errStyle([color, 'bold'], '[Vite PWA]')} ${errStyle(color, 'MISSING DEPENDENCY')}`,
+    `The ${errStyle('cyan', 'customChunks')} option in ${errStyle('green', `${strategyName}SW`)} requires ${errStyle('green', 'magicast')} for AST transformation.\n`,
+    `${errStyle('bold', 'To resolve this, please run:')}`,
+    `  ${errStyle('green', 'npm add -D magicast')}\n`,
     forError
-      ? `${color('Error: Build stopped. Magicast is required for code splitting in the Service Worker.')}`
-      : `${color('POTENTIAL BUILD ERROR: Magicast is required for code splitting in the Service Worker.')}`,
+      ? `${errStyle(color, 'Error: Build stopped. Magicast is required for code splitting in the Service Worker.')}`
+      : `${errStyle(color, 'POTENTIAL BUILD ERROR: Magicast is required for code splitting in the Service Worker.')}`,
   ].join('\n')
 }
 
@@ -231,15 +231,15 @@ export function checkViteLegacyDependencies(
     return buildInvalidViteLegacyVersion(strategyName, forError)
   }
 
-  const color = forError ? pc.red : pc.yellow
+  const color = forError ? 'red' : 'yellow'
   return [
-    `\n${color(pc.bold('[Vite PWA]'))} ${color('MISSING DEPENDENCY')}`,
-    `The ${pc.cyan('customChunks')} option in ${pc.green(`${strategyName}SW`)} requires ${pc.green('magicast')} for AST transformation.\n`,
-    `${pc.bold('To resolve this, please run:')}`,
-    `  ${pc.green('npm add -D magicast')}\n`,
+    `\n${errStyle([color, 'bold'], '[Vite PWA]')} ${errStyle(color, 'MISSING DEPENDENCY')}`,
+    `The ${errStyle('cyan', 'customChunks')} option in ${errStyle('green', `${strategyName}SW`)} requires ${errStyle('green', 'magicast')} for AST transformation.\n`,
+    `${errStyle('bold', 'To resolve this, please run:')}`,
+    `  ${errStyle('green', 'npm add -D magicast')}\n`,
     forError
-      ? `${color('Error: Build stopped. Magicast is required for code splitting in the Service Worker.')}`
-      : `${color('POTENTIAL BUILD ERROR: Magicast is required for code splitting in the Service Worker.')}`,
+      ? `${errStyle(color, 'Error: Build stopped. Magicast is required for code splitting in the Service Worker.')}`
+      : `${errStyle(color, 'POTENTIAL BUILD ERROR: Magicast is required for code splitting in the Service Worker.')}`,
   ].join('\n')
 }
 
@@ -249,12 +249,12 @@ export function checkViteLegacyDependencies(
  */
 export function logViteLoadEnvWarning() {
   console.warn([
-    `\n${pc.yellow(pc.bold('[Vite PWA]'))} ${pc.yellow('VITE VERSION LIMITATION')}:`,
-    `Your Vite version is ${pc.red('< 7.0.0')}. Variable expansion in ${pc.cyan('.env')} files`,
-    `(e.g., ${pc.dim('VITE_APP_URL=https://somedomain.com')}) is not natively supported for the Service Worker build.`,
+    `\n${errStyle(['yellow', 'bold'], '[Vite PWA]')} ${errStyle('yellow', 'VITE VERSION LIMITATION')}:`,
+    `Your Vite version is ${errStyle('red', '< 7.0.0')}. Variable expansion in ${errStyle('cyan', '.env')} files`,
+    `(e.g., ${errStyle('dim', 'VITE_APP_URL=https://somedomain.com')}) is not natively supported for the Service Worker build.`,
     `Only simple key-value pairs will be loaded.\n`,
-    `${pc.bold('To resolve this:')}`,
-    `  - Upgrade to ${pc.green('Vite ^7.0.0')}.`,
+    `${errStyle('bold', 'To resolve this:')}`,
+    `  - Upgrade to ${errStyle('green', 'Vite ^7.0.0')}.`,
     `  - Or avoid using nested variables in your .env files for SW-related configs.\n`,
   ].join('\n'))
 }
