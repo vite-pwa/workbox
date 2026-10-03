@@ -5,7 +5,7 @@ import path from 'node:path'
 import process from 'node:process'
 import { parseEnv } from 'node:util'
 import { expand } from 'dotenv-expand'
-import pc from 'picocolors'
+import { errStyle } from '../../utils/colors'
 import { normalizePath } from '../../utils/resolve-sw-names'
 
 // hoist regexps
@@ -105,15 +105,15 @@ export function resolveEnvPrefix(
 
   if (envPrefix.includes('')) {
     throw new Error(
-      `\n${pc.red(pc.bold('[Vite PWA]'))} ${pc.red('Invalid envPrefix value!')}\n`
-      + `The ${pc.green('envPrefix')} option contains an empty string ${pc.cyan('\'\'')}, which could lead to unexpected exposure of sensitive information.\n`,
+      `\n${errStyle(['red', 'bold'], '[Vite PWA]')} ${errStyle('red', 'Invalid envPrefix value!')}\n`
+      + `The ${errStyle('green', 'envPrefix')} option contains an empty string ${errStyle('cyan', '\'\'')}, which could lead to unexpected exposure of sensitive information.\n`,
     )
   }
 
   if (envPrefix.some(prefix => emptyRegexp.test(prefix))) {
     console.warn(
-      `\n${pc.yellow(pc.bold('[Vite PWA]'))} ${pc.yellow('Warning:')} `
-      + `The ${pc.green('envPrefix')} option contains values with whitespace, which does not work in practice.\n`,
+      `\n${errStyle(['yellow', 'bold'], '[Vite PWA]')} ${errStyle('yellow', 'Warning:')} `
+      + `The ${errStyle('green', 'envPrefix')} option contains values with whitespace, which does not work in practice.\n`,
     )
   }
 

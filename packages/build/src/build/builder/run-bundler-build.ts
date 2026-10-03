@@ -2,7 +2,7 @@ import type { BuildResult } from '../../types'
 import type {
   BundlerOptions,
 } from './bundler-types'
-import pc from 'picocolors'
+import { errStyle } from '../../utils/colors'
 
 /**
  * Dual Build Orchestration & Circular Dependency Safety:
@@ -39,20 +39,20 @@ export async function runBundlerBuild(
 
   if (errors.length > 0) {
     const errorMessages = errors.map(({ swType, reason }) => {
-      const pluginInfo = reason?.plugin ? `[plugin: ${pc.magenta(reason.plugin)}] ` : ''
-      const fileInfo = reason?.id ? `\n  ${pc.dim('File:')} ${pc.cyan(reason.id)}` : ''
+      const pluginInfo = reason?.plugin ? `[plugin: ${errStyle('magenta', reason.plugin)}] ` : ''
+      const fileInfo = reason?.id ? `\n  ${errStyle('dim', 'File:')} ${errStyle('cyan', reason.id)}` : ''
       const frameInfo = reason?.frame ? `\n\n${reason.frame}` : ''
-      const stackInfo = reason?.stack && !reason.frame ? `\n\n${pc.dim(reason.stack)}` : ''
+      const stackInfo = reason?.stack && !reason.frame ? `\n\n${errStyle('dim', reason.stack)}` : ''
 
       return [
-        `${pc.red(pc.bold('●'))} ${pc.red(`Service Worker (${pc.yellow(swType)}) build failed:`)} ${pluginInfo}${reason?.message || reason}`,
+        `${errStyle(['red', 'bold'], '●')} ${errStyle('red', `Service Worker (${errStyle('yellow', swType)}) build failed:`)} ${pluginInfo}${reason?.message || reason}`,
         fileInfo,
         frameInfo,
         stackInfo,
       ].filter(Boolean).join('')
     }).join('\n\n')
 
-    throw new Error(`\n${pc.red(pc.bold('[Vite PWA]'))} ${pc.red('Compilation failed during dual Service Worker build:')}\n\n${errorMessages}\n`)
+    throw new Error(`\n${errStyle(['red', 'bold'], '[Vite PWA]')} ${errStyle('red', 'Compilation failed during dual Service Worker build:')}\n\n${errorMessages}\n`)
   }
 
   const filePaths: string[] = []
