@@ -51,6 +51,7 @@
     "@types/trusted-types": "catalog:types"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   }
 }
