@@ -30,6 +30,7 @@ overrides:
   '@types/node': 'catalog:types'
   chokidar: ^5.0.0
   rolldown: 'catalog:utils'
+  why-is-node-running: 'catalog:utils'
 
 patchedDependencies:
   dotenv-expand@13.0.0: patches/dotenv-expand@13.0.0.patch
@@ -85,6 +86,7 @@ catalogs:
     unrun: ^0.3.1
     valibot: ^1.5.0
     verkit: ^0.5.0
+    why-is-node-running: 3.2.1
   vite:
     vite: ^8.3.1
   webpack5:
