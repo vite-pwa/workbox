@@ -50,14 +50,14 @@ catalogs:
     eslint: ^10.11.0
     eslint-plugin-antfu: ^3.2.3
   rsbuild:
-    '@rsbuild/core': ^2.2.8
+    '@rsbuild/core': ^2.2.11
   rspack:
-    '@rspack/core': ^2.2.6
+    '@rspack/core': ^2.2.8
   test:
-    '@vitest/ui': ^5.0.1
-    vitest: ^5.0.1
+    '@vitest/ui': ^5.0.3
+    vitest: ^5.0.3
   types:
-    '@types/node': ^24.13.6
+    '@types/node': ^24.19.0
     '@types/serialize-javascript': ^5.0.4
     '@types/trusted-types': ^2.0.7
     '@types/webpack': ^5.28.5
@@ -73,14 +73,14 @@ catalogs:
     consola: ^3.4.2
     dotenv-expand: 13.0.0
     idb: ^8.0.3
-    magic-string: ^1.4.1
+    magic-string: ^1.4.2
     magicast: ^0.5.5
     proper-tags: ^2.0.2
     publint: ^0.3.24
-    rolldown: ^1.2.9
+    rolldown: ^1.2.12
     "@rolldown/pluginutils": ^1.0.1
-    serialize-javascript: ^7.1.1
-    std-env: ^4.2.0
+    serialize-javascript: ^7.1.2
+    std-env: ^4.3.0
     taze: 21.1.0
     tinyglobby: ^0.2.17
     unrun: ^0.3.1
