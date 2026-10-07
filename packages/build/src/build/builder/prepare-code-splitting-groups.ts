@@ -69,6 +69,7 @@ export function prepareCodeSplittingGroups<B extends Bundler>(
             return customChunkName
           }
         },
+        debugName: 'vite-pwa-workbox-custom-chunks',
       }],
     }
   }
@@ -78,6 +79,7 @@ export function prepareCodeSplittingGroups<B extends Bundler>(
         name: (moduleId) => {
           return workboxRegex.some(r => r.test(moduleId)) ? workboxName : undefined
         },
+        debugName: 'vite-pwa-workbox-chunk',
       }],
     }
   }
