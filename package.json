@@ -46,6 +46,7 @@
     "typescript": "catalog:typescript",
     "unrun": "catalog:utils",
     "verkit": "catalog:utils",
-    "vitest": "catalog:test"
+    "vitest": "catalog:test",
+    "why-is-node-running": "catalog:utils"
   }
 }
