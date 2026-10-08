@@ -95,7 +95,8 @@ initCache();
           swDest: path.resolve(dist, 'sw.js'),
           globDirectory: dist,
           globPatterns: ['**/*.js'],
-          globIgnores: [],
+          // EXPLICITLY exclude the chunk to isolate the validation of sw.js
+          globIgnores: ['**/app-cache*.js'],
           minify: false,
           swType: 'classic',
           customChunks: (moduleId, ctx) => {
