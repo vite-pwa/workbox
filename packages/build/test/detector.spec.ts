@@ -157,4 +157,39 @@ describe('detector', () => {
       expect(collectVersionInfo('rolldown', 'MyFallback')).toBe('MyFallback')
     })
   })
+
+  describe('vite+ alias (vite aliased to vite-plus-core, rolldown unaliased)', () => {
+    it('resolves bundled Rolldown via Vite+ core when rolldown is not directly resolved', async () => {
+      const viteCorePath = '/mock/vite-plus-core/package.json'
+
+      mockedFindPackageJSON.mockImplementation((specifier: string) => {
+        if (specifier === 'vite') {
+          return viteCorePath
+        }
+        return undefined
+      })
+
+      mockedReadFileSync.mockImplementation((path: string) => {
+        if (path === viteCorePath) {
+          return JSON.stringify({
+            name: VITE_PLUS_CORE_PKG_NAME,
+            version: '0.1.0',
+            bundledVersions: {
+              vite: '8.0.0',
+              rolldown: '1.1.3',
+            },
+          })
+        }
+        throw new Error(`Unexpected path: ${path}`)
+      })
+
+      expect(await detectRolldown()).toBe(true)
+      expect(includeRolldownOxcPlugin()).toBe(false)
+      expect(collectVersionInfo('rolldown', 'Fallback')).toBe('Rolldown 1.1.3 via Vite+ 0.1.0')
+
+      expect(mockedFindPackageJSON).toHaveBeenCalledWith('rolldown', baseURL)
+      expect(mockedFindPackageJSON).toHaveBeenCalledWith('vite', baseURL)
+      expect(mockedReadFileSync).toHaveBeenCalledWith(viteCorePath, 'utf8')
+    })
+  })
 })

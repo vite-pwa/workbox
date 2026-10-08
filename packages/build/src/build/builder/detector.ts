@@ -21,14 +21,39 @@ interface PkgJson {
   }
 }
 
-function readPkgVersion(specifier: Specifier): string | undefined {
+// Helper function to resolve the effective package.json,
+// handling the Vite+ Core alias edge case for Rolldown.
+function resolveEffectivePkg(specifier: string): PkgJson | undefined {
   const p = findPackageJSON(specifier, base)
-  if (!p) {
+  let pkg: PkgJson | undefined
+
+  if (p) {
+    pkg = JSON.parse(readFileSync(p, 'utf8'))
+  }
+
+  // Detect Rolldown via Vite+ when not installed directly.
+  // See: https://github.com/voidzero-dev/vite-plus/discussions/990
+  if (specifier === 'rolldown' && pkg?.name !== VITE_PLUS_CORE_PKG_NAME) {
+    const vitePath = findPackageJSON('vite', base)
+    if (vitePath) {
+      const vitePkg: PkgJson = JSON.parse(readFileSync(vitePath, 'utf8'))
+      if (vitePkg?.name === VITE_PLUS_CORE_PKG_NAME) {
+        return vitePkg // Override with the Vite+ Core package
+      }
+    }
+  }
+
+  return pkg
+}
+
+function readPkgVersion(specifier: Specifier): string | undefined {
+  const pkg = resolveEffectivePkg(specifier)
+
+  if (!pkg) {
     return undefined
   }
 
-  const pkg: PkgJson = JSON.parse(readFileSync(p, 'utf8'))
-  if (pkg === undefined) {
+  if (!pkg) {
     return undefined
   }
   if (pkg.name === VITE_PLUS_CORE_PKG_NAME) {
@@ -44,15 +69,12 @@ function readPkgVersion(specifier: Specifier): string | undefined {
 
 export function collectVersionInfo(bundler: Bundler, fallback: string): string {
   try {
-    const p = findPackageJSON(bundler, base)
-    if (!p) {
+    const pkg = resolveEffectivePkg(bundler)
+
+    if (!pkg) {
       return fallback
     }
 
-    const pkg: PkgJson = JSON.parse(readFileSync(p, 'utf8'))
-    if (pkg === undefined) {
-      return fallback
-    }
     if (pkg.name === VITE_PLUS_CORE_PKG_NAME) {
       if (bundler === 'vite') {
         return `${BundlerNames[bundler]} ${pkg.bundledVersions!.vite} via Vite+ ${pkg.version}`
