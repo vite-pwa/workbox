@@ -91,6 +91,7 @@ describe('detector', () => {
 
       expect(await detectRolldown()).toBe(false)
       expect(includeRolldownOxcPlugin()).toBe(true)
+      expect(collectVersionInfo('rolldown', 'MyFallback')).toBe('MyFallback')
     })
   })
 

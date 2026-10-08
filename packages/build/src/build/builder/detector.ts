@@ -77,10 +77,16 @@ export function collectVersionInfo(bundler: Bundler, fallback: string): string {
 
     if (pkg.name === VITE_PLUS_CORE_PKG_NAME) {
       if (bundler === 'vite') {
-        return `${BundlerNames[bundler]} ${pkg.bundledVersions!.vite} via Vite+ ${pkg.version}`
+        if (!pkg.bundledVersions?.vite) {
+          return fallback
+        }
+        return `${BundlerNames[bundler]} ${pkg.bundledVersions.vite} via Vite+ ${pkg.version}`
       }
       if (bundler === 'rolldown') {
-        return `${BundlerNames[bundler]} ${pkg.bundledVersions!.rolldown} via Vite+ ${pkg.version}`
+        if (!pkg.bundledVersions?.rolldown) {
+          return fallback
+        }
+        return `${BundlerNames[bundler]} ${pkg.bundledVersions.rolldown} via Vite+ ${pkg.version}`
       }
     }
 
