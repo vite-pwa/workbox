@@ -9,11 +9,13 @@ import { transformClassicChunk } from './transform-classic-chunk'
 interface CheckManifestOptions {
   manifestEntries: ManifestEntry[]
   swChunks: Map<string, string[]>
+  mappedChunkFiles: Map<string, string>
 }
 
 function checkManifestEntries({
   manifestEntries,
   swChunks,
+  mappedChunkFiles,
 }: CheckManifestOptions) {
   if (manifestEntries.length === 0 || swChunks.size === 0) {
     return
@@ -25,6 +27,10 @@ function checkManifestEntries({
     }
     return acc
   }, new Set<string>())
+  const swName = mappedChunkFiles.get('sw')
+  if (swName) {
+    swEntries.add(swName)
+  }
   const precacheEntriesFound = new Set<string>()
   for (const entry of manifestEntries) {
     if (swEntries.has(entry.url)) {
@@ -97,6 +103,7 @@ export async function prepareSWChunks<T extends Bundler>({
   // to prevent critical misconfiguration
   checkManifestEntries({
     manifestEntries,
+    mappedChunkFiles: customChunksInfo.mappedChunkFiles,
     swChunks: customChunksInfo.mappedChunkImports,
   })
 

@@ -125,7 +125,7 @@ export interface BuildSWOptions<
    * When using `classic` or `module` and splitting workbox runtime (inlineWorkboxRuntime set to false), this flag controls the
    * name of the `workbox-**.js` chunk:
    * - when true, workbox will generate the same old asset name `workbox-<hash>.js` using `hex`
-   * - when false, workbox will generate `workbox-classic-<hash>.js` or `workbox-modern-<hash>.js` with modern Vite/Rolldown hash.
+   * - when false, workbox will generate `workbox-classic-<hash>.js` or `workbox-module-<hash>.js` with modern Vite/Rolldown hash.
    *
    * When using `classic-and-module` (dual build), the build will use modern Vite/Rolldown hash regardless of the value of this flag.
    *
