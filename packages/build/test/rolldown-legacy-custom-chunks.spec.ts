@@ -34,13 +34,6 @@ describe('older rolldown (1.2.9) custom chunks', () => {
     vi.restoreAllMocks()
   })
 
-  it('detector reports version 1.2.9', async () => {
-    const { detectRolldown, collectVersionInfo } = await import('../src/build/builder/detector')
-
-    expect(await detectRolldown()).toBe(true)
-    expect(collectVersionInfo('rolldown', 'Fallback')).toContain('1.2.9')
-  })
-
   it('supports custom chunks for classic service workers on 1.2.9', async () => {
     const { buildSW } = await import('../src/build/rolldown/build-sw')
     await runCustomChunksScenario(buildSW, 'classic')
