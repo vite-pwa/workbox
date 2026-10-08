@@ -41,7 +41,8 @@ describe('detector', () => {
     it('version 1.1.2: detect=true, include-oxc-plugin=true, banner correct', async () => {
       const mockPath = mockPackageJson({ name: 'rolldown', version: '1.1.2' })
 
-      expect(await detectRolldown()).toBe(true)
+      const promise = detectRolldown()
+      await expect(promise).resolves.toBe(true)
       expect(includeRolldownOxcPlugin()).toBe(true)
       expect(collectVersionInfo('rolldown', 'Fallback')).toBe('Rolldown 1.1.2')
 
@@ -52,14 +53,14 @@ describe('detector', () => {
     it('version 1.1.3: detect=true, include-oxc-plugin=false', async () => {
       mockPackageJson({ name: 'rolldown', version: '1.1.3' })
 
-      expect(await detectRolldown()).toBe(true)
+      await expect(detectRolldown()).resolves.toBe(true)
       expect(includeRolldownOxcPlugin()).toBe(false)
     })
 
     it('version 0.9.0: detect=false', async () => {
       mockPackageJson({ name: 'rolldown', version: '0.9.0' })
 
-      expect(await detectRolldown()).toBe(false)
+      await expect(detectRolldown()).resolves.toBe(false)
     })
   })
 
@@ -74,7 +75,7 @@ describe('detector', () => {
         },
       })
 
-      expect(await detectRolldown()).toBe(true)
+      await expect(detectRolldown()).resolves.toBe(true)
       expect(includeRolldownOxcPlugin()).toBe(false)
       expect(collectVersionInfo('rolldown', 'Fallback')).toBe('Rolldown 1.1.3 via Vite+ 0.1.0')
     })
@@ -89,7 +90,7 @@ describe('detector', () => {
         },
       })
 
-      expect(await detectRolldown()).toBe(false)
+      await expect(detectRolldown()).resolves.toBe(false)
       expect(includeRolldownOxcPlugin()).toBe(true)
       expect(collectVersionInfo('rolldown', 'MyFallback')).toBe('MyFallback')
     })
@@ -99,8 +100,62 @@ describe('detector', () => {
     it('returns fallback if resolution returns undefined', async () => {
       mockedFindPackageJSON.mockReturnValue(undefined)
 
-      expect(await detectRolldown()).toBe(false)
+      await expect(detectRolldown()).resolves.toBe(false)
       expect(includeRolldownOxcPlugin()).toBe(true)
+      expect(collectVersionInfo('rolldown', 'MyFallback')).toBe('MyFallback')
+      expect(mockedReadFileSync).not.toHaveBeenCalled()
+    })
+
+    it('does not fall through to Vite+ lookup on non-ERR_MODULE_NOT_FOUND errors', async () => {
+      mockedFindPackageJSON.mockImplementation(() => {
+        const err = new Error('boom') as NodeJS.ErrnoException
+        err.code = 'EACCES'
+        throw err
+      })
+
+      await expect(detectRolldown()).resolves.toBeUndefined()
+      expect(mockedFindPackageJSON).not.toHaveBeenCalledWith('vite', baseURL)
+    })
+
+    it('prioritizes direct rolldown package over Vite+ fallback when both resolve', async () => {
+      mockedFindPackageJSON.mockImplementation((specifier: string) => {
+        if (specifier === 'rolldown') {
+          return '/fake/node_modules/rolldown/package.json'
+        }
+        if (specifier === 'vite') {
+          return '/fake/node_modules/vite/package.json'
+        }
+      })
+
+      mockedReadFileSync.mockImplementation((filePath: string) => {
+        if (filePath === '/fake/node_modules/rolldown/package.json') {
+          return JSON.stringify({ name: 'rolldown', version: '1.2.5' })
+        }
+        if (filePath === '/fake/node_modules/vite/package.json') {
+          return JSON.stringify({
+            name: VITE_PLUS_CORE_PKG_NAME,
+            version: '0.1.0',
+            bundledVersions: { vite: '8.0.0', rolldown: '1.0.0' },
+          })
+        }
+        return '{}'
+      })
+
+      await expect(detectRolldown()).resolves.toBe(true)
+      const versionInfo = collectVersionInfo('rolldown', 'fallback')
+      expect(versionInfo).toContain('1.2.5')
+      expect(versionInfo).not.toContain('via Vite+')
+    })
+
+    it('returns false (not undefined) when neither rolldown nor vite can be found', async () => {
+      mockedFindPackageJSON.mockImplementation((specifier: string) => {
+        const err = new Error(`Cannot find package '${specifier}'`) as NodeJS.ErrnoException
+        err.code = 'ERR_MODULE_NOT_FOUND'
+        throw err
+      })
+
+      await expect(detectRolldown()).resolves.toBe(false)
+      await expect(detectVite()).resolves.toBe(false)
       expect(collectVersionInfo('rolldown', 'MyFallback')).toBe('MyFallback')
       expect(mockedReadFileSync).not.toHaveBeenCalled()
     })
@@ -110,18 +165,18 @@ describe('detector', () => {
     it('standalone Vite 8.x passes detectVite', async () => {
       mockPackageJson({ name: 'vite', version: '8.0.0' })
 
-      expect(await detectVite()).toBe(true)
+      await expect(detectVite()).resolves.toBe(true)
       expect(collectVersionInfo('vite', 'Fallback')).toBe('Vite 8.0.0')
     })
 
     it('bundled Vite 8.x passes detectVite with Vite+ banner', async () => {
       mockPackageJson({
-        name: VITE_PLUS_CORE_PKG_NAME, // Usando la constante que metiste en el spec
+        name: VITE_PLUS_CORE_PKG_NAME,
         version: '0.1.0',
         bundledVersions: { vite: '8.2.0' },
       })
 
-      expect(await detectVite()).toBe(true)
+      await expect(detectVite()).resolves.toBe(true)
       expect(collectVersionInfo('vite', 'Fallback')).toBe('Vite 8.2.0 via Vite+ 0.1.0')
     })
 
@@ -132,8 +187,8 @@ describe('detector', () => {
         bundledVersions: { vite: '6.1.0' },
       })
 
-      expect(await detectVite()).toBe(false)
-      expect(await detectViteEnvironmentApi()).toBe(true)
+      await expect(detectVite()).resolves.toBe(false)
+      await expect(detectViteEnvironmentApi()).resolves.toBe(true)
     })
   })
 
@@ -144,7 +199,7 @@ describe('detector', () => {
         throw new Error('Access denied')
       })
 
-      expect(await detectRolldown()).toBeUndefined()
+      await expect(detectRolldown()).resolves.toBeUndefined()
       expect(includeRolldownOxcPlugin()).toBe(false)
       expect(collectVersionInfo('rolldown', 'MyFallback')).toBe('MyFallback')
     })
@@ -153,21 +208,30 @@ describe('detector', () => {
       mockedFindPackageJSON.mockReturnValue('/mock/path/package.json')
       mockedReadFileSync.mockReturnValue('{ this is not valid json }')
 
-      expect(await detectRolldown()).toBeUndefined()
+      await expect(detectRolldown()).resolves.toBeUndefined()
       expect(includeRolldownOxcPlugin()).toBe(false)
       expect(collectVersionInfo('rolldown', 'MyFallback')).toBe('MyFallback')
     })
   })
 
   describe('vite+ alias (vite aliased to vite-plus-core, rolldown unaliased)', () => {
-    it('resolves bundled Rolldown via Vite+ core when rolldown is not directly resolved', async () => {
-      const viteCorePath = '/mock/vite-plus-core/package.json'
+    const viteCorePath = '/mock/vite-plus-core/package.json'
 
+    function throwNotFound(name: string): never {
+      const err = new Error(`Cannot find package '${name}'`) as NodeJS.ErrnoException
+      err.code = 'ERR_MODULE_NOT_FOUND'
+      throw err
+    }
+
+    it.each([
+      ['returns undefined', () => undefined],
+      ['throws ERR_MODULE_NOT_FOUND', () => throwNotFound('rolldown')],
+    ])('resolves bundled Rolldown via Vite+ core when rolldown lookup %s', async (_label, onRolldown) => {
       mockedFindPackageJSON.mockImplementation((specifier: string) => {
         if (specifier === 'vite') {
           return viteCorePath
         }
-        return undefined
+        return onRolldown()
       })
 
       mockedReadFileSync.mockImplementation((path: string) => {
@@ -175,16 +239,13 @@ describe('detector', () => {
           return JSON.stringify({
             name: VITE_PLUS_CORE_PKG_NAME,
             version: '0.1.0',
-            bundledVersions: {
-              vite: '8.0.0',
-              rolldown: '1.1.3',
-            },
+            bundledVersions: { vite: '8.0.0', rolldown: '1.1.3' },
           })
         }
         throw new Error(`Unexpected path: ${path}`)
       })
 
-      expect(await detectRolldown()).toBe(true)
+      await expect(detectRolldown()).resolves.toBe(true)
       expect(includeRolldownOxcPlugin()).toBe(false)
       expect(collectVersionInfo('rolldown', 'Fallback')).toBe('Rolldown 1.1.3 via Vite+ 0.1.0')
 

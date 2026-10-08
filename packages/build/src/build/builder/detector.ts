@@ -21,20 +21,33 @@ interface PkgJson {
   }
 }
 
+// Safe wrapper to prevent Node from throwing an exception if the package does not exist
+function findPackageJSONSafe(specifier: string, basePath: string): string | undefined {
+  try {
+    return findPackageJSON(specifier, basePath)
+  }
+  catch (error) {
+    if ((error as NodeJS.ErrnoException)?.code === 'ERR_MODULE_NOT_FOUND') {
+      return undefined
+    }
+    throw error
+  }
+}
+
 // Helper function to resolve the effective package.json,
 // handling the Vite+ Core alias edge case for Rolldown.
 function resolveEffectivePkg(specifier: string): PkgJson | undefined {
-  const p = findPackageJSON(specifier, base)
+  const p = findPackageJSONSafe(specifier, base)
   let pkg: PkgJson | undefined
 
   if (p) {
     pkg = JSON.parse(readFileSync(p, 'utf8'))
   }
 
-  // Detect Rolldown via Vite+ when not installed directly.
+  // Detect Rolldown via Vite+ ONLY when NOT installed directly.
   // See: https://github.com/voidzero-dev/vite-plus/discussions/990
-  if (specifier === 'rolldown' && pkg?.name !== VITE_PLUS_CORE_PKG_NAME) {
-    const vitePath = findPackageJSON('vite', base)
+  if (specifier === 'rolldown' && !pkg) {
+    const vitePath = findPackageJSONSafe('vite', base)
     if (vitePath) {
       const vitePkg: PkgJson = JSON.parse(readFileSync(vitePath, 'utf8'))
       if (vitePkg?.name === VITE_PLUS_CORE_PKG_NAME) {
@@ -53,9 +66,6 @@ function readPkgVersion(specifier: Specifier): string | undefined {
     return undefined
   }
 
-  if (!pkg) {
-    return undefined
-  }
   if (pkg.name === VITE_PLUS_CORE_PKG_NAME) {
     if (specifier === 'vite') {
       return pkg.bundledVersions?.vite
