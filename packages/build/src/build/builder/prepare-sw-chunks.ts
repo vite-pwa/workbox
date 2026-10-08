@@ -17,7 +17,7 @@ function checkManifestEntries({
   swChunks,
   mappedChunkFiles,
 }: CheckManifestOptions) {
-  if (manifestEntries.length === 0 || swChunks.size === 0) {
+  if (manifestEntries.length === 0) {
     return
   }
 
