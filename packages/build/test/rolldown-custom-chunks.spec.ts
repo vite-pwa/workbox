@@ -94,9 +94,9 @@ initCache();
           swSrc: path.resolve(src, 'sw.js'),
           swDest: path.resolve(dist, 'sw.js'),
           globDirectory: dist,
-          globPatterns: ['**/*.js'],
           // EXPLICITLY exclude the chunk to isolate the validation of sw.js
-          globIgnores: ['**/app-cache*.js'],
+          globPatterns: [],
+          additionalManifestEntries: ['sw.js'],
           minify: false,
           swType: 'classic',
           customChunks: (moduleId, ctx) => {
@@ -118,6 +118,7 @@ initCache();
         const buildPromise = buildSW(options)
 
         await expect(buildPromise).rejects.toThrow(/Critical precache configuration conflict detected!/)
+        await expect(buildPromise).rejects.toThrow(/sw\.js/)
       })
     })
   })
