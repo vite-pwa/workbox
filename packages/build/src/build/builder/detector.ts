@@ -9,14 +9,18 @@ import { BundlerNames } from './utils'
 
 const base = pathToFileURL(`${process.cwd()}/`).href
 
+const VITE_PLUS_CORE_PKG_NAME = '@voidzero-dev/vite-plus-core'
+
 type Specifier = 'magicast' | 'vite' | 'rolldown'
 interface PkgJson {
   name: string
   version: string
   bundledVersions?: {
     vite: string
+    rolldown: string
   }
 }
+
 function readPkgVersion(specifier: Specifier): string | undefined {
   const p = findPackageJSON(specifier, base)
   if (!p) {
@@ -27,8 +31,13 @@ function readPkgVersion(specifier: Specifier): string | undefined {
   if (pkg === undefined) {
     return undefined
   }
-  if (specifier === 'vite' && pkg.name === '@voidzero-dev/vite-plus-core') {
-    return pkg.bundledVersions?.vite
+  if (pkg.name === VITE_PLUS_CORE_PKG_NAME) {
+    if (specifier === 'vite') {
+      return pkg.bundledVersions?.vite
+    }
+    if (specifier === 'rolldown') {
+      return pkg.bundledVersions?.rolldown
+    }
   }
   return typeof pkg.version === 'string' ? pkg.version : undefined
 }
@@ -44,8 +53,13 @@ export function collectVersionInfo(bundler: Bundler, fallback: string): string {
     if (pkg === undefined) {
       return fallback
     }
-    if (bundler === 'vite' && pkg.name === '@voidzero-dev/vite-plus-core') {
-      return `${BundlerNames[bundler]} ${pkg.bundledVersions!.vite} via Vite+ ${pkg.version}`
+    if (pkg.name === VITE_PLUS_CORE_PKG_NAME) {
+      if (bundler === 'vite') {
+        return `${BundlerNames[bundler]} ${pkg.bundledVersions!.vite} via Vite+ ${pkg.version}`
+      }
+      if (bundler === 'rolldown') {
+        return `${BundlerNames[bundler]} ${pkg.bundledVersions!.rolldown} via Vite+ ${pkg.version}`
+      }
     }
 
     return `${BundlerNames[bundler]} ${pkg.version}`
