@@ -105,7 +105,7 @@ initCache();
           globDirectory: dist,
           // EXPLICITLY exclude the chunk to isolate the validation of sw.js
           globPatterns: ['**/*.js'],
-          globIgnores: ['**/app-cache*.js'], // Mantenemos el ignore que fijamos antes
+          globIgnores: ['**/app-cache*.js'],
           minify: false,
           swType: 'classic',
           customChunks: (moduleId, ctx) => {
@@ -129,7 +129,7 @@ initCache();
         }
         options.additionalManifestEntries = entries
 
-        // ¡BOOM!
+        // BOOM!
         const buildPromise2 = buildSW(options)
 
         await expect(buildPromise2).rejects.toThrow(/Critical precache configuration conflict detected!/)
