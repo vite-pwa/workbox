@@ -1,7 +1,7 @@
 import type { BuildServiceWorkerOptions } from '../src/build/rolldown'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { buildSW } from '../src/build/rolldown/build-sw'
 import { runCustomChunksScenario } from './utils/custom-chunks-utils'
 import { createFixture } from './utils/fixture-utils'
@@ -13,11 +13,6 @@ precacheAndRoute(self.__WB_MANIFEST);
 `
 
 describe('rolldown custom chunks', () => {
-  afterEach(() => {
-    // Restore console spies as requested by the plan
-    vi.restoreAllMocks()
-  })
-
   describe('successful builds', () => {
     it('supports custom chunks for classic service workers', async () => {
       await runCustomChunksScenario(buildSW, 'classic')
