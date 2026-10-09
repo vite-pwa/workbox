@@ -13,19 +13,31 @@ interface CheckManifestOptions {
   baseUrl: string
 }
 
-function normalizeUrlEntry(entry: ManifestEntry, baseUrl: string): string {
-  let url = entry.url.startsWith(baseUrl)
-    ? entry.url.slice(baseUrl.length)
-    : entry.url
+function stripRelativePrefix(value: string): string {
+  if (value.startsWith('../')) {
+    return value.slice(2)
+  }
+  else if (value.startsWith('./')) {
+    return value.slice(1)
+  }
+  return value
+}
+
+function normalizeUrlEntry(
+  entry: ManifestEntry,
+  baseUrl: string,
+  baseWithoutLeadingSlash: string,
+): string {
   // integrations won't allow relative paths: ./ will be normalized to /
   // include this normalization here to ensure we check the correct file name
   // against the generated manifest entry url
-  if (url.startsWith('.')) {
-    url = url.slice(1)
-  }
-  else if (url.startsWith('..')) {
-    url = url.slice(2)
-  }
+  let url = stripRelativePrefix(entry.url)
+  url = url.startsWith(baseUrl)
+    ? url.slice(baseUrl.length)
+    : url.startsWith(baseWithoutLeadingSlash)
+      ? url.slice(baseWithoutLeadingSlash.length)
+      : url
+
   return url.startsWith('/') ? url.slice(1) : url
 }
 
@@ -51,16 +63,14 @@ function checkManifestEntries({
   }
   // normalize base only once, to avoid repeated string concatenation
   // at normalizeUrlEntry in the loop
-  let base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
-  if (base.startsWith('.')) {
-    base = base.slice(1)
+  let base = stripRelativePrefix(baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`)
+  if (!base.startsWith('/')) {
+    base = `/${base}`
   }
-  else if (base.startsWith('..')) {
-    base = base.slice(2)
-  }
+  const baseWithoutLeadingSlash = base.startsWith('/') ? base.slice(1) : base
   const precacheEntriesFound = new Set<string>()
   for (const entry of manifestEntries) {
-    const normalizedUrl = normalizeUrlEntry(entry, base)
+    const normalizedUrl = normalizeUrlEntry(entry, base, baseWithoutLeadingSlash)
     if (swEntries.has(normalizedUrl)) {
       precacheEntriesFound.add(normalizedUrl)
     }
