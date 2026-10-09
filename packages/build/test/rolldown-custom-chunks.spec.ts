@@ -95,8 +95,7 @@ initCache();
           swDest: path.resolve(dist, 'sw.js'),
           globDirectory: dist,
           // EXPLICITLY exclude the chunk to isolate the validation of sw.js
-          globPatterns: [],
-          additionalManifestEntries: ['sw.js'],
+          globPatterns: ['**/*.js'],
           minify: false,
           swType: 'classic',
           customChunks: (moduleId, ctx) => {
@@ -107,18 +106,71 @@ initCache();
           },
         } as BuildServiceWorkerOptions<'classic'>
 
-        try {
-          await buildSW(options)
-        }
-        catch {
-          // just ignore
-        }
+        const buildPromise1 = buildSW(options)
+        await expect(buildPromise1).resolves.toBeTruthy()
 
+        // simulate second build: internal build will exclude SW names, we need
+        // to check the error for the SW is there to protect consumer from
+        // misconfiguration
+        options.globPatterns = []
+        options.additionalManifestEntries = ['sw.js']
         // ¡BOOM!
-        const buildPromise = buildSW(options)
+        const buildPromise2 = buildSW(options)
 
-        await expect(buildPromise).rejects.toThrow(/Critical precache configuration conflict detected!/)
-        await expect(buildPromise).rejects.toThrow(/sw\.js/)
+        await expect(buildPromise2).rejects.toThrow(/Critical precache configuration conflict detected!/)
+        await expect(buildPromise2).rejects.toThrow(/sw\.js/)
+
+        // check baseUrl variant default base url (/):
+        // simulate second build (previous second one failed):
+        // internal build will exclude SW names, we need
+        // to check the error for the SW is there to protect consumer from
+        // misconfiguration
+        options.globPatterns = []
+        options.additionalManifestEntries = ['/sw.js']
+        // ¡BOOM!
+        const buildPromise3 = buildSW(options)
+
+        await expect(buildPromise3).rejects.toThrow(/Critical precache configuration conflict detected!/)
+        await expect(buildPromise3).rejects.toThrow(/sw\.js/)
+
+        // check baseUrl variant default base url (/base/):
+        // simulate second build (previous second one failed):
+        // internal build will exclude SW names, we need
+        // to check the error for the SW is there to protect consumer from
+        // misconfiguration
+        options.baseUrl = '/base/'
+        options.additionalManifestEntries = ['sw.js']
+        // ¡BOOM!
+        const buildPromise4 = buildSW(options)
+
+        await expect(buildPromise4).rejects.toThrow(/Critical precache configuration conflict detected!/)
+        await expect(buildPromise4).rejects.toThrow(/sw\.js/)
+
+        // check baseUrl variant default base url (/base/):
+        // simulate second build (previous second one failed):
+        // internal build will exclude SW names, we need
+        // to check the error for the SW is there to protect consumer from
+        // misconfiguration
+        options.baseUrl = '/base/'
+        options.additionalManifestEntries = ['/sw.js']
+        // ¡BOOM!
+        const buildPromise5 = buildSW(options)
+
+        await expect(buildPromise5).rejects.toThrow(/Critical precache configuration conflict detected!/)
+        await expect(buildPromise5).rejects.toThrow(/sw\.js/)
+
+        // check baseUrl variant default base url (/base/):
+        // simulate second build (previous second one failed):
+        // internal build will exclude SW names, we need
+        // to check the error for the SW is there to protect consumer from
+        // misconfiguration
+        options.baseUrl = '/base/'
+        options.additionalManifestEntries = ['/base/sw.js']
+        // ¡BOOM!
+        const buildPromise6 = buildSW(options)
+
+        await expect(buildPromise6).rejects.toThrow(/Critical precache configuration conflict detected!/)
+        await expect(buildPromise6).rejects.toThrow(/sw\.js/)
       })
     })
   })

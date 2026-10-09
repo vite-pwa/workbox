@@ -43,6 +43,7 @@ export async function prepareRolldownOutputOptions<B extends Bundler>(
   const define = await prepareDefineOptions(
     options,
   )
+  const { baseUrl = '/' } = options.originalEnvironmentData ?? {}
 
   const workboxName = inlineWorkboxRuntime !== true
     ? (inlineWorkboxRuntime.workboxChunkName || (
@@ -94,6 +95,7 @@ export async function prepareRolldownOutputOptions<B extends Bundler>(
   )
 
   plugins.unshift(RolldownPlugin(
+    baseUrl,
     sources,
     {
       swType,

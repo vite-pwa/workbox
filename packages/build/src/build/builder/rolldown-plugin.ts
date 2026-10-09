@@ -19,6 +19,7 @@ interface RolldownPluginOptions<T extends SWType, B extends Bundler> {
 }
 
 export function RolldownPlugin<T extends SWType, B extends Bundler>(
+  baseUrl: string,
   sources: string[],
   {
     destFolder,
@@ -68,6 +69,7 @@ export function RolldownPlugin<T extends SWType, B extends Bundler>(
     },
     async generateBundle(_, bundle) {
       await prepareSWChunks({
+        baseUrl,
         bundle,
         destFolder,
         customChunksInfo,

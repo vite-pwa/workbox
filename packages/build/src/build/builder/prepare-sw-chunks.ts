@@ -10,9 +10,18 @@ interface CheckManifestOptions {
   manifestEntries: ManifestEntry[]
   swChunks: Map<string, string[]>
   mappedChunkFiles: Map<string, string>
+  baseUrl: string
+}
+
+function normalizeUrlEntry(entry: ManifestEntry, baseUrl: string): string {
+  const url = entry.url.startsWith(baseUrl)
+    ? entry.url.slice(baseUrl.length)
+    : entry.url
+  return url.startsWith('/') ? url.slice(1) : url
 }
 
 function checkManifestEntries({
+  baseUrl,
   manifestEntries,
   swChunks,
   mappedChunkFiles,
@@ -33,8 +42,9 @@ function checkManifestEntries({
   }
   const precacheEntriesFound = new Set<string>()
   for (const entry of manifestEntries) {
-    if (swEntries.has(entry.url)) {
-      precacheEntriesFound.add(entry.url)
+    const normalizedUrl = normalizeUrlEntry(entry, baseUrl)
+    if (swEntries.has(normalizedUrl)) {
+      precacheEntriesFound.add(normalizedUrl)
     }
   }
   if (precacheEntriesFound.size > 0) {
@@ -63,6 +73,7 @@ interface PrepareSWChunksOptions<T extends Bundler> {
   customChunksInfo: CustomChunksInfo
   classicBuild: ClassicBuild
   writeFiles?: true
+  baseUrl: string
 }
 
 export async function prepareSWChunks<T extends Bundler>({
@@ -75,6 +86,7 @@ export async function prepareSWChunks<T extends Bundler>({
     filePaths,
     manifestEntries,
   },
+  baseUrl,
 }: PrepareSWChunksOptions<T>) {
   for (const chunk of Object.values(bundle)) {
     filePaths.push(path.resolve(destFolder, chunk.fileName))
@@ -102,6 +114,7 @@ export async function prepareSWChunks<T extends Bundler>({
   // check precache manifest entries against the generated chunk imports
   // to prevent critical misconfiguration
   checkManifestEntries({
+    baseUrl,
     manifestEntries,
     mappedChunkFiles: customChunksInfo.mappedChunkFiles,
     swChunks: customChunksInfo.mappedChunkImports,

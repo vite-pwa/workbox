@@ -35,7 +35,9 @@ export interface EnvironmentData {
    */
   mode?: string | null
   /**
+   * The base url for the service worker web manifest entries build check.
    * @experimental
+   * @default '/'
    */
   baseUrl?: string
   define?: Record<string, any>
