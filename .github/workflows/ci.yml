@@ -14,6 +14,9 @@ permissions:
 
 jobs:
   lint:
+    # Skip on uppt release PRs (they don't include later main merges, nothing to lint).
+    if: github.event_name == 'push' || !startsWith(github.head_ref, 'release/v')
+
     runs-on: ubuntu-24.04-arm
 
     steps:
@@ -38,6 +41,8 @@ jobs:
         run: pnpm lint
 
   test:
+    # Skip on uppt release PRs (they don't include later main merges, nothing to test).
+    if: github.event_name == 'push' || !startsWith(github.head_ref, 'release/v')
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
