@@ -29,7 +29,7 @@ packages:
 overrides:
   '@types/node': 'catalog:types'
   chokidar: ^5.0.0
-  rolldown: 'catalog:utils'
+  'rolldown@>=1.2.10': 'catalog:utils'
   why-is-node-running: 'catalog:utils'
 
 patchedDependencies:
@@ -55,6 +55,7 @@ catalogs:
     '@rspack/core': ^2.2.8
   test:
     '@vitest/ui': ^5.0.3
+    rolldown-legacy: 'npm:rolldown@1.2.9'
     vitest: ^5.0.3
   types:
     '@types/node': ^24.19.0

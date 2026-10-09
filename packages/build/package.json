@@ -204,6 +204,7 @@
     "dotenv-expand": "catalog:utils",
     "magicast": "catalog:utils",
     "rolldown": "catalog:utils",
+    "rolldown-legacy": "catalog:test",
     "vite": "catalog:vite",
     "webpack": "catalog:webpack5"
   },

@@ -22,7 +22,7 @@ import {
 // hoist regexp
 export const workboxRegex = [
   /@vite-pwa[\\/]workbox-swkit[\\/]/,
-  /[\\/]packages[\\/]workbox[\\/]swkit[\\/]/,
+  /[\\/]workbox[\\/]packages[\\/]swkit[\\/]dist[\\/]/,
 ].filter(Boolean)
 
 // DON'T hoist Regexp used with /g via exec/test/split

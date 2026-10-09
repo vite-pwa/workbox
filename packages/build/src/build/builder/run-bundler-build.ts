@@ -51,8 +51,11 @@ export async function runBundlerBuild(
         stackInfo,
       ].filter(Boolean).join('')
     }).join('\n\n')
+    const swBuildMessage = buildsResult.length === 2
+      ? 'Compilation failed during dual Service Worker build:'
+      : 'Compilation failed during Service Worker build:'
 
-    throw new Error(`\n${errStyle(['red', 'bold'], '[Vite PWA]')} ${errStyle('red', 'Compilation failed during dual Service Worker build:')}\n\n${errorMessages}\n`)
+    throw new Error(`\n${errStyle(['red', 'bold'], '[Vite PWA]')} ${errStyle('red', swBuildMessage)}\n\n${errorMessages}\n`)
   }
 
   const filePaths: string[] = []

@@ -9,13 +9,45 @@ import { transformClassicChunk } from './transform-classic-chunk'
 interface CheckManifestOptions {
   manifestEntries: ManifestEntry[]
   swChunks: Map<string, string[]>
+  mappedChunkFiles: Map<string, string>
+  baseUrl: string
+}
+
+function stripRelativePrefix(value: string): string {
+  if (value.startsWith('../')) {
+    return value.slice(2)
+  }
+  else if (value.startsWith('./')) {
+    return value.slice(1)
+  }
+  return value
+}
+
+function normalizeUrlEntry(
+  entry: ManifestEntry,
+  baseUrl: string,
+  baseWithoutLeadingSlash: string,
+): string {
+  // integrations won't allow relative paths: ./ will be normalized to /
+  // include this normalization here to ensure we check the correct file name
+  // against the generated manifest entry url
+  let url = stripRelativePrefix(entry.url)
+  url = url.startsWith(baseUrl)
+    ? url.slice(baseUrl.length)
+    : url.startsWith(baseWithoutLeadingSlash)
+      ? url.slice(baseWithoutLeadingSlash.length)
+      : url
+
+  return url.startsWith('/') ? url.slice(1) : url
 }
 
 function checkManifestEntries({
+  baseUrl,
   manifestEntries,
   swChunks,
+  mappedChunkFiles,
 }: CheckManifestOptions) {
-  if (manifestEntries.length === 0 || swChunks.size === 0) {
+  if (manifestEntries.length === 0) {
     return
   }
 
@@ -25,10 +57,22 @@ function checkManifestEntries({
     }
     return acc
   }, new Set<string>())
+  const swName = mappedChunkFiles.get('sw')
+  if (swName) {
+    swEntries.add(swName)
+  }
+  // normalize base only once, to avoid repeated string concatenation
+  // at normalizeUrlEntry in the loop
+  let base = stripRelativePrefix(baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`)
+  if (!base.startsWith('/')) {
+    base = `/${base}`
+  }
+  const baseWithoutLeadingSlash = base.startsWith('/') ? base.slice(1) : base
   const precacheEntriesFound = new Set<string>()
   for (const entry of manifestEntries) {
-    if (swEntries.has(entry.url)) {
-      precacheEntriesFound.add(entry.url)
+    const normalizedUrl = normalizeUrlEntry(entry, base, baseWithoutLeadingSlash)
+    if (swEntries.has(normalizedUrl)) {
+      precacheEntriesFound.add(normalizedUrl)
     }
   }
   if (precacheEntriesFound.size > 0) {
@@ -57,6 +101,7 @@ interface PrepareSWChunksOptions<T extends Bundler> {
   customChunksInfo: CustomChunksInfo
   classicBuild: ClassicBuild
   writeFiles?: true
+  baseUrl: string
 }
 
 export async function prepareSWChunks<T extends Bundler>({
@@ -69,6 +114,7 @@ export async function prepareSWChunks<T extends Bundler>({
     filePaths,
     manifestEntries,
   },
+  baseUrl,
 }: PrepareSWChunksOptions<T>) {
   for (const chunk of Object.values(bundle)) {
     filePaths.push(path.resolve(destFolder, chunk.fileName))
@@ -96,7 +142,9 @@ export async function prepareSWChunks<T extends Bundler>({
   // check precache manifest entries against the generated chunk imports
   // to prevent critical misconfiguration
   checkManifestEntries({
+    baseUrl,
     manifestEntries,
+    mappedChunkFiles: customChunksInfo.mappedChunkFiles,
     swChunks: customChunksInfo.mappedChunkImports,
   })
 
