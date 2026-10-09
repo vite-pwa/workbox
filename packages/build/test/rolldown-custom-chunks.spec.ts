@@ -34,6 +34,39 @@ function buildAndCatch(options: BuildServiceWorkerOptions<SWType>) {
   return buildSW(options).then(() => undefined, (e: Error) => e)
 }
 
+interface ReservedNameRow {
+  reservedName: string
+  swType: SWType
+  inlineWorkboxRuntime: boolean
+  workboxRuntimeCompatible: boolean
+}
+
+// Writes the minimal fixture and returns build options whose customChunks callback
+// assigns the given name to the app-cache module.
+async function createReservedNameOptions(
+  root: string,
+  dist: string,
+  { reservedName, ...rest }: ReservedNameRow,
+) {
+  const src = path.resolve(root, 'src')
+  await fs.mkdir(dist, { recursive: true })
+  await fs.writeFile(path.resolve(src, 'app-cache.js'), 'console.log("cache");', 'utf-8')
+  await fs.writeFile(path.resolve(src, 'sw.js'), dummySWCode, 'utf-8')
+
+  return {
+    swSrc: path.resolve(src, 'sw.js'),
+    swDest: path.resolve(dist, 'sw.js'),
+    globDirectory: dist,
+    globPatterns: [],
+    ...rest,
+    customChunks: (moduleId: string) => {
+      if (moduleId.endsWith('app-cache.js')) {
+        return reservedName
+      }
+    },
+  } as BuildServiceWorkerOptions<SWType>
+}
+
 describe('rolldown custom chunks', () => {
   describe('successful builds', () => {
     it('supports custom chunks for classic service workers', async () => {
@@ -219,6 +252,62 @@ describe('rolldown custom chunks', () => {
         configureSecondBuild(options, baseUrl, [template.replace('{chunk}', chunkFile)])
 
         await expect(buildSW(options)).resolves.toBeTruthy()
+      })
+    })
+  })
+
+  describe('workbox runtime reserved names depend on swType and workboxRuntimeCompatible', () => {
+    describe('names that are NOT reserved (must not conflict)', () => {
+      it.each<ReservedNameRow>([
+        { reservedName: 'workbox', swType: 'classic', inlineWorkboxRuntime: false, workboxRuntimeCompatible: false },
+        { reservedName: 'workbox', swType: 'module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: false },
+        { reservedName: 'workbox-classic', swType: 'classic', inlineWorkboxRuntime: false, workboxRuntimeCompatible: true },
+        { reservedName: 'workbox-module', swType: 'module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: true },
+        { reservedName: 'workbox', swType: 'classic-and-module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: true },
+        { reservedName: 'workbox', swType: 'classic', inlineWorkboxRuntime: true, workboxRuntimeCompatible: false },
+        { reservedName: 'workbox', swType: 'classic', inlineWorkboxRuntime: true, workboxRuntimeCompatible: true },
+        { reservedName: 'workbox', swType: 'module', inlineWorkboxRuntime: true, workboxRuntimeCompatible: false },
+        { reservedName: 'workbox', swType: 'module', inlineWorkboxRuntime: true, workboxRuntimeCompatible: true },
+        { reservedName: 'workbox', swType: 'classic-and-module', inlineWorkboxRuntime: true, workboxRuntimeCompatible: true },
+        { reservedName: 'workbox', swType: 'classic-and-module', inlineWorkboxRuntime: true, workboxRuntimeCompatible: false },
+        // each build only reserves its own runtime name, so the other one is free
+        { reservedName: 'workbox-classic', swType: 'module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: false },
+        { reservedName: 'workbox-module', swType: 'classic', inlineWorkboxRuntime: false, workboxRuntimeCompatible: false },
+      ])('does not reject "$reservedName" for "$swType" build (inlineWorkboxRuntime: $inlineWorkboxRuntime, workboxRuntimeCompatible: $workboxRuntimeCompatible)', async (
+        row,
+      ) => {
+        await createFixture(dummySWCode, async ({ root, dist }) => {
+          const options = await createReservedNameOptions(root, dist, row)
+
+          await expect(buildSW(options)).resolves.toBeTruthy()
+        })
+      })
+    })
+
+    describe('names that ARE the real Workbox runtime chunk (must conflict)', () => {
+      it.each<ReservedNameRow>([
+        // legacy name: single builds with the compatible runtime
+        { reservedName: 'workbox', swType: 'classic', inlineWorkboxRuntime: false, workboxRuntimeCompatible: true },
+        { reservedName: 'workbox', swType: 'module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: true },
+        // modern names: single builds with the non compatible runtime
+        { reservedName: 'workbox-classic', swType: 'classic', inlineWorkboxRuntime: false, workboxRuntimeCompatible: false },
+        { reservedName: 'workbox-module', swType: 'module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: false },
+        // dual build always uses the modern names, whatever workboxRuntimeCompatible says
+        { reservedName: 'workbox-classic', swType: 'classic-and-module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: true },
+        { reservedName: 'workbox-module', swType: 'classic-and-module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: true },
+        { reservedName: 'workbox-classic', swType: 'classic-and-module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: false },
+        { reservedName: 'workbox-module', swType: 'classic-and-module', inlineWorkboxRuntime: false, workboxRuntimeCompatible: false },
+      ])('rejects "$reservedName" for "$swType" build (workboxRuntimeCompatible: $workboxRuntimeCompatible)', async (row) => {
+        await createFixture(dummySWCode, async ({ root, dist }) => {
+          const options = await createReservedNameOptions(root, dist, row)
+
+          const error = await buildAndCatch(options)
+
+          expect(error).toBeDefined()
+          expect(error!.message).toMatch(
+            new RegExp(`Custom chunk name \\\\?"${row.reservedName}\\\\?" conflicts with the Service Worker or Workbox runtime chunk names!`),
+          )
+        })
       })
     })
   })
