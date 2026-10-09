@@ -15,7 +15,7 @@ permissions:
 jobs:
   lint:
     # Skip on uppt release PRs (they don't include later main merges, nothing to lint).
-    if: github.event_name == 'push' || !startsWith(github.head_ref, 'release/v')
+    if: (github.event_name == 'push' && !startsWith(github.ref, 'refs/heads/release/v')) || (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'release/v'))
 
     runs-on: ubuntu-24.04-arm
 
@@ -42,7 +42,7 @@ jobs:
 
   test:
     # Skip on uppt release PRs (they don't include later main merges, nothing to test).
-    if: github.event_name == 'push' || !startsWith(github.head_ref, 'release/v')
+    if: (github.event_name == 'push' && !startsWith(github.ref, 'refs/heads/release/v')) || (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'release/v'))
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
