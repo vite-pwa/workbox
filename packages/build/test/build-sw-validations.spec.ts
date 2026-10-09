@@ -163,7 +163,7 @@ describe('build-sw validations', () => {
       return acc
     }, [] as [swType: SWType, sourcemap: true | 'inline' | 'hidden'][])
 
-    it.each(swTypes)('default minify for %s is set tu true when mode is production', async (swType) => {
+    it.each(swTypes)('default minify for %s is set to true when mode is production', async (swType) => {
       const { options } = createBuildSWOptions(swType, {
         mode: 'production',
       })
