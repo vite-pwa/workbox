@@ -66,19 +66,17 @@ export async function runCustomChunksScenario<
         '**/app-messages*.js',
         '**/app-messages*.map',
       ],
-      customChunks: (moduleId, ctx) => {
-        const id = ctx.getModuleInfo(moduleId)?.id
-        if (id?.includes('app-cache.js')) {
+      customChunks: (moduleId) => {
+        if (moduleId.includes('app-cache.js')) {
           return 'app-cache'
         }
-        if (id?.includes('app-messages.js')) {
+        if (moduleId.includes('app-messages.js')) {
           return 'app-messages'
         }
       },
     }
 
     const inlineWorkboxRuntime = optionsOverride.inlineWorkboxRuntime ?? defaultOptions.inlineWorkboxRuntime
-
     // 3. run the injected build
     await buildSWFn({
       ...defaultOptions,

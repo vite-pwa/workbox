@@ -7,7 +7,7 @@ export default defineConfig({
   maturityPeriod: 7,
   peer: false,
   mode: 'minor',
-  exclude: ['taze', 'dotenv-expand', 'node', 'why-is-node-running'],
+  exclude: ['taze', 'dotenv-expand', 'node', 'rolldown-legacy', 'why-is-node-running'],
   depFields: {
     packageManager: false,
   },
