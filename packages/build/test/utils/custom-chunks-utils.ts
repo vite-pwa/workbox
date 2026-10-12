@@ -66,19 +66,17 @@ export async function runCustomChunksScenario<
         '**/app-messages*.js',
         '**/app-messages*.map',
       ],
-      customChunks: (moduleId, ctx) => {
-        const id = ctx.getModuleInfo(moduleId)?.id
-        if (id?.includes('app-cache.js')) {
+      customChunks: (moduleId) => {
+        if (moduleId.includes('app-cache.js')) {
           return 'app-cache'
         }
-        if (id?.includes('app-messages.js')) {
+        if (moduleId.includes('app-messages.js')) {
           return 'app-messages'
         }
       },
     }
 
     const inlineWorkboxRuntime = optionsOverride.inlineWorkboxRuntime ?? defaultOptions.inlineWorkboxRuntime
-
     // 3. run the injected build
     await buildSWFn({
       ...defaultOptions,
@@ -101,10 +99,10 @@ export async function runCustomChunksScenario<
     expect(appCacheChunk, 'app-cache chunk is missing').toBeDefined()
     expect(appMessagesChunk, 'app-messages chunk is missing').toBeDefined()
     if (inlineWorkboxRuntime) {
-      expect(workboxChunk, 'workbox runtime chunk is missing').toBeDefined()
+      expect(workboxChunk, 'workbox runtime chunk is emitted').toBeUndefined()
     }
     else {
-      expect(workboxChunk, 'workbox runtime chunk is emitted').toBeUndefined()
+      expect(workboxChunk, 'workbox runtime chunk is missing').toBeDefined()
     }
 
     // Verify that the manifest was injected (self.__WB_MANIFEST is no longer present)
