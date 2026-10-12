@@ -55,7 +55,7 @@ catalogs:
     '@rspack/core': ^2.2.8
   test:
     '@vitest/ui': ^5.0.3
-    rolldown-legacy: 'npm:rolldown@1.2.12'
+    rolldown-legacy: 'npm:rolldown@1.2.9'
     vitest: ^5.0.3
   types:
     '@types/node': ^24.19.1
@@ -96,5 +96,5 @@ catalogs:
 minimumReleaseAge: 10080 # minutes = 7 days
 
 minimumReleaseAgeExclude:
-  - vite@8.3.1
+  - vite@8.3.2
   - verkit@0.5.0
