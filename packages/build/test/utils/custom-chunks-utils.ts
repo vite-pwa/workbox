@@ -101,10 +101,10 @@ export async function runCustomChunksScenario<
     expect(appCacheChunk, 'app-cache chunk is missing').toBeDefined()
     expect(appMessagesChunk, 'app-messages chunk is missing').toBeDefined()
     if (inlineWorkboxRuntime) {
-      expect(workboxChunk, 'workbox runtime chunk is emitted').toBeUndefined()
+      expect(workboxChunk, 'workbox runtime chunk is missing').toBeDefined()
     }
     else {
-      expect(workboxChunk, 'workbox runtime chunk is missing').toBeDefined()
+      expect(workboxChunk, 'workbox runtime chunk is emitted').toBeUndefined()
     }
 
     // Verify that the manifest was injected (self.__WB_MANIFEST is no longer present)
