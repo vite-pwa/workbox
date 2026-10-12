@@ -1,8 +1,36 @@
 /* eslint-disable no-console */
-import { mkdirSync, rmSync } from 'node:fs'
+import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import workboxBuild from '@vite-pwa/workbox-build/package.json' with { type: 'json' }
 import { normalizePath } from '@vite-pwa/workbox-build/utils/resolve-sw-names'
+import workboxCli from '@vite-pwa/workbox-cli/package.json' with { type: 'json' }
+import workboxSwkit from '@vite-pwa/workbox-swkit/package.json' with { type: 'json' }
+import workboxWindow from '@vite-pwa/workbox-window/package.json' with { type: 'json' }
 import { Application, OptionDefaults } from 'typedoc'
+
+/** @param apiDir {string} */
+async function writeSubpackageExports(apiDir) {
+  /** @type {Record<string, Record<string, any>>} */
+  const entries = [
+    ['@vite-pwa/workbox-build', workboxBuild.exports ?? {}],
+    ['@vite-pwa/workbox-cli', workboxCli.exports ?? {}],
+    ['@vite-pwa/workbox-swkit', workboxSwkit.exports ?? {}],
+    ['@vite-pwa/workbox-window', workboxWindow.exports ?? {}],
+  ]
+
+  /** @type {Record<string, string[]>} */
+  const pkgExports = {}
+  const regex = /^\.\//
+  for (const [pkg, exports] of entries) {
+    console.log(pkg, pkgExports)
+    pkgExports[pkg] = Object.keys(exports).filter(key => key !== '.' && key !== './package.json').reduce((acc, key) => {
+      acc.push(key.replace(regex, ''))
+      return acc
+    }, [])
+  }
+
+  writeFileSync(`${apiDir}/subpackage-exports.json`, JSON.stringify(pkgExports, null, 2))
+}
 
 async function init() {
   const here = new URL('.', import.meta.url)
@@ -146,6 +174,8 @@ async function init() {
 
     await app.generateJson(project, abs(`./api/${output}`))
   }
+
+  await writeSubpackageExports(apiDir)
 
   console.log('\n[gen] done — per-package JSON written to api/')
 }
