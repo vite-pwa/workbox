@@ -52,6 +52,21 @@ export default defineConfig({
           if (ctx.getModuleInfo(moduleId)?.id.includes('sw-helper')) {
             return 'sw-helper'
           }
+          if (moduleId.includes('circular-dep-1.ts')) {
+            return 'chunk-circular-1'
+          }
+          if (moduleId.includes('circular-dep-2.ts')) {
+            return 'chunk-circular-2'
+          }
+          if (/[\\/]a\.ts$/.test(moduleId)) {
+            return 'chunk-a'
+          }
+          if (/[\\/]b\.ts$/.test(moduleId)) {
+            return 'chunk-b'
+          }
+          if (/[\\/]c\.ts$/.test(moduleId)) {
+            return 'chunk-c'
+          }
         },
         plugins: () => [virtualMessagePlugin()],
         additionalManifestEntriesGenerator,
