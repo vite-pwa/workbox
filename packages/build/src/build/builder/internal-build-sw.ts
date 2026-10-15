@@ -43,6 +43,7 @@ export async function internalBuildSW<
     minify,
     chunkNames,
     manifest,
+    enableSWKitLogs,
     ...injectManifest
   } = context.options
 
@@ -100,6 +101,7 @@ export async function internalBuildSW<
     originalEnvironmentData: context.originalEnvironmentData,
     chunkNames,
     manifest,
+    enableSWKitLogs,
   })
 
   context.builds = builds

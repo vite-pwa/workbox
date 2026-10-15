@@ -66,6 +66,7 @@
       "types": "./dist/types.d.mts"
     },
     "./utils/colors": "./dist/utils/colors.mjs",
+    "./utils/generate-manifest-entries": "./dist/utils/generate-manifest-entries.mjs",
     "./utils/resolve-sw-names": "./dist/utils/resolve-sw-names.mjs",
     "./package.json": "./package.json"
   },
@@ -143,6 +144,9 @@
       ],
       "utils/colors": [
         "./dist/utils/colors.d.mts"
+      ],
+      "utils/generate-manifest-entries": [
+        "./dist/utils/generate-manifest-entries.d.mts"
       ],
       "utils/resolve-sw-names": [
         "./dist/utils/resolve-sw-names.d.mts"

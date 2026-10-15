@@ -75,6 +75,7 @@ const BaseInjectManifestEntries = v.pipeAsync(
       v.function(),
     ),
     alias: v.optional(v.any()),
+    enableSWKitLogs: v.optional(v.boolean()),
   }),
   v.forwardAsync(
     v.checkAsync(

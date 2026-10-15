@@ -4,7 +4,6 @@ import { defineConfig } from 'tsdown'
 import {
   attw,
   workboxBanner as banner,
-  cleanupJSTypes,
   nodeEnvDefine as define,
   fixTypesVersion,
   publint,
@@ -51,7 +50,7 @@ export default defineConfig({
   exports: fixTypesVersion,
   hooks: {
     'build:done': async () => {
-      await cleanupJSTypes(cwd)
+      // await cleanupJSTypes(cwd)
     },
   },
 })

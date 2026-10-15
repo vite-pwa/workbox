@@ -36,6 +36,7 @@ export async function prepareRolldownOutputOptions<B extends Bundler>(
     manifestEntries,
     chunkNames = '-',
     sources,
+    enableSWKitLogs = false,
   } = options
 
   const sep = chunkNames === 'dot' ? '.' : '-'
@@ -93,6 +94,12 @@ export async function prepareRolldownOutputOptions<B extends Bundler>(
     classicBuild,
     workboxName,
   )
+
+  if (enableSWKitLogs) {
+    plugins.unshift(await import('./enable-swkit-logs-plugin').then(({
+      EnableSWKitLogsPlugin,
+    }) => EnableSWKitLogsPlugin(bundler)))
+  }
 
   plugins.unshift(RolldownPlugin(
     baseUrl,

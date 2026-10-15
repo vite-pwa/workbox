@@ -34,6 +34,7 @@ export function prepareBundlerOptions(
     manifestEntries,
     chunkNames,
     manifest,
+    enableSWKitLogs,
   } = options
 
   const builds: BundlerOptions[] = []
@@ -77,6 +78,7 @@ export function prepareBundlerOptions(
       chunkNames,
       manifest,
       sources: classicSources,
+      enableSWKitLogs,
     })
   }
 
@@ -113,6 +115,7 @@ export function prepareBundlerOptions(
       chunkNames,
       manifest,
       sources: moduleSources,
+      enableSWKitLogs,
     })
   }
 

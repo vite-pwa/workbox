@@ -20,10 +20,7 @@ import {
 } from '../../utils/resolve-sw-names'
 
 // hoist regexp
-export const workboxRegex = [
-  /@vite-pwa[\\/]workbox-swkit[\\/]/,
-  /[\\/]packages[\\/]swkit[\\/]dist[\\/]/,
-].filter(Boolean)
+export const WORKBOX_SWKIT_RE = /@vite-pwa[\\/]workbox-swkit|[\\/]packages[\\/]swkit[\\/]dist[\\/]/
 
 // DON'T hoist Regexp used with /g via exec/test/split
 const camelizeRegexp = /-([a-z0-9])/g

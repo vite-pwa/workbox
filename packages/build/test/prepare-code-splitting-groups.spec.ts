@@ -43,7 +43,8 @@ describe('prepareCodeSplittingGroups', () => {
 
       const nameFn = (rolldownOptions.codeSplitting as CodeSplittingOptions)?.groups![0].name as CodeSplittingNameFunction
 
-      expect(nameFn('@vite-pwa/workbox-swkit/precaching/index.js', {} as any)).toBe('wb-runtime')
+      expect(nameFn('@vite-pwa/workbox-swkit/precaching', {} as any)).toBe('wb-runtime')
+      expect(nameFn('/packages/swkit/dist/precaching/index.js', {} as any)).toBe('wb-runtime')
       expect(nameFn('src/app-cache.js', {} as any)).toBe('my-custom-chunk')
     })
 

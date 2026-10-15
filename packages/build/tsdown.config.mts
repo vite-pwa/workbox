@@ -15,6 +15,7 @@ export default defineConfig({
     './src/{index,types,generate-sw,get-manifest,inject-manifest,self-destroying-sw}.ts',
     './src/utils/resolve-sw-names.ts',
     './src/utils/colors.ts',
+    './src/utils/generate-manifest-entries.ts',
     {
       'build/*': [
         './src/build/*.ts',

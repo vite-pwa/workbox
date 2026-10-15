@@ -49,6 +49,7 @@ export async function prepareDefineOptions<T extends Bundler>(
   }
 
   const isProduction = resolvedNodeEnv === 'production'
+  const enableSWKitLogs = options.enableSWKitLogs === true
 
   // 6. Build the ENV object (Equivalent to resolved.env in Vite)
   const builtInEnv = {
@@ -57,6 +58,7 @@ export async function prepareDefineOptions<T extends Bundler>(
     PROD: isProduction,
     SSR: false,
     BASE_URL: original.baseUrl || '/',
+    ENABLE_SWKIT_LOGS: enableSWKitLogs,
   }
 
   const mergedEnv = Object.assign({}, builtInEnv, userEnv)
