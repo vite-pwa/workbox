@@ -2,11 +2,21 @@ import { clientsClaim } from '@vite-pwa/workbox-swkit/core'
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from '@vite-pwa/workbox-swkit/precaching'
 import { NavigationRoute, registerRoute } from '@vite-pwa/workbox-swkit/routing'
 import { message } from 'virtual:message'
+import { runC } from './c.ts'
+// eslint-disable-next-line perfectionist/sort-imports
+import { runA } from './a.ts'
+import { circularDepMessage1, func1 } from './circular-dep-1.ts'
+import { circularDepMessage2, func2 } from './circular-dep-2.ts'
 import { hello, sayHello } from './sw-helper.ts'
 
 console.log(message)
 console.log(hello)
 console.log(sayHello('from SW'))
+console.log(circularDepMessage1, typeof func1)
+console.log(circularDepMessage2, typeof func2)
+
+runA()
+runC()
 
 declare let self: ServiceWorkerGlobalScope
 
