@@ -33,6 +33,7 @@ export interface BundlerOptions {
   chunkNames?: 'dash' | 'dot'
   manifest?: boolean
   sources: string[]
+  enableSWKitLogs?: boolean
 }
 
 export interface PrepareBundlerOptions {
@@ -58,6 +59,7 @@ export interface PrepareBundlerOptions {
   originalEnvironmentData: OriginalEnvironmentData
   chunkNames?: 'dash' | 'dot'
   manifest?: boolean
+  enableSWKitLogs?: boolean
 }
 
 export interface ClassicBuild {

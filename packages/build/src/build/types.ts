@@ -166,6 +166,13 @@ export interface BuildSWOptions<
    * @see https://rolldown.rs/reference/TypeAlias.CodeSplittingNameFunction#type-alias-codesplittingnamefunction
    */
   customChunks?: CustomChunkCallback<B>
+  /**
+   * Enables `workbox-swkit` logs in the SW build (debug only):
+   * - replaces `process.env.NODE_ENV` with `development` inside `workbox-swkit` modules
+   * - exposes `import.meta.env.ENABLE_SWKIT_LOGS` at define
+   * It also enables `workbox-swkit` assertions and increases the bundle size.
+   */
+  enableSWKitLogs?: boolean
 }
 
 export type BuildGenerateSWOptions<T extends SWType> = GenerateSWOptions<T> & EnvironmentData

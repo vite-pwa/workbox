@@ -1,0 +1,19 @@
+{
+  "name": "vite8-ts",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:omit-swkit-logs": "pnpm build && ENABLE_SWKIT_LOGS=false vitest run",
+    "test:enable-swkit-logs": "ENABLE_SWKIT_LOGS=true pnpm build && ENABLE_SWKIT_LOGS=true vitest run",
+    "test:disable-swkit-logs": "ENABLE_SWKIT_LOGS=false pnpm build && ENABLE_SWKIT_LOGS=false vitest run",
+    "test:ci": "pnpm test:omit-swkit-logs && pnpm test:enable-swkit-logs && pnpm test:disable-swkit-logs"
+  },
+  "devDependencies": {
+    "@vite-pwa/workbox-build": "workspace:*",
+    "vite": "catalog:vite"
+  }
+}

@@ -1,6 +1,6 @@
 import type { Bundler, ClassicBuild, CustomChunksInfo, RolldownOptions } from './bundler-types'
 import { errStyle } from '../../utils/colors'
-import { camelize, workboxRegex } from './utils'
+import { camelize, WORKBOX_SWKIT_RE } from './utils'
 
 export function prepareCodeSplittingGroups<B extends Bundler>(
   options: RolldownOptions<B>,
@@ -26,7 +26,7 @@ export function prepareCodeSplittingGroups<B extends Bundler>(
             return undefined
           }
           if (workboxName) {
-            const chunk = workboxRegex.some(r => r.test(moduleId)) ? workboxName : undefined
+            const chunk = WORKBOX_SWKIT_RE.test(moduleId) ? workboxName : undefined
             if (chunk) {
               // handle workbox as a custom chunk: !inlineWorkboxRuntime is just a shortcut
               customChunksInfo.customChunkNames.set(chunk, camelize(chunk))
@@ -77,7 +77,7 @@ export function prepareCodeSplittingGroups<B extends Bundler>(
     rolldownOptions.codeSplitting = {
       groups: [{
         name: (moduleId) => {
-          return workboxRegex.some(r => r.test(moduleId)) ? workboxName : undefined
+          return WORKBOX_SWKIT_RE.test(moduleId) ? workboxName : undefined
         },
         debugName: 'vite-pwa-workbox-chunk',
       }],

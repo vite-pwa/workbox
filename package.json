@@ -21,7 +21,7 @@
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
     "test": "pnpm -r --filter=\"./packages/**/\" run test",
-    "test:ci": "pnpm -r --filter=\"./packages/**/\" run test:ci",
+    "test:ci": "pnpm -r --filter=\"./packages/**/\" run test:ci && pnpm -r --filter=\"./examples/**/\" run test:ci",
     "test:typecheck": "pnpm -r --filter=\"./packages/**/\" run test:typecheck",
     "build": "pnpm -r --filter=\"./packages/**/\" run build",
     "update:deps": "taze -I",
