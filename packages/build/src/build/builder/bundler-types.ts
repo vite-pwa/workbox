@@ -105,6 +105,7 @@ export interface PrepareBundlerBuilder<T extends Bundler> {
   plugins: BundlerPluginType<T>[]
   define: import('rolldown').TransformOptions['define']
   rolldownOptions: import('rolldown').OutputOptions
+  mode: string
 }
 
 export interface CustomChunksInfo {

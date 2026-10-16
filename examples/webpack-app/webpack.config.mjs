@@ -1,7 +1,7 @@
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import { WorkboxPlugin } from '@vite-pwa/workbox-build/build/webpack'
+import { WebpackWorkboxPWAPlugin } from '@vite-pwa/workbox-build/build/webpack'
 
 import PWAConfig from './external-pwa.config.mjs'
 
@@ -75,7 +75,7 @@ export default {
   },
   plugins: [
     new HtmlPlugin(),
-    new WorkboxPlugin(
+    new WebpackWorkboxPWAPlugin(
       'build-sw',
       config,
     ),
