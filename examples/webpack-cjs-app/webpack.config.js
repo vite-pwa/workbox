@@ -1,6 +1,6 @@
 const path = require('node:path')
 const process = require('node:process')
-const { WorkboxPlugin } = require('@vite-pwa/workbox-build/build/webpack')
+const { WebpackWorkboxPWAPlugin } = require('@vite-pwa/workbox-build/build/webpack')
 const PWAConfig = require('./external-pwa.config.mjs').default
 
 /** @type {'inline' | 'external' | 'override'} */
@@ -73,7 +73,7 @@ module.exports = {
   },
   plugins: [
     new HtmlPlugin(),
-    new WorkboxPlugin(
+    new WebpackWorkboxPWAPlugin(
       'build-sw',
       config,
     ),

@@ -41,7 +41,7 @@ export async function prepareRolldownOutputOptions<B extends Bundler>(
 
   const sep = chunkNames === 'dot' ? '.' : '-'
 
-  const define = await prepareDefineOptions(
+  const { define, mode } = await prepareDefineOptions(
     options,
   )
   const { baseUrl = '/' } = options.originalEnvironmentData ?? {}
@@ -134,6 +134,7 @@ export async function prepareRolldownOutputOptions<B extends Bundler>(
   }
 
   return {
+    mode,
     define,
     plugins: plugins as BundlerPluginType<B>[],
     rolldownOptions,

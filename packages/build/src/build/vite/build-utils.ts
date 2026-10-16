@@ -25,6 +25,7 @@ export async function prepareViteBuild(
 
   const {
     plugins,
+    mode,
     define,
     rolldownOptions: output,
   } = await prepareRolldownOutputOptions('vite', options)
@@ -32,6 +33,7 @@ export async function prepareViteBuild(
   const { checks, onLog } = prepareCircularDependencies<'vite'>(options)
 
   return await build({
+    mode,
     plugins,
     configFile: false,
     forceOptimizeDeps: false,

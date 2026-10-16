@@ -16,6 +16,7 @@ interface ImportMetaEnv extends Record<ImportMetaEnvFallbackKey, any> {
   DEV: boolean
   PROD: boolean
   SSR: boolean
+  ENABLE_SWKIT_LOGS: boolean
 }
 
 interface ImportMeta {

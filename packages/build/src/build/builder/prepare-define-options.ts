@@ -15,7 +15,10 @@ import { loadEnv, resolveEnvPrefix } from './env'
  */
 export async function prepareDefineOptions<T extends Bundler>(
   options: RolldownOptions<T>,
-): Promise<Record<string, string>> {
+): Promise<{
+  mode: string
+  define: Record<string, string>
+}> {
   // 1. Extract original environment data captured from the consumer
   const original = options.originalEnvironmentData
 
@@ -109,5 +112,5 @@ export async function prepareDefineOptions<T extends Bundler>(
     define['self.__WB_MANIFEST'] = JSON.stringify('undefined')
   }
 
-  return define
+  return { mode, define }
 }

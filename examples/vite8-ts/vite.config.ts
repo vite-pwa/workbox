@@ -44,6 +44,7 @@ export default defineConfig({
         minify: false,
         sourcemap: true,
         enableSWKitLogs,
+        // mode: 'development',
         inlineWorkboxRuntime: false,
         swType: 'classic-and-module',
         swSrc,
