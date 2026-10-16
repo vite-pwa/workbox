@@ -8,7 +8,7 @@ const config = {
     inlineWorkboxRuntime: false,
     sourcemap: true,
     minify: false,
-    // mode: 'production',
+    mode: 'production',
     manifest: true,
   },
 }
