@@ -75,6 +75,14 @@ const esmServiceWorkerRules: Record<Browser, Rule> = {
   },
 }
 
+/**
+ * Detects if the current browser supports ESM service workers.
+ *
+ * Based on [caniuse](https://caniuse.com/?search=service+worker) baseline specifications.
+ *
+ * @param userAgent The user agent string to check. If not provided, it will use the current browser's user agent.
+ * @returns true if the browser supports ESM service workers, false otherwise.
+ */
 export function isServiceWorkerModuleSupported(userAgent = navigator.userAgent): boolean {
   if (!userAgent)
     return false
