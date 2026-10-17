@@ -7,9 +7,21 @@
 <h1 align="center">Vite PWA Workbox</h1>
 
 <p align='center'>
+<a href="https://unplugin-pwa.netlify.app/vite-pwa-workbox/" target="__blank">
+    <img src="https://img.shields.io/static/v1?label=&message=docs%20%26%20guides&color=2e859c" alt="Documentation & Guides">
+</a>
+<br>
 <a href="https://github.com/vite-pwa/workbox" target="__blank">
 <img alt="GitHub stars" src="https://img.shields.io/github/stars/vite-pwa/workbox?style=social">
 </a>
+</p>
+
+<br>
+
+<p align="center">
+  <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg">
+    <img src="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg" alt="Anthony Fu SVG sponsors image"/>
+  </a>
 </p>
 
 ## Welcome to the Vite PWA Workbox repository!

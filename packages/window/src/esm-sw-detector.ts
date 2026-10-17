@@ -44,12 +44,12 @@ const esmServiceWorkerRegex = {
   safari: /Version\/.*Safari/,
   safariVersion: /Version\/([\d._]+)/,
   firefoxVersion: /Firefox\/([\d.]+)(?:\s|$)/,
-  opera: /(Opera|OPR)\/([\d.]+)/,
+  opera: /(?:Opera|OPR)\/([\d.]+)/,
   samsung: /SamsungBrowser\/([\d.]+)/,
   webview: /wv\).*Chrom(?:e|ium)\/([\d.]+)/,
   operaMobile: /Mobile/,
   ucBrowser: /UCBrowser\/([\d.]+)/,
-  qq: /(MQQBrowser|QQBrowser)\/([\d.]+)/i,
+  qq: /(?:MQQBrowser|QQBrowser)\/([\d.]+)/i,
   iOS: /iP(?:hone|od|ad)/,
   android: /Android/,
   macOS: /Macintosh/,
@@ -75,6 +75,14 @@ const esmServiceWorkerRules: Record<Browser, Rule> = {
   },
 }
 
+/**
+ * Detects if the current browser supports ESM service workers.
+ *
+ * Based on [caniuse](https://caniuse.com/?search=service+worker) baseline specifications.
+ *
+ * @param userAgent The user agent string to check. If not provided, it will use the current browser's user agent.
+ * @returns true if the browser supports ESM service workers, false otherwise.
+ */
 export function isServiceWorkerModuleSupported(userAgent = navigator.userAgent): boolean {
   if (!userAgent)
     return false

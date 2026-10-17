@@ -9,13 +9,40 @@
 <a href="https://npmx.dev/package/@vite-pwa/workbox-swkit" target="__blank">
     <img alt="NPM Downloads" src="https://img.shields.io/npm/dm/@vite-pwa/workbox-swkit?color=476582&label=">
 </a>
+<a href="https://unplugin-pwa.netlify.app/vite-pwa-workbox/swkit.html" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/static/v1?label=&message=docs%20%26%20guides&color=2e859c" alt="Docs & Guides">
+</a>
+<br>
+<a href="https://github.com/vite-pwa/workbox/tree/main/packages/swkit" target="_blank" rel="noopener noreferrer">
+<img alt="GitHub stars" src="https://img.shields.io/github/stars/vite-pwa/workbox?style=social">
+</a>
+</p>
+
+<br>
+
+<p align="center">
+  <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg">
+    <img src="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg" alt="Anthony Fu SVG sponsors image"/>
+  </a>
 </p>
 
 ## 🛠️ Welcome to Vite PWA Workbox SWKIT
 
 The modern toolkit for your service worker. **Vite PWA Workbox SWKIT** provides a consolidated, ESM-powered collection of JavaScript libraries to construct powerful, offline-first [Progressive Web Apps](https://web.dev/progressive-web-apps/) right inside your service worker context.
 
-## New features
+## 📦 Install
+
+```bash
+npm i -D @vite-pwa/workbox-swkit
+
+# yarn
+yarn add -D @vite-pwa/workbox-swkit
+
+# pnpm
+pnpm add -D @vite-pwa/workbox-swkit
+```
+
+## 🚀 New features
 
 `@vite-pwa/workbox-swkit` introduces a major architectural shift alongside new capabilities:
 - **Consolidated Architecture**: Everything that was previously scattered across multiple independent packages is now unified into this single package using subpackage exports
