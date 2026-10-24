@@ -1,7 +1,7 @@
 <br>
 
 <p align='center'>
-    <img src='https://github.com/vite-pwa/workbox/blob/main/workbox.svg' alt="Vite PWA workbox">
+    <img src='https://github.com/vite-pwa/workbox/blob/main/workbox.svg' alt="Vite PWA Workbox Build">
 </p>
 
 <h1 align="center">Vite PWA Workbox Build</h1>

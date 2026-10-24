@@ -1,6 +1,10 @@
 <br>
 
-<h1 align="center">Vite PWA Workbox SWKIT</h1>
+<p align='center'>
+    <img src='https://github.com/vite-pwa/workbox/blob/main/workbox.svg' alt="Vite PWA Workbox SWKit">
+</p>
+
+<h1 align="center">Vite PWA Workbox SWKit</h1>
 
 <p align='center'>
 <a href='https://npmx.dev/package/@vite-pwa/workbox-swkit' target="__blank">
