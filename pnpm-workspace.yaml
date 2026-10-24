@@ -100,5 +100,5 @@ catalogs:
 minimumReleaseAge: 10080 # minutes = 7 days
 
 minimumReleaseAgeExclude:
-  - vite@8.3.2
-  - verkit@0.5.0
+  - vite
+  - verkit
