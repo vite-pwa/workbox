@@ -4,7 +4,7 @@
     <img src='https://github.com/vite-pwa/workbox/blob/main/workbox.svg' alt="Vite PWA workbox">
 </p>
 
-<h1 align="center">Vite PWA Workbox</h1>
+<h1 align="center">Vite PWA Workbox TypeDocs</h1>
 
 <p align='center'>
 <a href='https://npmx.dev/package/@vite-pwa/workbox-types' target="__blank">
