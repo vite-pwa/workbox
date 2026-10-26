@@ -33,47 +33,47 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           packages: ${{ env.PACKAGES }}
           pr-notes: |
-            ⚡ Try the latest `{base}` build with **pkg-pr-new**:
+            ## ⚡ Try the latest `{base}` build with **pkg-pr-new**:
 
-            <details><summary><b>@vite-pwa/workbox-build</b></summary>
+            <details><summary><b>@vite-pwa/workbox-build</b></summary><p>
 
-            ```
-            pnpm add https://pkg.pr.new/@vite-pwa/workbox-build@{base}
-            ```
+              ```
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-build@{base}
+              ```
 
-            </details>
+            </p></details>
 
-            <details><summary><b>@vite-pwa/workbox-cli</b></summary>
+            <details><summary><b>@vite-pwa/workbox-cli</b></summary><p>
 
-            ```
-            pnpm add https://pkg.pr.new/@vite-pwa/workbox-cli@{base}
-            ```
+              ```
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-cli@{base}
+              ```
 
-            </details>
+            </p></details>
 
-            <details><summary><b>@vite-pwa/workbox-swkit</b></summary>
+            <details><summary><b>@vite-pwa/workbox-swkit</b></summary><p>
 
-            ```
-            pnpm add https://pkg.pr.new/@vite-pwa/workbox-swkit@{base}
-            ```
+              ```
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-swkit@{base}
+              ```
 
-            </details>
+            </p></details>
 
-            <details><summary><b>@vite-pwa/workbox-types</b></summary>
+            <details><summary><b>@vite-pwa/workbox-types</b></summary><p>
 
-            ```
-            pnpm add https://pkg.pr.new/@vite-pwa/workbox-types@{base}
-            ```
+              ```
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-types@{base}
+              ```
 
-            </details>
+            </p></details>
 
-            <details><summary><b>@vite-pwa/workbox-window</b></summary>
+            <details><summary><b>@vite-pwa/workbox-window</b></summary><p>
 
-            ```
-            pnpm add https://pkg.pr.new/@vite-pwa/workbox-window@{base}
-            ```
+              ```
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-window@{base}
+              ```
 
-            </details>
+            </p></details>
   release:
     if: |
       github.event_name == 'pull_request'
