@@ -33,13 +33,47 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           packages: ${{ env.PACKAGES }}
           pr-notes: |
-            Try the latest `{base}` build with **pkg-pr-new**:
+            ⚡ Try the latest `{base}` build with **pkg-pr-new**:
 
-            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-build@{base}`
-            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-cli@{base}`
-            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-swkit@{base}`
-            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-types@{base}`
-            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-window@{base}`
+            <details><summary><b>@vite-pwa/workbox-build</b></summary>
+
+            ```
+            pnpm add https://pkg.pr.new/@vite-pwa/workbox-build@{base}
+            ```
+
+            </details>
+
+            <details><summary><b>@vite-pwa/workbox-cli</b></summary>
+
+            ```
+            pnpm add https://pkg.pr.new/@vite-pwa/workbox-cli@{base}
+            ```
+
+            </details>
+
+            <details><summary><b>@vite-pwa/workbox-swkit</b></summary>
+
+            ```
+            pnpm add https://pkg.pr.new/@vite-pwa/workbox-swkit@{base}
+            ```
+
+            </details>
+
+            <details><summary><b>@vite-pwa/workbox-types</b></summary>
+
+            ```
+            pnpm add https://pkg.pr.new/@vite-pwa/workbox-types@{base}
+            ```
+
+            </details>
+
+            <details><summary><b>@vite-pwa/workbox-window</b></summary>
+
+            ```
+            pnpm add https://pkg.pr.new/@vite-pwa/workbox-window@{base}
+            ```
+
+            </details>
   release:
     if: |
       github.event_name == 'pull_request'
