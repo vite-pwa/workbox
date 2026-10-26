@@ -28,10 +28,18 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: danielroe/uppt/pr@6ec27140623aa835e362f866d8ab0018ab057f4d # v0.6.11
+      - uses: danielroe/uppt/pr@6c1a9b480b0f02a3f535dedaf1a113f590aa56f2 # v0.6.12
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           packages: ${{ env.PACKAGES }}
+          pr-notes: |
+            Try the latest `{base}` build with **pkg-pr-new**:
+
+            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-build@{base}`
+            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-cli@{base}`
+            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-swkit@{base}`
+            - `pnpm add https://pkg.pr.new/vite-pwa/workbox-types@{base}`
+            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-window@{base}`
   release:
     if: |
       github.event_name == 'pull_request'
@@ -47,7 +55,7 @@ jobs:
       contents: write
       actions: write
     steps:
-      - uses: danielroe/uppt/release@6ec27140623aa835e362f866d8ab0018ab057f4d # v0.6.11
+      - uses: danielroe/uppt/release@6c1a9b480b0f02a3f535dedaf1a113f590aa56f2 # v0.6.12
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           packages: ${{ env.PACKAGES }}
@@ -62,7 +70,7 @@ jobs:
       files: ${{ steps.pack.outputs.files }}
     steps:
       - id: pack
-        uses: danielroe/uppt/pack@6ec27140623aa835e362f866d8ab0018ab057f4d # v0.6.11
+        uses: danielroe/uppt/pack@6c1a9b480b0f02a3f535dedaf1a113f590aa56f2 # v0.6.12
         with:
           packages: ${{ env.PACKAGES }}
   publish:
@@ -78,7 +86,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: danielroe/uppt/publish@6ec27140623aa835e362f866d8ab0018ab057f4d # v0.6.11
+      - uses: danielroe/uppt/publish@6c1a9b480b0f02a3f535dedaf1a113f590aa56f2 # v0.6.12
         with:
           files: ${{ needs.pack.outputs.files }}
     environment: npm
