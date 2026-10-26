@@ -7,6 +7,9 @@ export default defineConfig({
   peer: false,
   mode: 'minor',
   exclude: ['taze', 'dotenv-expand', 'node', 'rolldown-legacy', 'why-is-node-running'],
+  githubActions: {
+    style: 'sha',
+  },
   depFields: {
     packageManager: false,
   },

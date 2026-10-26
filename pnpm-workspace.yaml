@@ -87,7 +87,7 @@ catalogs:
     unrun: ^0.3.1
     valibot: ^1.5.0
     verkit: ^0.5.0
-    why-is-node-running: 3.2.1
+    why-is-node-running: 3.2.3
   vite:
     vite: ^8.3.5
   vite5:
@@ -100,5 +100,6 @@ catalogs:
 minimumReleaseAge: 10080 # minutes = 7 days
 
 minimumReleaseAgeExclude:
-  - vite
+  - uppt
   - verkit
+  - vite
