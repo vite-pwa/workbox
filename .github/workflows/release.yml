@@ -38,7 +38,7 @@ jobs:
             - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-build@{base}`
             - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-cli@{base}`
             - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-swkit@{base}`
-            - `pnpm add https://pkg.pr.new/vite-pwa/workbox-types@{base}`
+            - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-types@{base}`
             - `pnpm add https://pkg.pr.new/@vite-pwa/workbox-window@{base}`
   release:
     if: |
