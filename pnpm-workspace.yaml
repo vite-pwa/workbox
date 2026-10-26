@@ -50,7 +50,7 @@ catalogs:
     eslint: ^10.13.0
     eslint-plugin-antfu: ^3.2.3
   rsbuild:
-    '@rsbuild/core': ^2.2.13
+    '@rsbuild/core': ^2.2.14
   rspack:
     '@rspack/core': ^2.2.9
   test:
@@ -89,7 +89,7 @@ catalogs:
     verkit: ^0.5.0
     why-is-node-running: 3.2.1
   vite:
-    vite: ^8.3.4
+    vite: ^8.3.5
   vite5:
     vite: npm:vite@5.3.6
   vite7:
