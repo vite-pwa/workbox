@@ -15,11 +15,21 @@ import type { WorkboxEventTarget } from './WorkboxEventTarget'
  * @private
  */
 export class WorkboxEvent<K extends keyof WorkboxEventMap> {
+  /** The Workbox instance that dispatched this event. */
   target?: WorkboxEventTarget
+  /** The service worker associated with this event. */
   sw?: ServiceWorker
+  /** The browser event that triggered this event, when available. */
   originalEvent?: Event
+  /** Whether this event is associated with an external service worker. */
   isExternal?: boolean
 
+  /**
+   * Creates an event with the supplied type and properties.
+   *
+   * @param type The event type.
+   * @param props The properties to assign to the event.
+   */
   constructor(
     public type: K,
     props: Omit<WorkboxEventMap[K], 'target' | 'type'>,
@@ -28,21 +38,38 @@ export class WorkboxEvent<K extends keyof WorkboxEventMap> {
   }
 }
 
+/**
+ * An event dispatched when a message is received from a service worker.
+ */
 export interface WorkboxMessageEvent extends WorkboxEvent<'message'> {
+  /** The data sent by the service worker. */
   data: any
+  /** The original message event received from the service worker. */
   originalEvent: Event
+  /** The message ports transferred with the original message event. */
   ports: readonly MessagePort[]
 }
 
+/**
+ * An event describing a change in a service worker's lifecycle.
+ */
 export interface WorkboxLifecycleEvent
   extends WorkboxEvent<keyof WorkboxLifecycleEventMap> {
+  /** Whether a service worker was already controlling when register() was called. */
   isUpdate?: boolean
 }
 
+/**
+ * A lifecycle event for a service worker waiting to activate.
+ */
 export interface WorkboxLifecycleWaitingEvent extends WorkboxLifecycleEvent {
+  /** Whether the service worker was already waiting when register() was called. */
   wasWaitingBeforeRegister?: boolean
 }
 
+/**
+ * Maps service worker lifecycle event names to their event types.
+ */
 export interface WorkboxLifecycleEventMap {
 
   /**
@@ -109,6 +136,13 @@ export interface WorkboxLifecycleEventMap {
    * @property {Workbox} target The `Workbox` instance.
    */
   waiting: WorkboxLifecycleWaitingEvent
+  /**
+   * The `activating` event is dispatched when the registered service worker's
+   * state changes to `activating`.
+   *
+   * @event workbox-window.Workbox#activating
+   * @type {WorkboxEvent}
+   */
   activating: WorkboxLifecycleEvent
   /**
    * The `activated` event is dispatched if the state of a
@@ -170,6 +204,9 @@ export interface WorkboxLifecycleEventMap {
   redundant: WorkboxLifecycleEvent
 }
 
+/**
+ * Maps all Workbox lifecycle and message event names to their event types.
+ */
 export interface WorkboxEventMap extends WorkboxLifecycleEventMap {
   /**
    * The `message` event is dispatched any time a `postMessage` is received.
