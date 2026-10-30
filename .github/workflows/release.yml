@@ -28,17 +28,24 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Resolve preview SHA
+        id: sha
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "short=${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
+
       - uses: danielroe/uppt/pr@6c1a9b480b0f02a3f535dedaf1a113f590aa56f2 # v0.6.12
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           packages: ${{ env.PACKAGES }}
           pr-notes: |
-            ## ⚡ Try the latest `{base}` build with **pkg-pr-new**:
+            ## ⚡ Try the latest `{base}@${{ steps.sha.outputs.short }}` build with **pkg-pr-new**:
 
             <details><summary><b>@vite-pwa/workbox-build</b></summary><p>
 
               ```
-              pnpm add https://pkg.pr.new/@vite-pwa/workbox-build@{base}
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-build@${{ steps.sha.outputs.short }}
               ```
 
             </p></details>
@@ -46,7 +53,7 @@ jobs:
             <details><summary><b>@vite-pwa/workbox-cli</b></summary><p>
 
               ```
-              pnpm add https://pkg.pr.new/@vite-pwa/workbox-cli@{base}
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-cli@${{ steps.sha.outputs.short }}
               ```
 
             </p></details>
@@ -54,7 +61,7 @@ jobs:
             <details><summary><b>@vite-pwa/workbox-swkit</b></summary><p>
 
               ```
-              pnpm add https://pkg.pr.new/@vite-pwa/workbox-swkit@{base}
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-swkit@${{ steps.sha.outputs.short }}
               ```
 
             </p></details>
@@ -62,7 +69,7 @@ jobs:
             <details><summary><b>@vite-pwa/workbox-types</b></summary><p>
 
               ```
-              pnpm add https://pkg.pr.new/@vite-pwa/workbox-types@{base}
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-types@${{ steps.sha.outputs.short }}
               ```
 
             </p></details>
@@ -70,7 +77,7 @@ jobs:
             <details><summary><b>@vite-pwa/workbox-window</b></summary><p>
 
               ```
-              pnpm add https://pkg.pr.new/@vite-pwa/workbox-window@{base}
+              pnpm add https://pkg.pr.new/@vite-pwa/workbox-window@${{ steps.sha.outputs.short }}
               ```
 
             </p></details>
