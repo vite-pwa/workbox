@@ -42,13 +42,13 @@ allowBuilds:
 
 catalogs:
   build:
-    tsdown: ^0.23.1
+    tsdown: ^0.23.2
   docs:
     typedoc: ^0.28.20
   eslint:
     '@antfu/eslint-config': ^9.5.1
     eslint: ^10.13.0
-    eslint-plugin-antfu: ^3.2.3
+    eslint-plugin-antfu: ^3.3.1
   rsbuild:
     '@rsbuild/core': ^2.2.14
   rspack:
@@ -74,13 +74,13 @@ catalogs:
     consola: ^3.4.2
     dotenv-expand: 13.0.0
     idb: ^8.0.4
-    magic-string: ^1.4.3
+    magic-string: ^1.4.4
     magicast: ^0.5.5
     proper-tags: ^2.0.2
     publint: ^0.3.25
-    rolldown: ^1.2.14
+    rolldown: ^1.2.15
     "@rolldown/pluginutils": ^1.0.1
-    serialize-javascript: ^7.1.2
+    serialize-javascript: ^7.1.4
     std-env: ^4.3.0
     taze: 21.1.0
     tinyglobby: ^0.2.17
@@ -95,7 +95,7 @@ catalogs:
   vite7:
     vite: npm:vite@7.3.6
   webpack5:
-    webpack: ^5.112.0
+    webpack: ^5.112.2
 
 minimumReleaseAge: 10080 # minutes = 7 days
 
