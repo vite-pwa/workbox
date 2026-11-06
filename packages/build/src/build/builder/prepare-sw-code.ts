@@ -1,5 +1,13 @@
+import type {
+  ProxifiedImportsMap,
+} from 'magicast'
 import type { GenerateSWOptions, GetManifestResult, SWType } from '../../types'
-import { builders, generateCode, parseExpression, parseModule } from 'magicast'
+import {
+  builders,
+  generateCode,
+  parseExpression,
+  parseModule,
+} from 'magicast'
 import serialize from 'serialize-javascript'
 import { generateManifestEntries } from '../../utils/generate-manifest-entries'
 
@@ -104,7 +112,7 @@ export async function prepareSWCode<T extends SWType>(
       precacheOptions.cleanURLs = options.cleanURLs
     }
     if (options.urlManipulation) {
-      precacheOptions.urlManipulation = parseExpression(serialize(options.urlManipulation, { unsafe: true }))
+      precacheOptions.urlManipulation = parseExpression(serialize(options.urlManipulation, { unsafe: true, isJSON: false }))
     }
     if (options.parallel) {
       precacheOptions.parallel = options.parallel
@@ -141,7 +149,7 @@ export async function prepareSWCode<T extends SWType>(
   }
 
   if (options.runtimeCaching) {
-    swCode.push(...getRuntimeCachingEntries(options))
+    swCode.push(...getRuntimeCachingEntries(options, swModule.imports))
   }
 
   if (options.disableDevLogs) {
@@ -173,10 +181,19 @@ function capitalize(s: string, sanitize = false) {
 
 function getRuntimeCachingEntries<T extends SWType>(
   options: GenerateSWOptions<T>,
+  swModuleImports: ProxifiedImportsMap,
 ): string[] {
   const entries: string[] = []
   if (!options.runtimeCaching) {
     return entries
+  }
+
+  const injectedPlugins = new Set<string>()
+  const injectPluginImport = (imported: string, from: string) => {
+    if (!injectedPlugins.has(imported)) {
+      swModuleImports.$append({ from, imported })
+      injectedPlugins.add(imported)
+    }
   }
 
   for (const entry of options.runtimeCaching) {
@@ -185,13 +202,100 @@ function getRuntimeCachingEntries<T extends SWType>(
     if (typeof entry.handler === 'string') {
       const strategyName = capitalize(entry.handler, true)
 
-      const args = entry.options ? [parseExpression(serialize(entry.options, { unsafe: true }))] : undefined
-      handlerNode = args && args.length > 0
-        ? builders.newExpression(strategyName, ...args)
-        : builders.newExpression(strategyName)
+      if (entry.options) {
+        const {
+          expiration,
+          cacheableResponse,
+          broadcastUpdate,
+          backgroundSync,
+          precacheFallback,
+          rangeRequests,
+          plugins,
+          ...restOptions
+        } = entry.options as any
+
+        const optionsNode = Object.keys(restOptions).length > 0
+          ? parseExpression(serialize(restOptions, { unsafe: true, isJSON: false }))
+          : parseExpression('{}')
+
+        const pluginNodes: any[] = parseExpression('[]')
+        if (plugins && Array.isArray(plugins)) {
+          for (const customPlugin of plugins) {
+            pluginNodes.push(
+              parseExpression(serialize(customPlugin, { unsafe: true, isJSON: false })),
+            )
+          }
+        }
+
+        if (expiration) {
+          injectPluginImport('ExpirationPlugin', '@vite-pwa/workbox-swkit/expiration')
+          pluginNodes.push(
+            builders.newExpression('ExpirationPlugin', parseExpression(serialize(expiration, { unsafe: true, isJSON: false }))),
+          )
+        }
+
+        if (cacheableResponse) {
+          injectPluginImport('CacheableResponsePlugin', '@vite-pwa/workbox-swkit/cacheable-response')
+          pluginNodes.push(
+            builders.newExpression('CacheableResponsePlugin', parseExpression(serialize(cacheableResponse, { unsafe: true, isJSON: false }))),
+          )
+        }
+
+        if (broadcastUpdate) {
+          injectPluginImport('BroadcastUpdatePlugin', '@vite-pwa/workbox-swkit/broadcast-update')
+
+          // Workbox expects BroadcastUpdatePlugin({ options })
+          // NOTE the interface: broadcastUpdate: { options: BroadcastCacheUpdateOptions }
+          const pluginOptions = broadcastUpdate.options || broadcastUpdate
+
+          const args = Object.keys(pluginOptions).length > 0
+            ? [parseExpression(serialize(pluginOptions, { unsafe: true, isJSON: false }))]
+            : []
+
+          pluginNodes.push(builders.newExpression('BroadcastUpdatePlugin', ...args))
+        }
+
+        if (backgroundSync) {
+          injectPluginImport('BackgroundSyncPlugin', '@vite-pwa/workbox-swkit/background-sync')
+          const args: any[] = [backgroundSync.name]
+          if (backgroundSync.options && Object.keys(backgroundSync.options).length > 0) {
+            args.push(parseExpression(serialize(backgroundSync.options, { unsafe: true, isJSON: false })))
+          }
+          pluginNodes.push(builders.newExpression('BackgroundSyncPlugin', ...args))
+        }
+
+        if (precacheFallback) {
+          injectPluginImport('PrecacheFallbackPlugin', '@vite-pwa/workbox-swkit/precaching')
+          pluginNodes.push(
+            builders.newExpression('PrecacheFallbackPlugin', parseExpression(serialize(precacheFallback, { unsafe: true, isJSON: false }))),
+          )
+        }
+
+        if (rangeRequests) {
+          injectPluginImport('RangeRequestsPlugin', '@vite-pwa/workbox-swkit/range-requests')
+          pluginNodes.push(builders.newExpression('RangeRequestsPlugin'))
+        }
+
+        if (pluginNodes.length > 0) {
+          (optionsNode as any).plugins = pluginNodes
+        }
+
+        const hasRest = Object.keys(restOptions).length > 0
+        const hasPlugins = pluginNodes.length > 0
+
+        if (hasRest || hasPlugins) {
+          handlerNode = builders.newExpression(strategyName, optionsNode)
+        }
+        else {
+          handlerNode = builders.newExpression(strategyName)
+        }
+      }
+      else {
+        handlerNode = builders.newExpression(strategyName)
+      }
     }
     else {
-      handlerNode = parseExpression(serialize(entry.handler, { unsafe: true }))
+      handlerNode = parseExpression(serialize(entry.handler, { unsafe: true, isJSON: false }))
     }
 
     let urlPatternNode: any
@@ -199,10 +303,10 @@ function getRuntimeCachingEntries<T extends SWType>(
       urlPatternNode = entry.urlPattern
     }
     else if (entry.urlPattern instanceof RegExp) {
-      urlPatternNode = builders.newExpression('RegExp', entry.urlPattern.source, entry.urlPattern.flags)
+      urlPatternNode = parseExpression(entry.urlPattern.toString())
     }
     else {
-      urlPatternNode = parseExpression(serialize(entry.urlPattern, { unsafe: true }))
+      urlPatternNode = parseExpression(serialize(entry.urlPattern, { unsafe: true, isJSON: false }))
     }
 
     const routeCallArgs: any[] = [urlPatternNode, handlerNode]
@@ -211,12 +315,19 @@ function getRuntimeCachingEntries<T extends SWType>(
       routeCallArgs.push(entry.method)
     }
 
-    const routeCallNode = builders.functionCall(
-      'registerRoute',
-      ...routeCallArgs,
-    )
-
-    entries.push(generateCode(routeCallNode).code)
+    const routeCallNode = builders.functionCall('registerRoute', ...routeCallArgs)
+    entries.push(generateCode(routeCallNode, {
+      format: {
+        tabWidth: 2,
+        useTabs: false,
+        quote: 'single',
+        trailingComma: false,
+        arrayBracketSpacing: false,
+        objectCurlySpacing: false,
+        arrowParensAlways: true,
+        useSemi: false,
+      },
+    }).code)
   }
 
   return entries
