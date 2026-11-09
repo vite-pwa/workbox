@@ -11,6 +11,7 @@ import { includeRolldownOxcPlugin } from './detector'
 import { prepareCodeSplittingGroups } from './prepare-code-splitting-groups'
 import { prepareDefineOptions } from './prepare-define-options'
 import { RolldownPlugin } from './rolldown-plugin'
+import { SWKitResolvePlugin } from './swkit-resolve-plugin'
 
 export async function prepareRolldownOutputOptions<B extends Bundler>(
   bundler: B,
@@ -114,6 +115,8 @@ export async function prepareRolldownOutputOptions<B extends Bundler>(
     },
     swSrc,
   ))
+
+  plugins.unshift(SWKitResolvePlugin(bundler, generateSW))
 
   if (bundler === 'rolldown') {
     if (includeRolldownOxcPlugin()) {

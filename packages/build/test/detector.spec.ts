@@ -1,8 +1,6 @@
 import type { Mock } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { findPackageJSON } from 'node:module'
-import process from 'node:process'
-import { pathToFileURL } from 'node:url'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   collectVersionInfo,
@@ -22,7 +20,7 @@ vi.mock('node:fs', () => ({
 
 const mockedFindPackageJSON = findPackageJSON as Mock
 const mockedReadFileSync = readFileSync as Mock
-const baseURL = pathToFileURL(`${process.cwd()}/`).href
+const baseURL = new URL('../src/build/builder/detector.ts', import.meta.url).href
 const VITE_PLUS_CORE_PKG_NAME = '@voidzero-dev/vite-plus-core'
 
 describe('detector', () => {
