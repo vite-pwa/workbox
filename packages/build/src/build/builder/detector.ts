@@ -2,12 +2,10 @@ import type { Bundler } from './bundler-types'
 import type { BuildSWResult, DetectorOptions, DetectorResult, GenerateSWDependenciesResult } from './detector-types'
 import { readFileSync } from 'node:fs'
 import { findPackageJSON } from 'node:module'
-import process from 'node:process'
-import { pathToFileURL } from 'node:url'
 import { getMajor, isGreaterThanOrEqual } from 'verkit'
 import { BundlerNames } from './utils'
 
-const base = pathToFileURL(`${process.cwd()}/`).href
+const base = import.meta.url
 
 const VITE_PLUS_CORE_PKG_NAME = '@voidzero-dev/vite-plus-core'
 
