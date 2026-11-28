@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@11.25.0",
+  "packageManager": "pnpm@12.23.0",
   "description": "Top-level scripts and dependencies for the workbox monorepo.",
   "author": "Google's Web DevRel Team, Vite PWA's Team",
   "contributors": [
