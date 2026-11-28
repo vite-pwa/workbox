@@ -1,3 +1,4 @@
+import type { Plugin } from 'rolldown'
 import { transformSync } from 'rolldown/utils'
 
 const escapedDotRE = /(?<!\\)\\./g
@@ -12,14 +13,14 @@ function escapeRegex(str: string): string {
 export function RolldownRenderChunkPlugin(
   define: Record<string, string>,
   sourcemap?: boolean | 'inline' | 'hidden',
-): import('rolldown').Plugin<any> {
+): Plugin<any> {
   const pattern = new RegExp(
     Object.keys(define)
     // replace `\.` (ignore `\\.`) with `\??\.` to match with `?.` as well
       .map(key => escapeRegex(key).replaceAll(escapedDotRE, '\\??\\.'))
       .join('|'),
   )
-  return {
+  return <Plugin<any>>{
     name: 'vite-pwa:workbox-build:render-chunk-build-plugin',
     renderChunk(code, chunk) {
       pattern.lastIndex = 0
